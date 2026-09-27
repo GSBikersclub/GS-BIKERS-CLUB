@@ -3,157 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS BIKERS CLUB | Allagadda</title>
+    <title>GS BIKERS CLUB | Wholesale Helmets & Spares - Allagadda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Montserrat', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        .rural-hero-gradient { 
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b18 50%, #78350f 100%); 
+        /* Premium Automotive Dark Metallic Gradient */
+        .pro-hero { 
+            background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 50%, #090d16 100%);
+            border-bottom: 2px solid rgba(245, 158, 11, 0.2);
         }
 
-        /* Smooth Custom Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        /* Glassmorphism Effect */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Subtle glowing card hover effect */
-        .product-card {
-            transition: all 0.3s ease;
+        /* Smooth Card Interaction */
+        .pro-card {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px -10px rgba(180, 83, 9, 0.2);
-            border-color: rgba(217, 119, 6, 0.4);
+        .pro-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(245, 158, 11, 0.25);
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        /* Subtle Glow Animation */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
     </style>
 </head>
-<body class="bg-stone-100 text-gray-900 min-h-screen flex flex-col">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
 
-    <!-- Top Announcement Banner -->
-    <div class="bg-amber-600 text-white text-center py-2.5 px-4 font-bold text-sm tracking-wide shadow-inner flex items-center justify-center gap-2">
-        <i class="fa-solid fa-bullhorn animate-bounce"></i>
-        <span>Book your helmets now for Dassara - Limited Stock! | దసరా కోసం మీ హెల్మెట్లు ఇప్పుడే బుక్ చేసుకోండి - పరిమిత స్టాక్ మాత్రమే!</span>
+    <!-- Top Utility Bar -->
+    <div class="bg-amber-500 text-slate-950 text-xs font-bold py-2 px-4 text-center tracking-wide shadow-md flex items-center justify-center gap-3">
+        <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+        </span>
+        <span class="uppercase tracking-wider">Dassara Bulk Dealer Bookings Open Live! | దసరా బల్క్ ఆర్డర్లు ప్రారంభమైనవి!</span>
     </div>
 
-    <!-- Header / Navbar -->
-    <header class="bg-gray-900 text-white shadow-xl sticky top-0 z-50 border-b border-amber-600/30">
+    <!-- Navigation Header -->
+    <header class="bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-amber-600 text-white p-2.5 rounded-xl font-black text-xl shadow-md">
+            <div class="flex items-center space-x-3.5">
+                <div class="bg-gradient-to-br from-amber-500 to-amber-600 text-slate-950 p-3 rounded-2xl font-black text-2xl shadow-lg shadow-amber-500/20">
                     <i class="fa-solid fa-motorcycle"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-wider text-white">GS BIKERS CLUB</h1>
-                    <p class="text-xs text-amber-400 font-medium tracking-wide">Spare Parts, Helmets & Accessories</p>
+                    <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                        GS BIKERS CLUB <span class="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-500/20">B2B HUB</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium tracking-wide">Wholesale Helmets, Spares & Accessories</p>
                 </div>
             </div>
             
-            <div class="hidden md:flex flex-col text-right text-xs text-gray-300">
-                <p><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Koilakuntla Road, Allagadda</p>
-                <p class="mt-0.5"><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 76599 28108 | 84648 49742</p>
+            <div class="hidden md:flex items-center space-x-6 text-xs text-slate-300">
+                <div class="flex items-center gap-2 bg-slate-800/80 px-3.5 py-2 rounded-xl border border-slate-700">
+                    <i class="fa-solid fa-location-dot text-amber-500"></i>
+                    <span>Koilakuntla Road, Allagadda</span>
+                </div>
+                <a href="tel:7659928108" class="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-amber-500/10">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <span>76599 28108</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="rural-hero-gradient text-white py-14 px-4 sm:px-6 lg:px-8 shadow-xl relative overflow-hidden">
-        <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="max-w-4xl mx-auto text-center relative z-10 animate-fade-in">
-            <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-widest inline-block mb-4 shadow-sm">
-                Trusted Wholesale & Retail Hub
-            </span>
-            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
-                Welcome to GS Bikers Club
+    <!-- Professional Hero Section -->
+    <section class="pro-hero text-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="absolute right-0 top-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 shadow-inner">
+                <i class="fa-solid fa-shield-halved"></i> Authorized Wholesale Supplier in Allagadda
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-5 text-white">
+                Reliable Quality for Garages & Dealers
             </h2>
-            <p class="text-lg text-stone-200 mb-6 leading-relaxed">
-                Your trusted destination for branded full-face helmets, motorcycle spare parts, and accessories. Open for all customers and wholesale dealers!
+            <p class="text-base sm:text-lg text-slate-300 mb-8 leading-relaxed max-w-2xl mx-auto">
+                Direct distributor rates on branded full-face helmets, engine parts, and accessories. Built for heavy-duty performance and retail profit margins.
             </p>
             
-            <!-- Bilingual clean description box -->
-            <div class="bg-stone-900/60 border border-amber-500/20 rounded-xl p-4 text-sm text-stone-200 leading-relaxed mb-8 backdrop-blur-md shadow-inner text-center">
-                జి ఎస్ బైకర్స్ క్లబ్ కి స్వాగతం. మా వద్ద హీరో, హోండా, బజాజ్ మరియు టివిఎస్ బ్రాండెడ్ ఫుల్-ఫేస్ హెల్మెట్లు, స్పేర్ పార్ట్స్ మరియు యాక్సెసరీస్ హోల్‌సేల్ మరియు రిటైల్ ధరలలో లభించును. దసరా పండుగ ప్రత్యేక ఆఫర్లు ప్రారంభమైనవి!
+            <!-- Bilingual Box -->
+            <div class="glass-panel rounded-2xl p-5 text-sm text-slate-200 leading-relaxed mb-8 max-w-3xl mx-auto border-amber-500/20 text-left sm:text-center shadow-xl">
+                <p class="font-bold text-amber-400 mb-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-circle-info"></i> Dealer Notice (డీలర్ల గమనిక):
+                </p>
+                జి ఎస్ బైకర్స్ క్లబ్ కి స్వాగతం. మా వద్ద హీరో, హోండా, బజాజ్ మరియు టివిఎస్ బ్రాండెడ్ ఫుల్-ఫేస్ హెల్మెట్లు, స్పేర్ పార్ట్స్ మరియు యాక్సెసరీస్ హోల్‌సేల్ మరియు రిటైల్ ధరలలో లభించును.
             </div>
-            
-            <div class="inline-flex flex-wrap justify-center gap-4 text-sm bg-black/40 backdrop-blur-md px-6 py-3.5 rounded-xl border border-amber-500/20 shadow">
-                <span><i class="fa-solid fa-map-pin text-amber-400 mr-1.5"></i> Koilakuntla Road, Allagadda</span>
-                <span class="hidden sm:inline text-amber-600">|</span>
-                <span><i class="fa-solid fa-phone-volume text-amber-400 mr-1.5"></i> 76599 28108, 84648 49742</span>
+
+            <div class="flex flex-wrap justify-center gap-4 text-xs font-semibold text-slate-300">
+                <span class="bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-box-archive text-amber-500"></i> Box Packing Available
+                </span>
+                <span class="bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-truck-fast text-amber-500"></i> Quick Local Dispatch
+                </span>
+                <span class="bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-handshake text-amber-500"></i> Best Wholesale Pricing
+                </span>
             </div>
         </div>
     </section>
 
-    <!-- Main Catalog Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+    <!-- Main Catalog View -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
         
-        <!-- Controls: Category Filter Tabs & Search Bar -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-stone-200 pb-6">
+        <!-- Controls Bar -->
+        <div class="flex flex-col lg:flex-row justify-between items-center mb-10 gap-6 border-b border-slate-800 pb-6">
             
-            <!-- Category Filter Tabs -->
-            <div class="flex flex-wrap gap-2 w-full md:w-auto" id="categoryTabs">
-                <button onclick="filterCategory('All', this)" class="category-btn bg-amber-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition-all cursor-pointer">
-                    All Products
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap gap-2.5 w-full lg:w-auto" id="categoryTabs">
+                <button onclick="filterCategory('All', this)" class="category-btn bg-amber-500 text-slate-950 text-xs font-extrabold px-5 py-3 rounded-xl shadow-lg shadow-amber-500/20 transition-all cursor-pointer">
+                    All Catalog
                 </button>
-                <button onclick="filterCategory('Helmets', this)" class="category-btn bg-white text-stone-700 hover:bg-stone-100 text-xs font-bold px-4 py-2.5 rounded-xl border border-stone-200 shadow-sm transition-all cursor-pointer">
+                <button onclick="filterCategory('Helmets', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-xl border border-slate-800 transition-all cursor-pointer">
                     Helmets
                 </button>
-                <button onclick="filterCategory('Accessories', this)" class="category-btn bg-white text-stone-700 hover:bg-stone-100 text-xs font-bold px-4 py-2.5 rounded-xl border border-stone-200 shadow-sm transition-all cursor-pointer">
+                <button onclick="filterCategory('Accessories', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-xl border border-slate-800 transition-all cursor-pointer">
                     Accessories
                 </button>
-                <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-white text-stone-700 hover:bg-stone-100 text-xs font-bold px-4 py-2.5 rounded-xl border border-stone-200 shadow-sm transition-all cursor-pointer">
+                <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-xl border border-slate-800 transition-all cursor-pointer">
                     Spare Parts
                 </button>
             </div>
 
-            <!-- Search Bar -->
-            <div class="w-full md:w-72">
+            <!-- Search Field -->
+            <div class="w-full lg:w-80">
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
                         <i class="fa-solid fa-magnifying-glass text-xs"></i>
                     </span>
-                    <input type="text" id="searchInput" placeholder="Search catalog..." 
-                        class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm shadow-sm bg-white">
+                    <input type="text" id="searchInput" placeholder="Search by name, brand..." 
+                        class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-800 bg-slate-900 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm shadow-inner">
                 </div>
             </div>
         </div>
 
         <!-- Product Grid -->
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Dynamically populated via JavaScript -->
+            <!-- Populated Dynamically -->
         </div>
     </main>
 
-    <!-- Order Modal (Pop-Up) -->
-    <div id="orderModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-amber-100 animate-fade-in">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl font-bold cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
+    <!-- Interactive Order Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-7 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold cursor-pointer bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-sm"></i>
             </button>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Place Order / Booking</h3>
-            <p id="modalProductTitle" class="text-xs text-amber-700 font-semibold mb-4"></p>
+            <div class="flex items-center gap-2.5 text-amber-500 mb-1">
+                <i class="fa-solid fa-clipboard-check text-lg"></i>
+                <h3 class="text-xl font-bold text-white tracking-tight">Dealer Order Request</h3>
+            </div>
+            <p id="modalProductTitle" class="text-xs text-slate-400 font-medium mb-6"></p>
             
             <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-4">
                 <input type="hidden" id="modalProductId">
                 
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Your Name / Dealer Name *</label>
-                    <input type="text" id="buyerName" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="Enter your full name">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">Business / Dealer Name *</label>
+                    <input type="text" id="buyerName" required class="w-full px-4 py-3 border border-slate-800 bg-slate-950 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Enter shop or owner name">
                 </div>
                 
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Phone Number / Cell *</label>
-                    <input type="tel" id="buyerPhone" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="10-digit mobile number">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">Mobile Number *</label>
+                    <input type="tel" id="buyerPhone" required class="w-full px-4 py-3 border border-slate-800 bg-slate-950 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-digit mobile number">
                 </div>
 
                 <div>
-                    <label for="buyerQty" class="block text-xs font-bold text-gray-700 mb-1">Select Quantity (Units/Boxes) *</label>
-                    <select id="buyerQty" name="buyerQty" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none bg-white">
+                    <label for="buyerQty" class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">Required Quantity *</label>
+                    <select id="buyerQty" name="buyerQty" required class="w-full px-4 py-3 border border-slate-800 bg-slate-950 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-slate-100">
                         <option value="1 Unit">1 Unit / Box</option>
                         <option value="2 Units">2 Units / Boxes</option>
                         <option value="3 Units">3 Units / Boxes</option>
@@ -164,49 +196,52 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Delivery Address / Notes (Optional)</label>
-                    <textarea id="buyerAddress" rows="2" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="Town / City / Landmark"></textarea>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5 uppercase tracking-wider">Delivery Location / Town (Optional)</label>
+                    <textarea id="buyerAddress" rows="2" class="w-full px-4 py-3 border border-slate-800 bg-slate-950 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Enter your town or landmark"></textarea>
                 </div>
                 
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm cursor-pointer">
-                    <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Send Order via WhatsApp
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-sm cursor-pointer flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Send Order Directly to WhatsApp
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-stone-400 py-10 mt-16 border-t border-amber-600/30">
+    <!-- Professional Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 mt-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
             <div>
-                <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+                <h4 class="text-white font-extrabold text-base mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-motorcycle text-amber-500"></i> GS BIKERS CLUB
                 </h4>
-                <p class="text-stone-400 leading-relaxed mb-3">
-                    Your premier destination for motorcycle spare parts, helmets, and rider accessories in Allagadda.
+                <p class="text-slate-400 leading-relaxed mb-3 text-xs">
+                    Your trusted regional wholesale partner for certified helmets, spare parts, and bike care items.
                 </p>
-                <p class="text-xs text-stone-500">© 2026 GS Bikers Club. All rights reserved.</p>
+                <p class="text-xs text-slate-500">© 2026 GS Bikers Club, Allagadda. All rights reserved.</p>
             </div>
             <div>
-                <h4 class="text-white font-bold text-base mb-3">Store Location</h4>
-                <p class="mb-2"><i class="fa-solid fa-location-dot text-amber-500 mr-2"></i> Koilakuntla Road, Allagadda, Andhra Pradesh</p>
+                <h4 class="text-white font-bold text-base mb-3">Warehouse Address</h4>
+                <p class="mb-2 text-xs text-slate-300 flex items-start gap-2">
+                    <i class="fa-solid fa-location-dot text-amber-500 mt-1"></i>
+                    <span>Koilakuntla Road, Near Bypass, Allagadda, Andhra Pradesh - 518543</span>
+                </p>
             </div>
             <div>
-                <h4 class="text-white font-bold text-base mb-3">Direct Contact</h4>
-                <p class="mb-2"><i class="fa-solid fa-phone text-amber-500 mr-2"></i> +91 76599 28108</p>
-                <p class="mb-2"><i class="fa-solid fa-phone text-amber-500 mr-2"></i> +91 84648 49742</p>
-                <p class="text-xs text-amber-400 mt-2 font-medium">Call us for bulk dealer inquiries & Dassara bookings!</p>
+                <h4 class="text-white font-bold text-base mb-3">Direct Support Desk</h4>
+                <p class="mb-2 text-xs text-slate-300"><i class="fa-solid fa-phone text-amber-500 mr-2"></i> +91 76599 28108</p>
+                <p class="mb-2 text-xs text-slate-300"><i class="fa-solid fa-phone text-amber-500 mr-2"></i> +91 84648 49742</p>
+                <p class="text-xs text-amber-400 mt-2 font-semibold">Open for retail customers & wholesale dealers.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript logic -->
+    <!-- JavaScript Engine -->
     <script>
         const products = [
-            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant / Ready Stock", image: "images/101.png" },
-            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant / Ready Stock", image: "images/102.png" },
-            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant / Ready Stock", image: "images/103.png" },
-            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant / Ready Stock", image: "images/104.png" },
+            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready Stock", image: "images/101.png" },
+            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready Stock", image: "images/102.png" },
+            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready Stock", image: "images/103.png" },
+            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready Stock", image: "images/104.png" },
             { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days Delivery", image: "images/105.png" },
             { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
             { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
@@ -218,13 +253,12 @@
         function filterCategory(category, btnElement) {
             currentCategory = category;
             
-            // Highlight active tab style
             document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-amber-600', 'text-white');
-                btn.classList.add('bg-white', 'text-stone-700');
+                btn.classList.remove('bg-amber-500', 'text-slate-950', 'shadow-lg', 'shadow-amber-500/20');
+                btn.classList.add('bg-slate-900', 'text-slate-300');
             });
-            btnElement.classList.remove('bg-white', 'text-stone-700');
-            btnElement.classList.add('bg-amber-600', 'text-white');
+            btnElement.classList.remove('bg-slate-900', 'text-slate-300');
+            btnElement.classList.add('bg-amber-500', 'text-slate-950', 'shadow-lg', 'shadow-amber-500/20');
 
             renderProducts(document.getElementById('searchInput').value);
         }
@@ -240,51 +274,48 @@
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-stone-500 font-medium">No products found matching your search.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 font-medium bg-slate-900/50 rounded-2xl border border-slate-800">No matching products found in catalog.</div>';
                 return;
             }
 
-            filtered.forEach((p, index) => {
+            filtered.forEach((p) => {
                 let actionBtn = '';
                 if (p.status === 'coming_soon') {
-                    actionBtn = `<div class="w-full bg-stone-200 text-stone-600 font-bold py-2.5 rounded-xl text-center text-sm">Coming Soon</div>`;
+                    actionBtn = `<div class="w-full bg-slate-800 text-slate-400 font-bold py-3 rounded-xl text-center text-xs tracking-wider uppercase border border-slate-700">Coming Soon</div>`;
                 } else if (p.status === 'out_of_stock') {
-                    actionBtn = `<div class="w-full bg-red-50 text-red-600 border border-red-200 font-bold py-2.5 rounded-xl text-center text-sm">Out of Stock</div>`;
+                    actionBtn = `<div class="w-full bg-rose-950/40 text-rose-400 border border-rose-900/50 font-bold py-3 rounded-xl text-center text-xs tracking-wider uppercase">Out of Stock</div>`;
                 } else {
-                    actionBtn = `<button onclick="openModal(${p.id})" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-center transition-colors shadow-md text-sm cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping mr-2"></i> Book / Order Now
+                    actionBtn = `<button onclick="openModal(${p.id})" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3 rounded-xl text-center transition-all shadow-lg shadow-amber-500/10 text-xs tracking-wider uppercase cursor-pointer flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-shopping"></i> Book / Order Now
                     </button>`;
                 }
 
-                // Stagger animation delay slightly per card
-                const delayStyle = `animation-delay: ${index * 0.05}s;`;
-
                 grid.innerHTML += `
-                    <div class="product-card bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-200 flex flex-col justify-between animate-fade-in" style="${delayStyle}">
+                    <div class="pro-card bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-800 flex flex-col justify-between">
                         <div>
-                            <div class="relative h-52 overflow-hidden bg-stone-100">
-                                <a href="${p.image}" target="_blank" title="Click to view full image">
+                            <div class="relative h-56 overflow-hidden bg-slate-950">
+                                <a href="${p.image}" target="_blank" title="View Full Resolution">
                                     <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer">
                                 </a>
-                                <span class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                                <span class="absolute top-3 left-3 bg-slate-900/90 backdrop-blur-md text-amber-400 border border-amber-500/30 text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
                                     ${p.badge}
                                 </span>
                             </div>
-                            <div class="p-5">
-                                <span class="text-xs text-amber-700 font-bold uppercase tracking-wider">${p.category}</span>
-                                <h4 class="text-lg font-bold text-gray-800 mt-1 mb-2 leading-snug">${p.name}</h4>
-                                ${p.status === 'available' ? `
-                                <div class="flex items-baseline gap-2 mb-2">
-                                    <span class="text-2xl font-extrabold text-amber-700">₹${p.dealerPrice.toFixed(2)}</span>${p.strikePrice > 0 ? `<span class="text-sm text-stone-400 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
-                                    <span class="text-xs text-stone-400 line-through ml-1">MRP: ₹${p.mrp.toFixed(2)}</span>
+                            <div class="p-6">
+                                <span class="text-[11px] text-amber-500 font-bold uppercase tracking-widest">${p.category}</span>
+                                <h4 class="text-base font-extrabold text-white mt-1.5 mb-3 leading-snug">${p.name}</h4>${p.status === 'available' ? `
+                                <div class="flex items-baseline gap-2.5 mb-4 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                                    <span class="text-2xl font-black text-amber-400">₹${p.dealerPrice.toFixed(2)}</span>
+                                    ${p.strikePrice > 0 ? `<span class="text-xs text-slate-400 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
+                                    <span class="text-[11px] text-slate-500 line-through ml-auto">MRP: ₹${p.mrp.toFixed(2)}</span>
                                 </div>` : ''}
-                                <div class="text-xs font-semibold text-stone-600 bg-stone-50 p-2 rounded-lg border border-stone-100 mb-4 flex justify-between items-center">
-                                    <span><i class="fa-solid fa-box text-amber-600 mr-1"></i> ${p.moqText}</span>
-                                    <span class="text-stone-500"><i class="fa-solid fa-truck text-amber-600 mr-1"></i> ${p.delivery}</span>
+                                <div class="text-xs font-semibold text-slate-400 bg-slate-950 p-3 rounded-xl border border-slate-800 mb-2 flex justify-between items-center">
+                                    <span class="flex items-center gap-1.5 text-slate-300"><i class="fa-solid fa-box text-amber-500"></i> ${p.moqText}</span>
+                                    <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-truck text-amber-500 mr-1"></i> ${p.delivery}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="px-5 pb-5 pt-0">
+                        <div class="px-6 pb-6 pt-0">
                             ${actionBtn}
                         </div>
                     </div>
@@ -297,7 +328,7 @@
             if (!product) return;
 
             document.getElementById('modalProductId').value = product.id;
-            document.getElementById('modalProductTitle').innerText = product.name + ' (' + product.moqText + ')';
+            document.getElementById('modalProductTitle.innerText` || (document.getElementById('modalProductTitle').innerText = product.name + ' (' + product.moqText + ')');
             document.getElementById('buyerQty').selectedIndex = 0;
             document.getElementById('orderModal').classList.remove('hidden');
         }
@@ -316,12 +347,12 @@
             const address = document.getElementById('buyerAddress').value;
             const qty = document.getElementById('buyerQty').value;
 
-            const message = `*NEW ORDER / BOOKING - GS BIKERS CLUB*%0A%0A` +
+            const message = `*NEW B2B ORDER - GS BIKERS CLUB*%0A%0A` +
                             `*Product:* ${product.name}%0A` +
                             `*Selected Qty:* ${qty}%0A` + 
-                            `*Dealer/Customer Name:* ${name}%0A` +
+                            `*Dealer/Shop Name:* ${name}%0A` +
                             `*Phone Number:* ${phone}%0A` +
-                            `*Address:* ${address || 'N/A'}`;
+                            `*Location:* ${address || 'Allagadda'}`;
 
             const whatsappUrl = `https://wa.me/917659928108?text=${message}`;
             window.location.href = whatsappUrl;
@@ -331,7 +362,6 @@
             renderProducts(e.target.value);
         });
 
-        // Initial render
         renderProducts();
     </script>
 </body>
