@@ -3,305 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS Bikers Club - B2B Dealer Portal</title>
-    <!-- SheetJS for direct Excel .xlsx reading -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <title>GS BIKERS CLUB | Allagadda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .product-card:hover { transform: translateY(-3px); transition: all 0.2s ease-in-out; }
+        body { font-family: 'Montserrat', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #111827 0%, #1f2937 50%, #991b1b 100%); }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen font-sans">
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
 
-    <!-- Top Navigation -->
-    <header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Top Announcement Banner -->
+    <div class="bg-red-600 text-white text-center py-2.5 px-4 font-bold text-sm tracking-wide shadow-inner flex items-center justify-center gap-2">
+        <i class="fa-solid fa-bullhorn animate-bounce"></i>
+        <span>Book your helmets now for Dassara - Limited Stock! | దసరా కోసం మీ హెల్మెట్లు ఇప్పుడే బుక్ చేసుకోండి - పరిమిత స్టాక్ మాత్రమే!</span>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-red-600 p-2 rounded-lg text-white font-black tracking-wider text-xl">GS</div>
-                <span class="text-xl font-bold tracking-tight text-white">BIKERS CLUB <span class="text-red-500 text-xs uppercase px-2 py-0.5 bg-red-950 border border-red-800 rounded ml-2">Dealer Portal</span></span>
+                <div class="bg-red-600 text-white p-2.5 rounded-xl font-black text-xl shadow-md">
+                    <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-wider text-white">GS BIKERS CLUB</h1>
+                    <p class="text-xs text-red-400 font-medium tracking-wide">Spare Parts, Helmets & Accessories</p>
+                </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button onclick="openCart()" class="relative bg-gray-800 hover:bg-gray-700 p-2.5 rounded-xl border border-gray-700 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-cart-shopping text-red-500"></i>
-                    <span class="text-sm font-medium hidden sm:inline">Order Cart</span>
-                    <span id="cart-badge" class="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full font-bold">0</span>
-                </button>
+            
+            <div class="hidden md:flex flex-col text-right text-xs text-gray-300">
+                <p><i class="fa-solid fa-location-dot text-red-500 mr-1"></i> Koilakuntla Road, Allagadda</p>
+                <p class="mt-0.5"><i class="fa-solid fa-phone text-red-500 mr-1"></i> 76599 28108 | 84648 49742</p>
             </div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Search & Filters -->
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-            <div class="w-full md:w-96 relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400"></i>
-                <input type="text" id="search-input" oninput="filterProducts()" placeholder="Search by item name or safety spec..." 
-                    class="w-full bg-gray-900 border border-gray-800 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-red-500 transition">
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-14 px-4 sm:px-6 lg:px-8 shadow-xl">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-4">
+                Wholesale & Retail Hub
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                Welcome to GS Bikers Club
+            </h2>
+            <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                Your trusted destination for branded full-face helmets, motorcycle spare parts, and accessories. Open for all customers and wholesale dealers!
+            </p>
+            <!-- Telugu Description -->
+            <div class="bg-black/30 border border-white/10 rounded-xl p-4 text-sm text-gray-200 leading-relaxed mb-8 backdrop-blur-sm">
+                <p class="font-semibold text-red-400 mb-1">తెలుగు వివరాలు (Telugu Overview):</p>
+                జి ఎస్ బైకర్స్ క్లబ్ కి స్వాగతం. మా వద్ద హీరో, హోండా, బజాజ్ మరియు టివిఎస్ బ్రాండెడ్ ఫుల్-ఫేస్ హెల్మెట్లు, స్పేర్ పార్ట్స్ మరియు యాక్సెసరీస్ హోల్‌సేల్ మరియు రిటైల్ ధరలలో లభించును. దసరా పండుగ ప్రత్యేక ఆఫర్లు ప్రారంభమైనవి!
             </div>
-            <!-- Category Tabs -->
-            <div id="category-tabs" class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end">
-                <button onclick="setCategory('All')" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold bg-red-600 text-white transition">All Products</button>
+            
+            <div class="inline-flex flex-wrap justify-center gap-4 text-sm bg-white/10 backdrop-blur-md px-6 py-3 rounded-xl border border-white/10">
+                <span><i class="fa-solid fa-map-pin text-red-400 mr-1.5"></i> Koilakuntla Road, Allagadda</span>
+                <span class="hidden sm:inline">|</span>
+                <span><i class="fa-solid fa-phone-volume text-red-400 mr-1.5"></i> 76599 28108, 84648 49742</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Catalog Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 border-b pb-4">
+            <div>
+                <h3 class="text-2xl font-bold text-gray-800">Product Catalog & Orders</h3>
+                <p class="text-sm text-gray-500">Browse our certified helmets and special products below.</p>
+            </div>
+            <div class="w-full sm:w-72">
+                <input type="text" id="searchInput" placeholder="Search products..." 
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm shadow-sm">
             </div>
         </div>
 
         <!-- Product Grid -->
-        <div id="loading-state" class="text-center py-20 text-gray-400">
-            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-red-500 mb-3"></i>
-            <p>Loading catalog directly from gs_bikers_catalog.xlsx...</p>
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically populated via JavaScript -->
         </div>
+    </main>
 
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
-            <!-- Dynamically injected via SheetJS -->
-        </div>
-
-    </div>
-
-    <!-- Cart Slide-over / Modal -->
-    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex justify-end">
-        <div class="bg-gray-900 w-full max-w-md h-full flex flex-col border-l border-gray-800 p-6 shadow-2xl">
-            <div class="flex items-center justify-between pb-4 border-b border-gray-800">
-                <h2 class="text-lg font-bold text-white flex items-center space-x-2">
-                    <i class="fa-solid fa-clipboard-list text-red-500"></i>
-                    <span>Wholesale Order Summary</span>
-                </h2>
-                <button onclick="closeCart()" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-4 divide-y divide-gray-800/50">
-                <p class="text-gray-500 text-center py-10">Your cart is empty</p>
-            </div>
-            <div class="pt-4 border-t border-gray-800">
-                <div class="flex justify-between items-center mb-4 text-lg font-bold">
-                    <span>Total Dealer Cost:</span>
-                    <span id="cart-total" class="text-red-500">$0.00</span>
+    <!-- Order Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Place Order / Booking</h3>
+            <p id="modalProductTitle" class="text-xs text-red-600 font-semibold mb-4"></p>
+            
+            <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-4">
+                <input type="hidden" id="modalProductId">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Your Name / Dealer Name *</label>
+                    <input type="text" id="buyerName" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Enter your full name">
                 </div>
-                <button onclick="checkoutWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-900/20">
-                    <i class="fa-brands fa-whatsapp text-xl"></i>
-                    <span>Submit Order via WhatsApp</span>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Phone Number / Cell *</label>
+                    <input type="tel" id="buyerPhone" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="10-digit mobile number">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Quantity (Boxes / Units)</label>
+                    <input type="text" id="buyerQty" readonly class="w-full px-3 py-2 border bg-gray-100 rounded-lg text-sm text-gray-600 font-semibold">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Delivery Address / Notes</label>
+                    <textarea id="buyerAddress" rows="2" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:outline-none" placeholder="Town / City / Landmark"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm">
+                    <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Send Order via WhatsApp (To 7659928108 & 8464849742)
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-10 mt-16 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <div>
+                <h4 class="text-white font-bold text-base mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-motorcycle text-red-500"></i> GS BIKERS CLUB
+                </h4>
+                <p class="text-gray-400 leading-relaxed mb-3">
+                    Your premier destination for motorcycle spare parts, helmets, and rider accessories in Allagadda.
+                </p>
+                <p class="text-xs text-gray-500">© 2026 GS Bikers Club. All rights reserved.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-base mb-3">Store Location</h4>
+                <p class="mb-2"><i class="fa-solid fa-location-dot text-red-500 mr-2"></i> Koilakuntla Road, Allagadda, Andhra Pradesh</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-base mb-3">Direct Contact</h4>
+                <p class="mb-2"><i class="fa-solid fa-phone text-red-500 mr-2"></i> +91 76599 28108</p>
+                <p class="mb-2"><i class="fa-solid fa-phone text-red-500 mr-2"></i> +91 84648 49742</p>
+                <p class="text-xs text-red-400 mt-2 font-medium">Call us for bulk dealer inquiries & Dassara bookings!</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
     <script>
-        let PRODUCTS = [];
-        let cart = {};
-        let activeCategory = 'All';
-
-        // Fetch and parse the .xlsx file directly when page loads
-        window.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const response = await fetch('gs_bikers_catalog.xlsx');
-                const arrayBuffer = await response.arrayBuffer();
-                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-                
-                // Read the first sheet
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                
-                // Convert sheet to JSON rows
-                const rawData = XLSX.utils.sheet_to_json(worksheet);
-
-                PRODUCTS = rawData.map(item => ({
-                    id: String(item.id || ''),
-                    name: String(item.name || ''),
-                    category: String(item.category || ''),
-                    safety: String(item.safety || ''),
-                    msrp: parseFloat(item.msrp) || 0,
-                    dealerPrice: parseFloat(item.dealerPrice) || 0,
-                    stock: parseInt(item.stock) || 0,
-                    moq: parseInt(item.moq) || 1,
-                    image: String(item.image || '')
-                }));
-
-                document.getElementById('loading-state').classList.add('hidden');
-                document.getElementById('product-grid').classList.remove('hidden');
-                
-                buildCategoryTabs();
-                renderProducts();
-            } catch (err) {
-                console.error(err);
-                document.getElementById('loading-state').innerHTML = `<p class="text-red-500 font-bold">Error loading gs_bikers_catalog.xlsx! Make sure your Excel file is uploaded in your GitHub repository root.</p>`;
+        const products = [
+            {
+                id: 201,
+                name: "TVS Full Face Helmet with Logo",
+                category: "Helmets",
+                badge: "1 Box = 24 Pcs",
+                mrp: 999.00,
+                strikePrice: 379.00,
+                dealerPrice: 349.00,
+                moqText: "MOQ: 1 Box (24 Pcs)",
+                status: "available",
+                delivery: "Instant / Ready Stock",
+                image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=500"
+            },
+            {
+                id: 202,
+                name: "Hero Full Face Helmet with Logo",
+                category: "Helmets",
+                badge: "1 Box = 24 Pcs",
+                mrp: 999.00,
+                strikePrice: 379.00,
+                dealerPrice: 349.00,
+                moqText: "MOQ: 1 Box (24 Pcs)",
+                status: "available",
+                delivery: "Instant / Ready Stock",
+                image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500"
+            },
+            {
+                id: 203,
+                name: "Honda Full Face Helmet with Logo",
+                category: "Helmets",
+                badge: "1 Box = 24 Pcs",
+                mrp: 999.00,
+                strikePrice: 379.00,
+                dealerPrice: 349.00,
+                moqText: "MOQ: 1 Box (24 Pcs)",
+                status: "available",
+                delivery: "Instant / Ready Stock",
+                image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=500"
+            },
+            {
+                id: 204,
+                name: "Bajaj Full Face Helmet with Logo",
+                category: "Helmets",
+                badge: "1 Box = 24 Pcs",
+                mrp: 999.00,
+                strikePrice: 379.00,
+                dealerPrice: 349.00,
+                moqText: "MOQ: 1 Box (24 Pcs)",
+                status: "available",
+                delivery: "Instant / Ready Stock",
+                image: "https://images.unsplash.com/photo-1558981359-219d6364c9c8?w=500"
+            },
+            {
+                id: 205,
+                name: "TWS i12 Wireless Earbuds",
+                category: "Accessories",
+                badge: "Special Offer",
+                mrp: 899.00,
+                strikePrice: 299.00,
+                dealerPrice: 240.00,
+                moqText: "MOQ: 50 Units",
+                status: "available",
+                delivery: "5-7 Days Delivery",
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500"
+            },
+            {
+                id: 206,
+                name: "Bike Body Cover",
+                category: "Accessories",
+                badge: "Coming Soon",
+                mrp: 499.00,
+                strikePrice: 0,
+                dealerPrice: 0,
+                moqText: "Coming Soon",
+                status: "coming_soon",
+                delivery: "Stay Tuned",
+                image: "https://images.unsplash.com/photo-1558981285-6f0c94658bb6?w=500"
+            },
+            {
+                id: 207,
+                name: "Motorcycle Spark Plug",
+                category: "Spare Parts",
+                badge: "Out of Stock",
+                mrp: 149.00,
+                strikePrice: 0,
+                dealerPrice: 99.00,
+                moqText: "MOQ: 10 Pcs",
+                status: "out_of_stock",
+                delivery: "Unavailable",
+                image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500"
+            },
+            {
+                id: 208,
+                name: "Bike Wheel Bearings Set",
+                category: "Spare Parts",
+                badge: "Out of Stock",
+                mrp: 299.00,
+                strikePrice: 0,
+                dealerPrice: 199.00,
+                moqText: "MOQ: 5 Sets",
+                status: "out_of_stock",
+                delivery: "Unavailable",
+                image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=500"
             }
-        });
+        ];
 
-        function buildCategoryTabs() {
-            const categories = ['All', ...new Set(PRODUCTS.map(p => p.category))];
-            const container = document.getElementById('category-tabs');
-            container.innerHTML = categories.map(cat => `
-                <button onclick="setCategory('${cat}')" class="cat-btn px-4 py-2 rounded-xl text-sm font-semibold transition ${cat === activeCategory ? 'bg-red-600 text-white shadow-lg shadow-red-900/30' : 'bg-gray-900 border border-gray-800 text-gray-300 hover:bg-gray-800'}">${cat}</button>
-            `).join('');
-        }
+        function renderProducts(filter = '') {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
 
-        function setCategory(cat) {
-            activeCategory = cat;
-            buildCategoryTabs();
-            renderProducts();
-        }
-
-        function renderProducts() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const grid = document.getElementById('product-grid');
-
-            const filtered = PRODUCTS.filter(p => {
-                const matchesCat = activeCategory === 'All' || p.category === activeCategory;
-                const matchesSearch = p.name.toLowerCase().includes(query) || p.safety.toLowerCase().includes(query);
-                return matchesCat && matchesSearch;
-            });
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(filter.toLowerCase()) || 
+                p.category.toLowerCase().includes(filter.toLowerCase())
+            );
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-16 text-gray-500">No products found matching your search.</div>`;
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No products found matching your search.</div>';
                 return;
             }
 
-            grid.innerHTML = filtered.map(p => {
-                const currentQty = cart[p.id] || 0;
-                return `
-                    <div class="product-card bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden flex flex-col justify-between">
+            filtered.forEach(p => {
+                let actionBtn = '';
+                if (p.status === 'coming_soon') {
+                    actionBtn = `<div class="w-full bg-gray-200 text-gray-600 font-bold py-2.5 rounded-xl text-center text-sm">Coming Soon</div>`;
+                } else if (p.status === 'out_of_stock') {
+                    actionBtn = `<div class="w-full bg-red-50 text-red-600 border border-red-200 font-bold py-2.5 rounded-xl text-center text-sm">Out of Stock</div>`;
+                } else {
+                    actionBtn = `<button onclick="openModal(${p.id})" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl text-center transition-colors shadow-md text-sm cursor-pointer">
+                        <i class="fa-solid fa-cart-shopping mr-2"></i> Book / Order Now
+                    </button>`;
+                }
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
                         <div>
-                            <div class="relative h-48 bg-gray-950 overflow-hidden">
-                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
-                                <span class="absolute top-3 left-3 bg-gray-900/90 backdrop-blur border border-gray-700 text-xs px-2.5 py-1 rounded-lg font-semibold text-gray-300">${p.category}</span>
-                                <span class="absolute top-3 right-3 bg-red-950/90 border border-red-800 text-xs px-2.5 py-1 rounded-lg font-bold text-red-400">${p.safety}</span>
+                            <div class="relative h-52 overflow-hidden bg-gray-100">
+                                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+                                    ${p.badge}
+                                </span>
                             </div>
                             <div class="p-5">
-                                <h3 class="font-bold text-lg text-white mb-3 line-clamp-1">${p.name}</h3>
-                                <div class="grid grid-cols-2 gap-2 bg-gray-950 p-3 rounded-xl border border-gray-800/60 mb-4 text-sm">
-                                    <div>
-                                        <span class="text-xs text-gray-500 block">MSRP</span>
-                                        <span class="font-semibold text-gray-400 line-through">$${p.msrp.toFixed(2)}</span>
-                                    </div>
-                                    <div>
-                                        <span class="text-xs text-red-400 block font-bold">Dealer Price</span>
-                                        <span class="font-black text-red-500 text-base">$${p.dealerPrice.toFixed(2)}</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center text-xs text-gray-400 mb-2 px-1">
-                                    <span>Stock: <strong class="text-gray-200">${p.stock} units</strong></span>
-                                    <span>MOQ: <strong class="text-gray-200">${p.moq} pcs</strong></span>
+                                <span class="text-xs text-red-600 font-bold uppercase tracking-wider">${p.category}</span>
+                                <h4 class="text-lg font-bold text-gray-800 mt-1 mb-2 leading-snug">${p.name}</h4>
+                                ${p.status === 'available' ? `
+                                <div class="flex items-baseline gap-2 mb-2">
+                                    <span class="text-2xl font-extrabold text-red-600">₹${p.dealerPrice.toFixed(2)}</span>${p.strikePrice > 0 ? `<span class="text-sm text-gray-400 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
+                                    <span class="text-xs text-gray-500 line-through ml-1">MRP: ₹${p.mrp.toFixed(2)}</span>
+                                </div>` : ''}
+                                <div class="text-xs font-semibold text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100 mb-4 flex justify-between items-center">
+                                    <span><i class="fa-solid fa-box text-red-500 mr-1"></i> ${p.moqText}</span>
+                                    <span class="text-gray-500"><i class="fa-solid fa-truck text-red-500 mr-1"></i> ${p.delivery}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-5 pt-0">
-                            <div class="flex items-center space-x-2">
-                                <input type="number" id="qty-${p.id}" min="${p.moq}" value="${currentQty > 0 ? currentQty : p.moq}" 
-                                    class="w-20 bg-gray-950 border border-gray-800 rounded-xl px-3 py-2 text-center font-bold text-sm focus:outline-none focus:border-red-500">
-                                <button onclick="updateCart('${p.id}')" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 px-4 rounded-xl transition text-sm flex items-center justify-center space-x-2 shadow-lg shadow-red-900/20">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                    <span>${currentQty > 0 ? 'Update Qty' : 'Add to Order'}</span>
-                                </button>
-                            </div>
+                        <div class="px-5 pb-5 pt-0">
+                            ${actionBtn}
                         </div>
                     </div>
                 `;
-            }).join('');
-        }
-
-        function filterProducts() {
-            renderProducts();
-        }
-
-        function updateCart(id) {
-            const product = PRODUCTS.find(p => p.id === id);
-            const qtyInput = document.getElementById(`qty-${id}`);
-            let qty = parseInt(qtyInput.value) || 0;
-
-            if (qty < product.moq) {
-                alert(`Minimum Order Quantity (MOQ) for ${product.name} is ${product.moq} units.`);
-                qty = product.moq;
-                qtyInput.value = qty;
-            }
-
-            if (qty > 0) {
-                cart[id] = qty;
-            } else {
-                delete cart[id];
-            }
-
-            updateCartBadge();
-            renderProducts();
-        }
-
-        function updateCartBadge() {
-            const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
-            document.getElementById('cart-badge').innerText = totalItems;
-        }
-
-        function openCart() {
-            renderCartModal();
-            document.getElementById('cart-modal').classList.remove('hidden');
-        }
-
-        function closeCart() {
-            document.getElementById('cart-modal').classList.add('hidden');
-        }
-
-        function renderCartModal() {
-            const container = document.getElementById('cart-items');
-            const entryKeys = Object.keys(cart);
-
-            if (entryKeys.length === 0) {
-                container.innerHTML = `<p class="text-gray-500 text-center py-10">Your cart is empty</p>`;
-                document.getElementById('cart-total').innerText = '$0.00';
-                return;
-            }
-
-            let totalCost = 0;
-            container.innerHTML = entryKeys.map(id => {
-                const p = PRODUCTS.find(prod => prod.id === id);
-                const qty = cart[id];
-                const subtotal = p.dealerPrice * qty;
-                totalCost += subtotal;
-
-                return `
-                    <div class="py-3 flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-sm text-white">${p.name}</h4>
-                            <span class="text-xs text-gray-400">$${p.dealerPrice.toFixed(2)} × ${qty} pcs</span>
-                        </div>
-                        <div class="text-right flex items-center space-x-3">
-                            <span class="font-bold text-red-500">$${subtotal.toFixed(2)}</span>
-                            <button onclick="removeFromCart('${id}')" class="text-gray-500 hover:text-red-400 text-sm"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            document.getElementById('cart-total').innerText = '$' + totalCost.toFixed(2);
-        }
-
-        function removeFromCart(id) {
-            delete cart[id];
-            updateCartBadge();
-            renderCartModal();
-            renderProducts();
-        }
-
-        function checkoutWhatsApp() {
-            const entryKeys = Object.keys(cart);
-            if (entryKeys.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-
-            let message = "Hello, I would like to place a B2B Dealer Order:\n\n";
-            let totalCost = 0;
-
-            entryKeys.forEach(id => {
-                const p = PRODUCTS.find(prod => prod.id === id);
-                const qty = cart[id];
-                const subtotal = p.dealerPrice * qty;
-                totalCost += subtotal;
-                message += `• ${p.name} (ID: ${p.id}) - Qty: ${qty} - Subtotal: $${subtotal.toFixed(2)}\n`;
             });
-
-            message += `\nTotal Order Value: $${totalCost.toFixed(2)}`;
-            
-            const phone = "1234567890"; 
-            window.open(`https://wa.me/${phone}?text=` + encodeURIComponent(message), '_blank');
         }
+
+        function openModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('modalProductId').value = product.id;
+            document.getElementById('modalProductTitle').innerText = product.name + ' (' + product.moqText + ')';
+            document.getElementById('buyerQty').value = product.moqText;
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const productId = document.getElementById('modalProductId').value;
+            const product = products.find(p => p.id == productId);
+            const name = document.getElementById('buyerName').value;
+            const phone = document.getElementById('buyerPhone').value;
+            const qty = document.getElementById('buyerQty').value;
+            const address = document.getElementById('buyerAddress').value;
+
+            const message = `*NEW ORDER / BOOKING - GS BIKERS CLUB*%0A%0A` +
+                            `*Product:* ${product.name}%0A` +
+                            `*Quantity:* ${qty}%0A` +
+                            `*Dealer/Customer Name:* ${name}%0A` +
+                            `*Phone Number:* ${phone}%0A` +
+                            `*Address:* ${address || 'N/A'}`;
+
+            // Target numbers: 7659928108 & 8464849742
+            const whatsappUrl = `https://wa.me/917659928108?text=${message}`;
+            
+            alert(`Order ready! Your order details will now be sent to GS Bikers Club (Phones: 7659928108 & 8464849742).`);
+            window.open(whatsappUrl, '_blank');
+            closeModal();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderProducts(e.target.value);
+        });
+
+        renderProducts();
     </script>
 </body>
 </html>
