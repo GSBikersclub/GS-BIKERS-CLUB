@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GS Bikers Club // Wholesale Dealer Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .transition-card { transition: all 0.3s ease-in-out; }
+        .transition-card:hover { transform: translateY(-3px); }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased h-screen flex flex-col overflow-hidden">
+
+    <!-- PASSWORD LOCK SCREEN OVERLAY -->
+    <div id="login-overlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-[100] flex items-center justify-center px-4 transition-opacity duration-500">
+        <div class="bg-white max-w-md w-full p-10 rounded-3xl shadow-2xl border border-slate-100 text-center">
+            <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mx-auto shadow-inner border border-slate-700">
+                 <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
+            <h2 class="text-3xl font-extrabold text-slate-950 mt-6 tracking-tight">GS Bikers Club</h2>
+            <p class="text-slate-500 mt-2">Authorized Dealer Wholesale Portal</p>
+            <div class="mt-8 space-y-4">
+                <input type="password" id="dealer-pass" placeholder="Enter Passcode (try: dealer123)" class="w-full border-2 border-slate-200 bg-slate-50 rounded-xl px-5 py-4 text-center text-lg font-mono focus:outline-none focus:border-amber-500 transition">
+                <button onclick="checkPassword()" class="w-full bg-slate-950 hover:bg-slate-800 text-white font-bold py-4 rounded-xl text-lg transition shadow-lg shadow-slate-900/10">
+                    Secure Access
+                </button>
+                <p id="login-error" class="text-sm text-red-600 hidden font-medium">Incorrect passcode. Please try again.</p>
+                 <p class="text-xs text-slate-400 mt-6">Need access? Contact GS Bikers Club administration.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN PORTAL CONTENT -->
+    <div id="portal-content" class="flex-1 flex flex-col h-full overflow-hidden hidden">
+        
+        <!-- Header -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-40 flex-shrink-0">
+            <div class="max-w-[1800px] mx-auto px-6 py-4 flex items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center font-black text-xl text-amber-400 tracking-tight shadow-sm">G</div>
+                    <h1 class="text-xl font-black text-slate-950 tracking-tight">GS <span class="text-slate-700">Bikers Club</span> // <span class="text-amber-600 font-semibold text-sm uppercase tracking-wider">Dealer Hub</span></h1>
+                </div>
+                
+                <!-- Global Search -->
+                <div class="relative flex-1 max-w-lg">
+                    <input type="text" id="search-input" onkeyup="filterProducts()" placeholder="Search helmets, accessories, spare parts..." class="w-full bg-slate-100 border-none rounded-full py-3 pl-12 pr-6 text-sm focus:ring-2 focus:ring-amber-300 transition">
+                    <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden md:block">
+                        <div class="text-sm font-semibold text-slate-950">Authorized Partner</div>
+                        <div class="text-xs text-amber-600 font-medium">Status: Active Tier 1</div>
+                    </div>
+                    <button onclick="toggleCartModal(true)" class="relative group bg-slate-100 hover:bg-amber-50 p-3 rounded-2xl transition">
+                        <svg class="w-7 h-7 text-slate-600 group-hover:text-amber-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-amber-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md hidden">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="flex-1 flex overflow-hidden bg-slate-50">
+            
+            <!-- Sidebar Categories -->
+            <aside class="w-72 bg-white border-r border-slate-200 p-8 flex-shrink-0 overflow-y-auto hidden md:block">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-6">Catalog Categories</h2>
+                <div id="category-filters" class="space-y-2">
+                    <button onclick="setActiveCategory('all')" id="btn-cat-all" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-amber-50 text-amber-700 transition flex justify-between items-center">
+                        <span>All Products</span>
+                        <span id="count-all" class="text-xs opacity-80 font-mono">0</span>
+                    </button>
+                </div>
+
+                 <div class="mt-12 bg-slate-100 p-6 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
+                    <h4 class="font-bold text-slate-950 text-sm">HQ Contact Details</h4>
+                    <p>📍 Detroit, MI, USA</p>
+                    <p>📞 +1 (555) 123-4567</p>
+                    <p>✉️ sales@gsbikersclub.com</p>
+                 </div>
+            </aside>
+
+            <!-- Product Grid Area -->
+            <section class="flex-1 p-6 md:p-10 overflow-y-auto h-full space-y-8">
+                
+                <!-- OFFER BANNER -->
+                <div class="bg-gradient-to-r from-slate-900 to-slate-950 rounded-3xl p-8 md:p-10 shadow-xl text-white flex flex-col md:flex-row justify-between items-center gap-6 border border-slate-800">
+                    <div>
+                        <span class="bg-amber-500 text-slate-950 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-widest">Seasonal Promo</span>
+                        <h2 class="text-3xl font-extrabold mt-3 tracking-tight">Get 10% Off Opening Starter Orders</h2>
+                        <p class="text-slate-400 mt-1 text-sm">Stock up across helmets, accessories, and spare parts with free freight on orders over $2,500.</p>
+                    </div>
+                    <button onclick="toggleCartModal(true)" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-8 py-4 rounded-2xl text-sm transition whitespace-nowrap shadow-lg">
+                        Claim Offer in Cart
+                    </button>
+                </div>
+
+                <!-- Sort & Count Bar -->
+                 <div class="flex items-center justify-between bg-white p-4 px-5 rounded-2xl border border-slate-100 shadow-sm">
+                    <h2 id="catalog-title" class="text-lg font-bold text-slate-950">All Products <span class="text-sm font-normal text-slate-500" id="result-count">(0 items)</span></h2>
+                    <select onchange="sortProducts()" id="sort-select" class="bg-slate-50 border border-slate-200 rounded-xl text-sm py-2 px-4 focus:ring-0 focus:border-amber-400 transition">
+                        <option value="default">Sort by: Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Name: A-Z</option>
+                        <option value="stock-desc">Stock: High to Low</option>
+                    </select>
+                </div>
+
+                <!-- Grid -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 pb-24"></div>
+
+                <!-- No Results -->
+                <div id="no-results" class="text-center py-24 hidden">
+                    <h3 class="text-2xl font-bold text-slate-900">No products found</h3>
+                    <p class="text-slate-500 mt-2">Try clearing your filters or search terms.</p>
+                    <button onclick="resetFilters()" class="bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl mt-6">Reset Filters</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div id="cart-modal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex justify-end transition-opacity duration-300 opacity-0">
+        <div onclick="toggleCartModal(false)" class="absolute inset-0"></div>
+        <div class="bg-white w-full max-w-lg h-full shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full relative z-10">
+            <header class="p-6 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
+                <h3 class="text-xl font-bold text-slate-950">Wholesale Order Cart</h3>
+                <button onclick="toggleCartModal(false)" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
+            </header>
+
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 divide-y divide-slate-100">
+                <p class="text-slate-500 text-center py-16 text-sm">Your cart is currently empty.</p>
+            </div>
+
+            <footer class="bg-slate-50 p-8 border-t border-slate-200 space-y-4 flex-shrink-0">
+                <div class="space-y-3">
+                     <h4 class="text-xs font-bold uppercase text-slate-600 tracking-wider">Fulfillment Details</h4>
+                     <input type="text" id="store-name" placeholder="Dealership / Club Name" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm">
+                     <input type="email" id="store-email" placeholder="Billing Email Address" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm">
+                     <select id="payment-term" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm bg-white">
+                        <option value="" disabled selected>Select Payment Terms</option>
+                        <option value="Net 30 Invoice">Request Net 30 Terms</option>
+                        <option value="Credit Card Link">Secure Credit Card Link</option>
+                        <option value="Bank Transfer">Direct Bank Wire (ACH)</option>
+                    </select>
+                </div>
+                
+                <div class="border-t border-slate-200 pt-3 flex justify-between text-lg font-black text-slate-950">
+                    <span>Estimated Total</span>
+                    <span id="cart-total">$0.00</span>
+                </div>
+
+                <button onclick="submitOrder()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-2xl transition text-base">
+                    Submit Official Wholesale Order
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- SCRIPT DATA & LOGIC -->
+    <script>
+        // ADD YOUR PRODUCTS HERE (Helmets, Accessories, Spare Parts, etc.)
+        const ALL_PRODUCTS = [
+            { id: 'h-01', name: 'Aero-Carbon Pro Helmet', category: 'Helmets', safety: 'ECE 22.06', msrp: 349.00, dealerPrice: 175.00, stock: 25, moq: 5, image: 'https://images.unsplash.com/photo-1559839959-f72ae1512097?q=80&w=600' },
+            { id: 'h-02', name: 'Streetfighter Evo Helmet', category: 'Helmets', safety: 'DOT Certified', msrp: 220.00, dealerPrice: 110.00, stock: 40, moq: 5, image: 'https://images.unsplash.com/photo-1622185135505-2d995000eed2?q=80&w=600' },
+            { id: 'a-01', name: 'Titanium Disc Lock', category: 'Accessories', safety: 'Sold Secure Gold', msrp: 80.00, dealerPrice: 40.00, stock: 100, moq: 10, image: 'https://images.unsplash.com/photo-1613468462874-a9c7a483bb5d?q=80&w=600' },
+            { id: 's-01', name: 'Heavy-Duty Drive Chain Kit', category: 'Spare Parts', safety: 'Racing Spec', msrp: 140.00, dealerPrice: 70.00, stock: 18, moq: 4, image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=600' },
+            { id: 'g-01', name: 'Carbon Track Gloves', category: 'Gloves', safety: 'Knuckle Armor', msrp: 120.00, dealerPrice: 60.00, stock: 50, moq: 10, image: 'https://images.unsplash.com/photo-1591636519367-a3798f23bd16?q=80&w=600' }
+        ];
+
+        let cart = [];
+        let currentProducts = [...ALL_PRODUCTS];
+        let activeCategory = 'all';
+
+        function checkPassword() {
+            const pass = document.getElementById('dealer-pass').value;
+            if (pass === 'dealer123') { // Change passcode here if desired
+                const overlay = document.getElementById('login-overlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    document.getElementById('portal-content').classList.remove('hidden');
+                    initCatalog();
+                }, 500);
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+            }
+        }
+
+        function initCatalog() {
+            populateCategories();
+            renderProducts();
+        }
+
+        function populateCategories() {
+            const categories = [...new Set(ALL_PRODUCTS.map(p => p.category))];
+            const container = document.getElementById('category-filters');
+            document.getElementById('count-all').innerText = ALL_PRODUCTS.length;
+
+            categories.forEach(cat => {
+                const count = ALL_PRODUCTS.filter(p => p.category === cat).length;
+                container.innerHTML += `
+                    <button onclick="setActiveCategory('${cat}')" id="btn-cat-${cat}" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 transition flex justify-between items-center">
+                        <span>${cat}</span>
+                        <span class="text-xs text-slate-400 font-mono">${count}</span>
+                    </button>
+                `;
+            });
+        }
+
+        function setActiveCategory(category) {
+            activeCategory = category;
+            const buttons = document.getElementById('category-filters').querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-50', 'text-amber-700', 'font-semibold');
+                btn.classList.add('text-slate-700', 'font-medium');
+            });
+            document.getElementById(`btn-cat-${category}`).classList.add('bg-amber-50', 'text-amber-700', 'font-semibold');
+            document.getElementById('catalog-title').innerHTML = `${category === 'all' ? 'All Products' : category} <span class="text-sm font-normal text-slate-500" id="result-count"></span>`;
+            applyFiltersAndSort();
+        }
+
+        function filterProducts() {
+            applyFiltersAndSort();
+        }
+
+        function applyFiltersAndSort() {
+            let filtered = [...ALL_PRODUCTS];
+            if (activeCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === activeCategory);
+            }
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            if (searchTerm.length > 0) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm) || p.category.toLowerCase().includes(searchTerm));
+            }
+            currentProducts = filtered;
+            sortProducts(false);
+            updateResultCount(filtered.length);
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            setActiveCategory('all');
+        }
+
+        function updateResultCount(count) {
+            document.getElementById('result-count').innerText = `(${count} items)`;
+            const grid = document.getElementById('product-grid');
+            const noResults = document.getElementById('no-results');
+            if (count === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+            }
+        }
+
+        function sortProducts(render=true) {
+            const sortVal = document.getElementById('sort-select').value;
+            if (sortVal === 'price-asc') currentProducts.sort((a, b) => a.dealerPrice - b.dealerPrice);
+            if (sortVal === 'price-desc') currentProducts.sort((a, b) => b.dealerPrice - a.dealerPrice);
+            if (sortVal === 'name-asc') currentProducts.sort((a, b) => a.name.localeCompare(b.name));
+            if (sortVal === 'stock-desc') currentProducts.sort((a, b) => b.stock - a.stock);
+            if(render) renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            currentProducts.forEach(p => {
+                const stockClass = p.stock > 0 ? 'text-emerald-600' : 'text-red-600';
+                grid.innerHTML += `
+                    <div class="product-card bg-white rounded-3xl border border-slate-100 p-6 shadow-sm flex flex-col">
+                        <div class="aspect-square rounded-2xl mb-5 overflow-hidden relative bg-slate-100">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-white/90 text-slate-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase">${p.safety}</span>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg font-bold text-slate-950">${p.name}</h3>
+                            <p class="text-xs text-slate-500 mt-1 uppercase">${p.category}</p>
+                            <div class="mt-4 flex items-end justify-between bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                                <div class="font-mono">
+                                    <span class="text-slate-400 text-xs line-through block">$${p.msrp.toFixed(2)} MSRP</span>
+                                    <span class="text-slate-950 font-black text-xl">$${p.dealerPrice.toFixed(2)}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="block text-[11px] font-bold ${stockClass}">${p.stock > 0 ? p.stock + ' In Stock' : 'Out of Stock'}</span>
+                                    <span class="text-[10px] text-slate-400">MOQ: ${p.moq}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-5 pt-4 border-t border-slate-100 flex items-center gap-3">
+                            <input type="number" id="qty-${p.id}" value="${p.moq}" min="${p.moq}" class="w-20 h-11 border-2 border-slate-200 rounded-xl text-center font-bold text-sm">
+                            <button onclick="addToCart('${p.id}')" ${p.stock <= 0 ? 'disabled' : ''} class="flex-1 h-11 bg-slate-900 hover:bg-slate-950 disabled:bg-slate-300 text-white font-bold rounded-xl text-xs transition">
+                                ${p.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleCartModal(open) {
+            const modal = document.getElementById('cart-modal');
+            if (open) {
+                modal.classList.remove('hidden');
+                setTimeout(() => { modal.classList.add('opacity-100'); modal.querySelector('.bg-white').classList.remove('translate-x-full'); }, 10);
+            } else {
+                modal.classList.remove('opacity-100');
+                modal.querySelector('.bg-white').classList.add('translate-x-full');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            }
+        }
+
+        function addToCart(productId) {
+            const product = ALL_PRODUCTS.find(p => p.id === productId);
+            const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+            if (quantity > product.stock) { alert(`Only ${product.stock} available.`); return; }
+            
+            const existing = cart.find(item => item.id === productId);
+            if (existing) { existing.quantity += quantity; } else { cart.push({ ...product, quantity }); }
+            updateCartUI();
+            toggleCartModal(true);
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const countEl = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total');
+            const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+            countEl.innerText = totalItems;
+            if(totalItems > 0) countEl.classList.remove('hidden'); else countEl.classList.add('hidden');
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-slate-500 text-center py-16 text-sm">Your cart is currently empty.</p>';
+                totalEl.innerText = '$0.00';
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                let sub = item.dealerPrice * item.quantity;
+                total += sub;
+                container.innerHTML += `
+                    <div class="py-3 flex justify-between items-center text-sm">
+                        <div>
+                            <p class="font-bold text-slate-900">${item.name}</p>
+                            <p class="text-xs text-slate-500">Qty: ${item.quantity} × $${item.dealerPrice.toFixed(2)}</p>
+                        </div>
+                        <span class="font-bold text-slate-900">$${sub.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            totalEl.innerText = `$${total.toFixed(2)}`;
+        }
+
+        function submitOrder() {
+            const storeName = document.getElementById('store-name').value;
+            const email = document.getElementById('store-email').value;
+            const term = document.getElementById('payment-term').value;
+            if(!storeName || !email || cart.length === 0) { alert('Please enter your dealership name, email, and add items.'); return; }
+            alert(`Order submitted successfully for ${storeName}!\nPayment Term: ${term}\nWe will email your confirmation and invoice shortly.`);
+            cart = [];
+            updateCartUI();
+            toggleCartModal(false);
+        }
+    </script>
+</body>
+</html>
