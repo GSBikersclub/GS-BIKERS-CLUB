@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; }
-        /* Rural-dealer rich aesthetic: Deep slate transitioning into warm rustic amber & bronze tones */
+        
         .rural-hero-gradient { 
             background: linear-gradient(135deg, #0f172a 0%, #1e1b18 50%, #78350f 100%); 
+        }
+
+        /* Smooth Custom Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Subtle glowing card hover effect */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px -10px rgba(180, 83, 9, 0.2);
+            border-color: rgba(217, 119, 6, 0.4);
         }
     </style>
 </head>
@@ -24,7 +43,7 @@
     </div>
 
     <!-- Header / Navbar -->
-    <header class="bg-gray-900 text-white shadow-lg sticky top-0 z-50 border-b border-amber-600/30">
+    <header class="bg-gray-900 text-white shadow-xl sticky top-0 z-50 border-b border-amber-600/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="bg-amber-600 text-white p-2.5 rounded-xl font-black text-xl shadow-md">
@@ -43,11 +62,10 @@
         </div>
     </header>
 
-    <!-- Hero Section (Rural Friendly Warm Aesthetic) -->
+    <!-- Hero Section -->
     <section class="rural-hero-gradient text-white py-14 px-4 sm:px-6 lg:px-8 shadow-xl relative overflow-hidden">
-        <!-- Background ambient light styling -->
         <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="max-w-4xl mx-auto text-center relative z-10 animate-fade-in">
             <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-widest inline-block mb-4 shadow-sm">
                 Trusted Wholesale & Retail Hub
             </span>
@@ -57,9 +75,9 @@
             <p class="text-lg text-stone-200 mb-6 leading-relaxed">
                 Your trusted destination for branded full-face helmets, motorcycle spare parts, and accessories. Open for all customers and wholesale dealers!
             </p>
-            <!-- Telugu Description -->
-            <div class="bg-stone-900/60 border border-amber-500/20 rounded-xl p-4 text-sm text-stone-200 leading-relaxed mb-8 backdrop-blur-md shadow-inner">
-                
+            
+            <!-- Bilingual clean description box -->
+            <div class="bg-stone-900/60 border border-amber-500/20 rounded-xl p-4 text-sm text-stone-200 leading-relaxed mb-8 backdrop-blur-md shadow-inner text-center">
                 జి ఎస్ బైకర్స్ క్లబ్ కి స్వాగతం. మా వద్ద హీరో, హోండా, బజాజ్ మరియు టివిఎస్ బ్రాండెడ్ ఫుల్-ఫేస్ హెల్మెట్లు, స్పేర్ పార్ట్స్ మరియు యాక్సెసరీస్ హోల్‌సేల్ మరియు రిటైల్ ధరలలో లభించును. దసరా పండుగ ప్రత్యేక ఆఫర్లు ప్రారంభమైనవి!
             </div>
             
@@ -73,14 +91,35 @@
 
     <!-- Main Catalog Container -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
-        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 border-b border-stone-200 pb-4">
-            <div>
-                <h3 class="text-2xl font-bold text-gray-800">Product Catalog & Orders</h3>
-                <p class="text-sm text-gray-500">Browse our certified helmets and special products below.</p>
+        
+        <!-- Controls: Category Filter Tabs & Search Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-stone-200 pb-6">
+            
+            <!-- Category Filter Tabs -->
+            <div class="flex flex-wrap gap-2 w-full md:w-auto" id="categoryTabs">
+                <button onclick="filterCategory('All', this)" class="category-btn bg-amber-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition-all cursor-pointer">
+                    All Products
+                </button>
+                <button onclick="filterCategory('Helmets', this)" class="category-btn bg-white text-stone-700 hover:bg-stone-100 text-xs font-bold px-4 py-2.5 rounded-xl border border-stone-200 shadow-sm transition-all cursor-pointer">
+                    Helmets
+                </button>
+                <button onclick="filterCategory('Accessories', this)" class="category-btn bg-white text-stone-700 hover:bg-stone-100 text-xs font-bold px-4 py-2.5 rounded-xl border border-stone-200 shadow-sm transition-all cursor-pointer">
+                    Accessories
+                </button>
+                <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-white text-stone-700 hover:bg-stone-100 text-xs font-bold px-4 py-2.5 rounded-xl border border-stone-200 shadow-sm transition-all cursor-pointer">
+                    Spare Parts
+                </button>
             </div>
-            <div class="w-full sm:w-72">
-                <input type="text" id="searchInput" placeholder="Search products..." 
-                    class="w-full px-4 py-2.5 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm shadow-sm bg-white">
+
+            <!-- Search Bar -->
+            <div class="w-full md:w-72">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </span>
+                    <input type="text" id="searchInput" placeholder="Search catalog..." 
+                        class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-600 text-sm shadow-sm bg-white">
+                </div>
             </div>
         </div>
 
@@ -92,8 +131,8 @@
 
     <!-- Order Modal (Pop-Up) -->
     <div id="orderModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-amber-100">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl font-bold">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-amber-100 animate-fade-in">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl font-bold cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <h3 class="text-xl font-bold text-gray-900 mb-2">Place Order / Booking</h3>
@@ -102,22 +141,19 @@
             <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-4">
                 <input type="hidden" id="modalProductId">
                 
-                <!-- Name Input -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Your Name / Dealer Name *</label>
-                    <input type="text" id="buyerName" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="Enter your full name">
+                    <input type="text" id="buyerName" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="Enter your full name">
                 </div>
                 
-                <!-- Phone Input -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Phone Number / Cell *</label>
-                    <input type="tel" id="buyerPhone" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="10-digit mobile number">
+                    <input type="tel" id="buyerPhone" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="10-digit mobile number">
                 </div>
 
-                <!-- Quantity Selection Dropdown -->
                 <div>
                     <label for="buyerQty" class="block text-xs font-bold text-gray-700 mb-1">Select Quantity (Units/Boxes) *</label>
-                    <select id="buyerQty" name="buyerQty" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none bg-white">
+                    <select id="buyerQty" name="buyerQty" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none bg-white">
                         <option value="1 Unit">1 Unit / Box</option>
                         <option value="2 Units">2 Units / Boxes</option>
                         <option value="3 Units">3 Units / Boxes</option>
@@ -127,15 +163,13 @@
                     </select>
                 </div>
 
-                <!-- Address / Notes Input -->
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">Delivery Address / Notes (Optional)</label>
-                    <textarea id="buyerAddress" rows="2" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="Town / City / Landmark"></textarea>
+                    <textarea id="buyerAddress" rows="2" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-amber-600 focus:outline-none" placeholder="Town / City / Landmark"></textarea>
                 </div>
                 
-                <!-- Submit Button -->
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md text-sm cursor-pointer">
-                    <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Send Order via WhatsApp (To 7659928108 & 8464849742)
+                    <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Send Order via WhatsApp
                 </button>
             </form>
         </div>
@@ -176,24 +210,41 @@
             { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days Delivery", image: "images/105.png" },
             { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
             { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
-            { id: 108, name: "Bike Wheel Bearing 1pc ", category: "Spare Parts", badge: "1 Box = 24 Pcs" , mrp: 149.00, strikePrice: 99, dealerPrice: 69.00, moqText: "MOQ: 20 piece's", status: "available", delivery: "Instant / Ready Stock", image: "images/108.png" }
+            { id: 108, name: "Bike Wheel Bearings Set", category: "Spare Parts", badge: "Out of Stock", mrp: 299.00, strikePrice: 0, dealerPrice: 199.00, moqText: "MOQ: 5 Sets", status: "out_of_stock", delivery: "Unavailable", image: "images/108.png" }
         ];
 
-        function renderProducts(filter = '') {
+        let currentCategory = 'All';
+
+        function filterCategory(category, btnElement) {
+            currentCategory = category;
+            
+            // Highlight active tab style
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-600', 'text-white');
+                btn.classList.add('bg-white', 'text-stone-700');
+            });
+            btnElement.classList.remove('bg-white', 'text-stone-700');
+            btnElement.classList.add('bg-amber-600', 'text-white');
+
+            renderProducts(document.getElementById('searchInput').value);
+        }
+
+        function renderProducts(searchQuery = '') {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
 
-            const filtered = products.filter(p => 
-                p.name.toLowerCase().includes(filter.toLowerCase()) || 
-                p.category.toLowerCase().includes(filter.toLowerCase())
-            );
+            const filtered = products.filter(p => {
+                const matchesCategory = (currentCategory === 'All' || p.category === currentCategory);
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-stone-500">No products found matching your search.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-stone-500 font-medium">No products found matching your search.</div>';
                 return;
             }
 
-            filtered.forEach(p => {
+            filtered.forEach((p, index) => {
                 let actionBtn = '';
                 if (p.status === 'coming_soon') {
                     actionBtn = `<div class="w-full bg-stone-200 text-stone-600 font-bold py-2.5 rounded-xl text-center text-sm">Coming Soon</div>`;
@@ -205,8 +256,11 @@
                     </button>`;
                 }
 
+                // Stagger animation delay slightly per card
+                const delayStyle = `animation-delay: ${index * 0.05}s;`;
+
                 grid.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-md overflow-hidden border border-stone-200 transition-all duration-300 flex flex-col justify-between">
+                    <div class="product-card bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-200 flex flex-col justify-between animate-fade-in" style="${delayStyle}">
                         <div>
                             <div class="relative h-52 overflow-hidden bg-stone-100">
                                 <a href="${p.image}" target="_blank" title="Click to view full image">
@@ -277,6 +331,7 @@
             renderProducts(e.target.value);
         });
 
+        // Initial render
         renderProducts();
     </script>
 </body>
