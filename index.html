@@ -176,17 +176,19 @@
                 <p id="thankYouDealerName" class="text-amber-400 font-bold text-xs mt-1"></p>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-                We received your order and will call back shortly. For any assistance, please call: <br>
-                <strong class="text-amber-400">76599 28108</strong> or <strong class="text-amber-400">84648 49742</strong>
+                Order sent to email successfully! You can also send the order directly to our WhatsApp numbers below:
             </p>
-            <div class="space-y-2">
-                <button onclick="openWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp"></i> Also Send via WhatsApp (Optional)
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Send to 76599
                 </button>
-                <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all cursor-pointer border border-slate-700">
-                    Close Window
+                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Send to 84648
                 </button>
             </div>
+            <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all cursor-pointer border border-slate-700">
+                Close Window
+            </button>
         </div>
     </div>
 
@@ -407,16 +409,15 @@
             orderTextSummary += `Grand Total Estimated: ₹${grandTotal.toFixed(2)}\n`;
             orderTextSummary += `Location: ${address || 'Allagadda'}`;
 
-            // WhatsApp backup raw text format for the optional popup button
-            rawOrderTextMessage = encodeURIComponent(`*NEW B2B ORDER - GS BIKERS CLUB*%0A${orderTextSummary.replace(/\n/g, '%0A')}%0A%0A*DEALER DETAILS:*%0A• Business: ${name}%0A• Phone: ${phone}`);
+            rawOrderTextMessage = encodeURIComponent(`*NEW B2B ORDER - GS BIKERS CLUB*\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Business: ${name}\n• Phone: ${phone}`);
 
             const btn = document.getElementById('submitOrderBtn');
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
             btn.disabled = true;
 
             try {
-                // Send securely via background fetch to FormSubmit without page redirection
-                const response = await fetch("https://formsubmit.co/ajax/saceva", {
+                // Connected securely to gsbikersclub@gmail.com via FormSubmit AJAX
+                const response = await fetch("https://formsubmit.co/ajax/gsbikersclub@gmail.com", {
                     method: "POST",
                     headers: { 
                         'Content-Type': 'application/json',
@@ -448,11 +449,9 @@
             }
         }
 
-        function openWhatsAppOrder() {
-            const url1 = `https://wa.me/917659928108?text=${rawOrderTextMessage}`;
-            const url2 = `https://wa.me/918464849742?text=${rawOrderTextMessage}`;
-            window.open(url2, '_blank');
-            window.location.href = url1;
+        function openWhatsApp(phoneNumber) {
+            const url = `https://wa.me/91${phoneNumber}?text=${rawOrderTextMessage}`;
+            window.open(url, '_blank');
         }
 
         function closeThankYouModal() {
