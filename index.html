@@ -11,7 +11,6 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .pro-card { transition: all 0.3s ease; }
         .pro-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px -10px rgba(245, 158, 11, 0.2); }
-        /* Smooth Drawer Slide */
         #cartDrawer { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
@@ -174,17 +173,17 @@
         </div>
     </footer>
 
-    <!-- JavaScript Engine with Cart Logic -->
+    <!-- JavaScript Engine with Automatic MOQ Cart Logic -->
     <script>
         const products = [
-            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/101.png" },
-            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/102.png" },
-            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/103.png" },
-            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/104.png" },
-            { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days", image: "images/105.png" },
-            { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
-            { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
-            { id: 108, name: "Bike Wheel Bearings Set (1 Pc)", category: "Spare Parts", badge: "Ready Stock", mrp: 129.00, strikePrice: 89.00, dealerPrice: 69.00, moqText: "MOQ: 20 Pcs", status: "available", delivery: "Instant Dispatch", image: "images/108.png" }
+            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/101.png" },
+            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/102.png" },
+            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/103.png" },
+            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/104.png" },
+            { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, moqValue: 50, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days", image: "images/105.png" },
+            { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, moqValue: 1, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
+            { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, moqValue: 10, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
+            { id: 108, name: "Bike Wheel Bearings Set (1 Pc)", category: "Spare Parts", badge: "Ready Stock", mrp: 129.00, strikePrice: 89.00, dealerPrice: 69.00, moqValue: 20, moqText: "MOQ: 20 Pcs", status: "available", delivery: "Instant Dispatch", image: "images/108.png" }
         ];
 
         let currentCategory = 'All';
@@ -224,7 +223,7 @@
                     actionBtn = `<div class="w-full bg-rose-950/40 text-rose-400 border border-rose-900/50 font-bold py-2.5 rounded-lg text-center text-[11px] uppercase tracking-wider">Out of Stock</div>`;
                 } else {
                     actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-2.5 rounded-lg text-center transition-all shadow text-[11px] tracking-wider uppercase cursor-pointer flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                        <i class="fa-solid fa-cart-plus"></i> Add to Cart (${p.moqText})
                     </button>`;
                 }
 
@@ -282,9 +281,9 @@
 
             const existing = cart.find(item => item.id === productId);
             if (existing) {
-                existing.qty += 1;
+                existing.qty += product.moqValue; // Add by MOQ step chunk
             } else {
-                cart.push({ ...product, qty: 1 });
+                cart.push({ ...product, qty: product.moqValue }); // Initialize with exact MOQ amount
             }
 
             updateCartUI();
@@ -294,6 +293,7 @@
         function changeQty(productId, delta) {
             const item = cart.find(i => i.id === productId);
             if (!item) return;
+            
             item.qty += delta;
             if (item.qty <= 0) {
                 cart = cart.filter(i => i.id !== productId);
@@ -328,11 +328,11 @@
                         <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg bg-slate-900">
                         <div class="flex-grow">
                             <h5 class="font-bold text-white leading-tight">${item.name}</h5>
-                            <p class="text-amber-400 font-extrabold mt-0.5">₹${item.dealerPrice} x ${item.qty}</p>
+                            <p class="text-amber-400 font-extrabold mt-0.5">₹${item.dealerPrice} x ${item.qty} units</p>
                         </div>
                         <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg p-1">
                             <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">-</button>
-                            <span class="w-5 text-center font-bold text-white">${item.qty}</span>
+                            <span class="w-6 text-center font-bold text-white">${item.qty}</span>
                             <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">+</button>
                         </div>
                     </div>
@@ -357,7 +357,7 @@
             cart.forEach((item, index) => {
                 let itemTotal = item.dealerPrice * item.qty;
                 grandTotal += itemTotal;
-                message += `${index + 1}. *${item.name}*%0A   Qty: ${item.qty} | Subtotal: ₹${itemTotal}%0A`;
+                message += `${index + 1}. *${item.name}*%0A   Quantity: ${item.qty} Units | Subtotal: ₹${itemTotal}%0A`;
             });
 
             message += `%0A*Estimated Total:* ₹${grandTotal.toFixed(2)}%0A`;
