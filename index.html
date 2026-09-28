@@ -164,6 +164,25 @@
         </div>
     </div>
 
+    <!-- Dealer Thank You Popup Modal -->
+    <div id="thankYouModal" class="fixed inset-0 bg-slate-950/85 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-amber-500/40 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
+            <div class="w-16 h-16 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-black text-white">Order Submitted Successfully!</h3>
+                <p id="thankYouDealerName" class="text-amber-400 font-bold text-xs mt-1"></p>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                Thank you for your bulk order with <strong class="text-white">GS Bikers Club, Allagadda</strong>. WhatsApp is opening now to send your order sheet. We will confirm your stock availability and call you shortly!
+            </p>
+            <button onclick="closeThankYouModal()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow">
+                Continue / Open WhatsApp
+            </button>
+        </div>
+    </div>
+
     <!-- Compact Footer -->
     <footer class="bg-slate-900 text-slate-400 py-8 mt-12 border-t border-slate-800 text-xs">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
@@ -178,7 +197,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript Engine with Box-Multiplier & Clear Cart Logic -->
+    <!-- JavaScript Engine -->
     <script>
         const products = [
             { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/101.png" },
@@ -192,7 +211,8 @@
         ];
 
         let currentCategory = 'All';
-        let cart = []; // Stores selected items as box counts
+        let cart = [];
+        let pendingWhatsAppUrl = '';
 
         function filterCategory(category, btnElement) {
             currentCategory = category;
@@ -265,7 +285,6 @@
             });
         }
 
-        // Cart Management Functions
         function toggleCart() {
             const drawer = document.getElementById('cartDrawer');
             const overlay = document.getElementById('cartOverlay');
@@ -286,9 +305,9 @@
 
             const existing = cart.find(item => item.id === productId);
             if (existing) {
-                existing.boxes += 1; // Increase box multiplier by 1 (e.g. 1 box -> 2 boxes)
+                existing.boxes += 1;
             } else {
-                cart.push({ ...product, boxes: 1 }); // Start with 1 box/batch
+                cart.push({ ...product, boxes: 1 });
             }
 
             updateCartUI();
@@ -347,9 +366,9 @@
                             <p class="text-[10px] text-slate-400">Subtotal: ₹${itemSubtotal.toFixed(2)}</p>
                         </div>
                         <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg p-1">
-                            <button onclick="changeBoxes(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer" title="Decrease Box">-</button>
+                            <button onclick="changeBoxes(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">-</button>
                             <span class="w-6 text-center font-bold text-white">${item.boxes}</span>
-                            <button onclick="changeBoxes(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer" title="Increase Box">+</button>
+                            <button onclick="changeBoxes(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">+</button>
                         </div>
                     </div>
                 `;
@@ -386,10 +405,21 @@
             message += `*DEALER DETAILS:*%0A`;
             message += `• Business Name: ${name}%0A`;
             message += `• Phone Number: ${phone}%0A`;
-            message += `• Delivery Location: ${address || 'Allagadda'}%0A%0A`;
-            message += `_Thank you for ordering with GS Bikers Club, Allagadda! We will confirm your stock and dispatch details shortly._`;
+            message += `• Delivery Location: ${address || 'Allagadda'}%0A`;
 
-            window.location.href = `https://wa.me/917659928108?text=${message}`;
+            pendingWhatsAppUrl = `https://wa.me/917659928108?text=${message}`;
+
+            // Show dealer thank you modal
+            document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
+            document.getElementById('thankYouModal').classList.remove('hidden');
+            toggleCart(); // Close cart drawer
+        }
+
+        function closeThankYouModal() {
+            document.getElementById('thankYouModal').classList.add('hidden');
+            if (pendingWhatsAppUrl) {
+                window.location.href = pendingWhatsAppUrl;
+            }
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
