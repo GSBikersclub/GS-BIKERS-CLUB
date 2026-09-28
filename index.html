@@ -409,15 +409,15 @@
             orderTextSummary += `Grand Total Estimated: ₹${grandTotal.toFixed(2)}\n`;
             orderTextSummary += `Location: ${address || 'Allagadda'}`;
 
-            rawOrderTextMessage = encodeURIComponent(`*NEW B2B ORDER - GS BIKERS CLUB*\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Business: ${name}\n• Phone: ${phone}`);
+            rawOrderTextMessage = `*NEW B2B ORDER - GS BIKERS CLUB*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Business: ${name}\n• Phone: ${phone}`;
 
             const btn = document.getElementById('submitOrderBtn');
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
             btn.disabled = true;
 
             try {
-                // Connected securely to gsbikersclub@gmail.com via FormSubmit AJAX
-                const response = await fetch("https://formsubmit.co/ajax/gsbikersclub@gmail.com", {
+                // Connected using your verified FormSubmit secure endpoint token
+                const response = await fetch("https://formsubmit.co/ajax/el/saceva", {
                     method: "POST",
                     headers: { 
                         'Content-Type': 'application/json',
@@ -450,7 +450,7 @@
         }
 
         function openWhatsApp(phoneNumber) {
-            const url = `https://wa.me/91${phoneNumber}?text=${rawOrderTextMessage}`;
+            const url = `https://wa.me/91${phoneNumber}?text=${encodeURIComponent(rawOrderTextMessage)}`;
             window.open(url, '_blank');
         }
 
