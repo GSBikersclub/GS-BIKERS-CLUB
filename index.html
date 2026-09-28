@@ -124,9 +124,14 @@
                 <i class="fa-solid fa-cart-shopping text-base"></i>
                 <h3 class="text-base font-bold text-white tracking-tight">Your Dealer Cart</h3>
             </div>
-            <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center">
-                <i class="fa-solid fa-xmark text-xs"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button onclick="clearCart()" class="text-xs text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-900/50 px-2.5 py-1 rounded-lg font-bold cursor-pointer transition-all" title="Empty Cart">
+                    <i class="fa-solid fa-trash-can mr-1"></i> Clear
+                </button>
+                <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Cart Items List -->
@@ -153,7 +158,7 @@
                 </div>
                 
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Send Complete Order to WhatsApp
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Send Order to WhatsApp
                 </button>
             </form>
         </div>
@@ -173,21 +178,21 @@
         </div>
     </footer>
 
-    <!-- JavaScript Engine with Automatic MOQ Cart Logic -->
+    <!-- JavaScript Engine with Box-Multiplier & Clear Cart Logic -->
     <script>
         const products = [
-            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/101.png" },
-            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/102.png" },
-            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/103.png" },
-            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqValue: 24, moqText: "MOQ: 24 Pcs", status: "available", delivery: "Instant Ready", image: "images/104.png" },
-            { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, moqValue: 50, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days", image: "images/105.png" },
-            { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, moqValue: 1, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
-            { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, moqValue: 10, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
-            { id: 108, name: "Bike Wheel Bearings Set (1 Pc)", category: "Spare Parts", badge: "Ready Stock", mrp: 129.00, strikePrice: 89.00, dealerPrice: 69.00, moqValue: 20, moqText: "MOQ: 20 Pcs", status: "available", delivery: "Instant Dispatch", image: "images/108.png" }
+            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/101.png" },
+            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/102.png" },
+            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/103.png" },
+            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/104.png" },
+            { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, boxSize: 50, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days", image: "images/105.png" },
+            { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, boxSize: 1, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
+            { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, boxSize: 10, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
+            { id: 108, name: "Bike Wheel Bearings Set (1 Pc)", category: "Spare Parts", badge: "Ready Stock", mrp: 129.00, strikePrice: 89.00, dealerPrice: 69.00, boxSize: 20, moqText: "MOQ: 20 Pcs", status: "available", delivery: "Instant Dispatch", image: "images/108.png" }
         ];
 
         let currentCategory = 'All';
-        let cart = []; // Stores selected items
+        let cart = []; // Stores selected items as box counts
 
         function filterCategory(category, btnElement) {
             currentCategory = category;
@@ -281,24 +286,32 @@
 
             const existing = cart.find(item => item.id === productId);
             if (existing) {
-                existing.qty += product.moqValue; // Add by MOQ step chunk
+                existing.boxes += 1; // Increase box multiplier by 1 (e.g. 1 box -> 2 boxes)
             } else {
-                cart.push({ ...product, qty: product.moqValue }); // Initialize with exact MOQ amount
+                cart.push({ ...product, boxes: 1 }); // Start with 1 box/batch
             }
 
             updateCartUI();
-            toggleCart(); // Open cart automatically to show item added
+            toggleCart();
         }
 
-        function changeQty(productId, delta) {
+        function changeBoxes(productId, delta) {
             const item = cart.find(i => i.id === productId);
             if (!item) return;
             
-            item.qty += delta;
-            if (item.qty <= 0) {
+            item.boxes += delta;
+            if (item.boxes <= 0) {
                 cart = cart.filter(i => i.id !== productId);
             }
             updateCartUI();
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            if (confirm("Are you sure you want to clear your cart?")) {
+                cart = [];
+                updateCartUI();
+            }
         }
 
         function updateCartUI() {
@@ -307,7 +320,7 @@
             const totalPriceEl = document.getElementById('cartTotalPrice');
 
             container.innerHTML = '';
-            let totalCount = 0;
+            let totalUniqueItems = 0;
             let totalPrice = 0;
 
             if (cart.length === 0) {
@@ -320,26 +333,29 @@
             badge.classList.remove('hidden');
 
             cart.forEach(item => {
-                totalCount += item.qty;
-                totalPrice += item.dealerPrice * item.qty;
+                totalUniqueItems += 1;
+                const totalUnits = item.boxes * item.boxSize;
+                const itemSubtotal = item.dealerPrice * totalUnits;
+                totalPrice += itemSubtotal;
 
                 container.innerHTML += `
                     <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between gap-3 text-xs">
                         <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg bg-slate-900">
                         <div class="flex-grow">
                             <h5 class="font-bold text-white leading-tight">${item.name}</h5>
-                            <p class="text-amber-400 font-extrabold mt-0.5">₹${item.dealerPrice} x ${item.qty} units</p>
+                            <p class="text-amber-400 font-extrabold mt-0.5">${item.boxes} Box(es) <span class="text-slate-400 font-normal">(${totalUnits} Pcs)</span></p>
+                            <p class="text-[10px] text-slate-400">Subtotal: ₹${itemSubtotal.toFixed(2)}</p>
                         </div>
                         <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg p-1">
-                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">-</button>
-                            <span class="w-6 text-center font-bold text-white">${item.qty}</span>
-                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">+</button>
+                            <button onclick="changeBoxes(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer" title="Decrease Box">-</button>
+                            <span class="w-6 text-center font-bold text-white">${item.boxes}</span>
+                            <button onclick="changeBoxes(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer" title="Increase Box">+</button>
                         </div>
                     </div>
                 `;
             });
 
-            badge.innerText = totalCount;
+            badge.innerText = totalUniqueItems;
             totalPriceEl.innerText = '₹' + totalPrice.toFixed(2);
         }
 
@@ -351,19 +367,27 @@
             const phone = document.getElementById('cartBuyerPhone').value;
             const address = document.getElementById('cartBuyerAddress').value;
 
-            let message = `*MULTI-ITEM B2B ORDER - GS BIKERS CLUB*%0A%0A`;
+            let message = `*NEW B2B BULK ORDER - GS BIKERS CLUB*%0A`;
+            message += `-----------------------------------%0A`;
+            
             let grandTotal = 0;
 
             cart.forEach((item, index) => {
-                let itemTotal = item.dealerPrice * item.qty;
+                let totalUnits = item.boxes * item.boxSize;
+                let itemTotal = item.dealerPrice * totalUnits;
                 grandTotal += itemTotal;
-                message += `${index + 1}. *${item.name}*%0A   Quantity: ${item.qty} Units | Subtotal: ₹${itemTotal}%0A`;
+                message += `${index + 1}. *${item.name}*%0A`;
+                message += `   Quantity: ${item.boxes} Box(es) [${totalUnits} Pcs]%0A`;
+                message += `   Amount: ₹${itemTotal.toFixed(2)}%0A`;
             });
 
-            message += `%0A*Estimated Total:* ₹${grandTotal.toFixed(2)}%0A`;
-            message += `*Dealer/Shop Name:* ${name}%0A`;
-            message += `*Phone Number:* ${phone}%0A`;
-            message += `*Location:* ${address || 'Allagadda'}`;
+            message += `-----------------------------------%0A`;
+            message += `*Grand Total Estimated:* ₹${grandTotal.toFixed(2)}%0A%0A`;
+            message += `*DEALER DETAILS:*%0A`;
+            message += `• Business Name: ${name}%0A`;
+            message += `• Phone Number: ${phone}%0A`;
+            message += `• Delivery Location: ${address || 'Allagadda'}%0A%0A`;
+            message += `_Thank you for ordering with GS Bikers Club, Allagadda! We will confirm your stock and dispatch details shortly._`;
 
             window.location.href = `https://wa.me/917659928108?text=${message}`;
         }
