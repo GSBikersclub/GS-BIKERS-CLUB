@@ -22,7 +22,7 @@
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
         </span>
-        <span class="uppercase">Dassara Bulk Dealer Bookings Open! | దసరా బల్క్ ఆర్డర్లు ప్రారంభమైనవి!</span>
+        <span class="uppercase">Dassara Dealer Bookings Open! | దసరా ఆర్డర్లు ప్రారంభమైనవి!</span>
     </div>
 
     <!-- Compact Navigation Header with Cart Button -->
@@ -175,10 +175,11 @@
                 <p id="thankYouDealerName" class="text-amber-400 font-bold text-xs mt-1"></p>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-                Thank you for your bulk order with <strong class="text-white">GS Bikers Club, Allagadda</strong>. WhatsApp is opening now to send your order sheet. We will confirm your stock availability and call you shortly!
+                We received your order and will call back shortly. For any assistance, please call: <br>
+                <strong class="text-amber-400">76599 28108</strong> or <strong class="text-amber-400">84648 49742</strong>
             </p>
             <button onclick="closeThankYouModal()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow">
-                Continue / Open WhatsApp
+                Done / Open WhatsApp
             </button>
         </div>
     </div>
@@ -212,7 +213,7 @@
 
         let currentCategory = 'All';
         let cart = [];
-        let pendingWhatsAppUrl = '';
+        let rawOrderTextMessage = '';
 
         function filterCategory(category, btnElement) {
             currentCategory = category;
@@ -386,7 +387,7 @@
             const phone = document.getElementById('cartBuyerPhone').value;
             const address = document.getElementById('cartBuyerAddress').value;
 
-            let message = `*NEW B2B BULK ORDER - GS BIKERS CLUB*%0A`;
+            let message = `*NEW B2B ORDER - GS BIKERS CLUB*%0A`;
             message += `-----------------------------------%0A`;
             
             let grandTotal = 0;
@@ -407,7 +408,7 @@
             message += `• Phone Number: ${phone}%0A`;
             message += `• Delivery Location: ${address || 'Allagadda'}%0A`;
 
-            pendingWhatsAppUrl = `https://wa.me/917659928108?text=${message}`;
+            rawOrderTextMessage = message;
 
             // Show dealer thank you modal
             document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
@@ -417,9 +418,16 @@
 
         function closeThankYouModal() {
             document.getElementById('thankYouModal').classList.add('hidden');
-            if (pendingWhatsAppUrl) {
-                window.location.href = pendingWhatsAppUrl;
-            }
+            
+            // Dispatch to Number 1 (7659928108)
+            const url1 = `https://wa.me/917659928108?text=${rawOrderTextMessage}`;
+            
+            // Dispatch to Number 2 (8464849742) via secondary window/tab
+            const url2 = `https://wa.me/918464849742?text=${rawOrderTextMessage}`;
+
+            // Open both simultaneously
+            window.open(url2, '_blank');
+            window.location.href = url1;
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
