@@ -146,19 +146,26 @@
                 <span id="cartTotalPrice" class="text-amber-400 text-base font-black">₹0.00</span>
             </div>
 
-            <form id="checkoutForm" onsubmit="submitCartOrder(event)" class="space-y-2.5">
+            <!-- FormSubmit Endpoint Connected Here -->
+            <form id="checkoutForm" action="https://formsubmit.co/el/saceva" method="POST" onsubmit="prepareFormSubmit(event)" class="space-y-2.5">
+                <input type="hidden" name="_subject" value="New B2B Order - GS Bikers Club!">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+
                 <div>
-                    <input type="text" id="cartBuyerName" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Business / Shop Name *">
+                    <input type="text" id="cartBuyerName" name="Shop_Name" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Business / Shop Name *">
                 </div>
                 <div>
-                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-Digit Mobile Number *">
+                    <input type="tel" id="cartBuyerPhone" name="Phone_Number" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-Digit Mobile Number *">
                 </div>
                 <div>
-                    <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
+                    <input type="text" id="cartBuyerAddress" name="Delivery_Location" class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
                 </div>
                 
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Send Order to WhatsApp
+                <input type="hidden" id="hiddenOrderData" name="Order_Items_Summary">
+
+                <button type="submit" id="submitOrderBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane text-sm"></i> Submit Order Now
                 </button>
             </form>
         </div>
@@ -178,9 +185,14 @@
                 We received your order and will call back shortly. For any assistance, please call: <br>
                 <strong class="text-amber-400">76599 28108</strong> or <strong class="text-amber-400">84648 49742</strong>
             </p>
-            <button onclick="closeThankYouModal()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow">
-                Continue / Open WhatsApp
-            </button>
+            <div class="space-y-2">
+                <button onclick="openWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp"></i> Also Send via WhatsApp (Optional)
+                </button>
+                <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all cursor-pointer border border-slate-700">
+                    Close Window
+                </button>
+            </div>
         </div>
     </div>
 
@@ -379,55 +391,55 @@
             totalPriceEl.innerText = '₹' + totalPrice.toFixed(2);
         }
 
-        function submitCartOrder(e) {
-            e.preventDefault();
-            if (cart.length === 0) return;
+        function prepareFormSubmit(e) {
+            if (cart.length === 0) {
+                e.preventDefault();
+                return;
+            }
 
             const name = document.getElementById('cartBuyerName').value;
             const phone = document.getElementById('cartBuyerPhone').value;
             const address = document.getElementById('cartBuyerAddress').value;
 
-            let message = `*NEW B2B ORDER - GS BIKERS CLUB*%0A`;
-            message += `-----------------------------------%0A`;
-            
+            let orderTextSummary = `--- ORDER ITEMS ---\n`;
             let grandTotal = 0;
 
             cart.forEach((item, index) => {
                 let totalUnits = item.boxes * item.boxSize;
                 let itemTotal = item.dealerPrice * totalUnits;
                 grandTotal += itemTotal;
-                message += `${index + 1}. *${item.name}*%0A`;
-                message += `   Quantity: ${item.boxes} Box(es) [${totalUnits} Pcs]%0A`;
-                message += `   Amount: ₹${itemTotal.toFixed(2)}%0A`;
+                orderTextSummary += `${index + 1}. ${item.name} | Qty: ${item.boxes} Box(es) [${totalUnits} Pcs] | Amount: ₹${itemTotal.toFixed(2)}\n`;
             });
 
-            message += `-----------------------------------%0A`;
-            message += `*Grand Total Estimated:* ₹${grandTotal.toFixed(2)}%0A%0A`;
-            message += `*DEALER DETAILS:*%0A`;
-            message += `• Business Name: ${name}%0A`;
-            message += `• Phone Number: ${phone}%0A`;
-            message += `• Delivery Location: ${address || 'Allagadda'}%0A`;
+            orderTextSummary += `-----------------------------------\n`;
+            orderTextSummary += `Grand Total Estimated: ₹${grandTotal.toFixed(2)}\n`;
+            orderTextSummary += `Location: ${address || 'Allagadda'}`;
 
-            rawOrderTextMessage = message;
+            // Packages the order list into the hidden field sent to FormSubmit
+            document.getElementById('hiddenOrderData').value = orderTextSummary;
 
-            // Show dealer thank you modal
-            document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
-            document.getElementById('thankYouModal').classList.remove('hidden');
-            toggleCart(); // Close cart drawer
+            // WhatsApp backup raw text format for the popup button
+            rawOrderTextMessage = encodeURIComponent(`*NEW B2B ORDER - GS BIKERS CLUB*%0A${orderTextSummary.replace(/\n/g, '%0A')}%0A%0A*DEALER DETAILS:*%0A• Business: ${name}%0A• Phone: ${phone}`);
+
+            // Open thank you modal smoothly after trigger
+            setTimeout(() => {
+                document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
+                document.getElementById('thankYouModal').classList.remove('hidden');
+                toggleCart();
+                cart = [];
+                updateCartUI();
+            }, 500);
+        }
+
+        function openWhatsAppOrder() {
+            const url1 = `https://wa.me/917659928108?text=${rawOrderTextMessage}`;
+            const url2 = `https://wa.me/918464849742?text=${rawOrderTextMessage}`;
+            window.open(url2, '_blank');
+            window.location.href = url1;
         }
 
         function closeThankYouModal() {
             document.getElementById('thankYouModal').classList.add('hidden');
-            
-            // Dispatch to Number 1 (7659928108)
-            const url1 = `https://wa.me/917659928108?text=${rawOrderTextMessage}`;
-            
-            // Dispatch to Number 2 (8464849742) via secondary window/tab
-            const url2 = `https://wa.me/918464849742?text=${rawOrderTextMessage}`;
-
-            // Open both simultaneously
-            window.open(url2, '_blank');
-            window.location.href = url1;
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
