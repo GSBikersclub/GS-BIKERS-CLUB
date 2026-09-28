@@ -11,6 +11,8 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .pro-card { transition: all 0.3s ease; }
         .pro-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px -10px rgba(245, 158, 11, 0.2); }
+        /* Smooth Drawer Slide */
+        #cartDrawer { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
@@ -24,8 +26,8 @@
         <span class="uppercase">Dassara Bulk Dealer Bookings Open! | దసరా బల్క్ ఆర్డర్లు ప్రారంభమైనవి!</span>
     </div>
 
-    <!-- Compact Navigation Header -->
-    <header class="bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
+    <!-- Compact Navigation Header with Cart Button -->
+    <header class="bg-slate-900/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
                 <div class="bg-amber-500 text-slate-950 p-2 rounded-xl font-black text-lg shadow-md shadow-amber-500/20">
@@ -40,10 +42,17 @@
             </div>
             
             <div class="flex items-center space-x-3">
-                <a href="tel:7659928108" class="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-2 rounded-xl text-xs transition-all shadow">
-                    <i class="fa-solid fa-phone-volume text-xs"></i>
-                    <span class="hidden sm:inline">76599 28108</span>
+                <a href="tel:7659928108" class="hidden sm:flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-2 rounded-xl text-xs transition-all border border-slate-700">
+                    <i class="fa-solid fa-phone-volume text-amber-500 text-xs"></i>
+                    <span>76599 28108</span>
                 </a>
+                
+                <!-- Cart Toggle Button -->
+                <button onclick="toggleCart()" class="relative bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs transition-all shadow flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="hidden sm:inline">Cart</span>
+                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-rose-600 text-white text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-md hidden">0</span>
+                </button>
             </div>
         </div>
     </header>
@@ -57,7 +66,7 @@
                         <i class="fa-solid fa-shield-halved"></i> Authorized Wholesale Supplier
                     </div>
                     <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                        Helmets, Spares & Accessories wholesale Rates
+                        Helmets, Spares & Accessories Direct Rates
                     </h2>
                 </div>
                 <!-- Compact Dealer Notice Box -->
@@ -107,50 +116,45 @@
         </div>
     </main>
 
-    <!-- Interactive Order Modal -->
-    <div id="orderModal" class="fixed inset-0 bg-slate-950/80 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center">
+    <!-- Slide-Over Shopping Cart Drawer -->
+    <div id="cartOverlay" class="fixed inset-0 bg-slate-950/80 z-50 hidden backdrop-blur-sm transition-opacity"></div>
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-slate-900 border-l border-slate-800 shadow-2xl z-50 transform translate-x-full flex flex-col">
+        <!-- Cart Header -->
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+            <div class="flex items-center gap-2 text-amber-500">
+                <i class="fa-solid fa-cart-shopping text-base"></i>
+                <h3 class="text-base font-bold text-white tracking-tight">Your Dealer Cart</h3>
+            </div>
+            <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center">
                 <i class="fa-solid fa-xmark text-xs"></i>
             </button>
-            <div class="flex items-center gap-2 text-amber-500 mb-1">
-                <i class="fa-solid fa-clipboard-check text-base"></i>
-                <h3 class="text-base font-bold text-white tracking-tight">Dealer Order Request</h3>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsContainer" class="p-4 flex-grow overflow-y-auto space-y-3">
+            <!-- Populated via JS -->
+        </div>
+
+        <!-- Cart Footer & Checkout Form -->
+        <div class="p-4 border-t border-slate-800 bg-slate-950 space-y-3">
+            <div class="flex justify-between items-center text-sm font-bold text-slate-200">
+                <span>Estimated Total:</span>
+                <span id="cartTotalPrice" class="text-amber-400 text-base font-black">₹0.00</span>
             </div>
-            <p id="modalProductTitle" class="text-[11px] text-slate-400 font-medium mb-4"></p>
-            
-            <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-3">
-                <input type="hidden" id="modalProductId">
-                
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-300 mb-1 uppercase tracking-wider">Business / Name *</label>
-                    <input type="text" id="buyerName" required class="w-full px-3 py-2.5 border border-slate-800 bg-slate-950 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Shop or owner name">
-                </div>
-                
-                <div>
-                    <label class="block text-[10px] font-bold text-slate-300 mb-1 uppercase tracking-wider">Mobile Number *</label>
-                    <input type="tel" id="buyerPhone" required class="w-full px-3 py-2.5 border border-slate-800 bg-slate-950 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-digit number">
-                </div>
 
+            <form id="checkoutForm" onsubmit="submitCartOrder(event)" class="space-y-2.5">
                 <div>
-                    <label for="buyerQty" class="block text-[10px] font-bold text-slate-300 mb-1 uppercase tracking-wider">Required Quantity *</label>
-                    <select id="buyerQty" name="buyerQty" required class="w-full px-3 py-2.5 border border-slate-800 bg-slate-950 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100">
-                        <option value="1 Unit">1 Unit / Box</option>
-                        <option value="2 Units">2 Units / Boxes</option>
-                        <option value="3 Units">3 Units / Boxes</option>
-                        <option value="5 Units">5 Units / Boxes</option>
-                        <option value="10 Units">10 Units / Boxes</option>
-                        <option value="25 Units">25 Units / Boxes</option>
-                    </select>
+                    <input type="text" id="cartBuyerName" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Business / Shop Name *">
                 </div>
-
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-300 mb-1 uppercase tracking-wider">Town / Landmark (Optional)</label>
-                    <input type="text" id="buyerAddress" class="w-full px-3 py-2.5 border border-slate-800 bg-slate-950 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Your town">
+                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-Digit Mobile Number *">
+                </div>
+                <div>
+                    <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
                 </div>
                 
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2 mt-1">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Send Order via WhatsApp
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Send Complete Order to WhatsApp
                 </button>
             </form>
         </div>
@@ -170,7 +174,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript Engine -->
+    <!-- JavaScript Engine with Cart Logic -->
     <script>
         const products = [
             { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/101.png" },
@@ -184,17 +188,16 @@
         ];
 
         let currentCategory = 'All';
+        let cart = []; // Stores selected items
 
         function filterCategory(category, btnElement) {
             currentCategory = category;
-            
             document.querySelectorAll('.category-btn').forEach(btn => {
                 btn.classList.remove('bg-amber-500', 'text-slate-950', 'shadow');
                 btn.classList.add('bg-slate-900', 'text-slate-300');
             });
             btnElement.classList.remove('bg-slate-900', 'text-slate-300');
             btnElement.classList.add('bg-amber-500', 'text-slate-950', 'shadow');
-
             renderProducts(document.getElementById('searchInput').value);
         }
 
@@ -220,8 +223,8 @@
                 } else if (p.status === 'out_of_stock') {
                     actionBtn = `<div class="w-full bg-rose-950/40 text-rose-400 border border-rose-900/50 font-bold py-2.5 rounded-lg text-center text-[11px] uppercase tracking-wider">Out of Stock</div>`;
                 } else {
-                    actionBtn = `<button onclick="openModal(${p.id})" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-2.5 rounded-lg text-center transition-all shadow text-[11px] tracking-wider uppercase cursor-pointer flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-cart-shopping"></i> Book Now
+                    actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-2.5 rounded-lg text-center transition-all shadow text-[11px] tracking-wider uppercase cursor-pointer flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-cart-plus"></i> Add to Cart
                     </button>`;
                 }
 
@@ -258,35 +261,109 @@
             });
         }
 
-        function openModal(productId) {
+        // Cart Management Functions
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            const isOpen = drawer.classList.contains('translate-x-full');
+
+            if (isOpen) {
+                drawer.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
 
-            document.getElementById('modalProductId').value = product.id;
-            document.getElementById('modalProductTitle').innerText = product.name + ' (' + product.moqText + ')';
-            document.getElementById('buyerQty').selectedIndex = 0;
-            document.getElementById('orderModal').classList.remove('hidden');
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            toggleCart(); // Open cart automatically to show item added
         }
 
-        function closeModal() {
-            document.getElementById('orderModal').classList.add('hidden');
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartUI();
         }
 
-        function submitOrder(e) {
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const badge = document.getElementById('cartBadge');
+            const totalPriceEl = document.getElementById('cartTotalPrice');
+
+            container.innerHTML = '';
+            let totalCount = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-slate-500 text-xs">Your cart is empty. Add products to build an order.</div>';
+                badge.classList.add('hidden');
+                totalPriceEl.innerText = '₹0.00';
+                return;
+            }
+
+            badge.classList.remove('hidden');
+
+            cart.forEach(item => {
+                totalCount += item.qty;
+                totalPrice += item.dealerPrice * item.qty;
+
+                container.innerHTML += `
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between gap-3 text-xs">
+                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg bg-slate-900">
+                        <div class="flex-grow">
+                            <h5 class="font-bold text-white leading-tight">${item.name}</h5>
+                            <p class="text-amber-400 font-extrabold mt-0.5">₹${item.dealerPrice} x ${item.qty}</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg p-1">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">-</button>
+                            <span class="w-5 text-center font-bold text-white">${item.qty}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold flex items-center justify-center cursor-pointer">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            badge.innerText = totalCount;
+            totalPriceEl.innerText = '₹' + totalPrice.toFixed(2);
+        }
+
+        function submitCartOrder(e) {
             e.preventDefault();
-            const productId = document.getElementById('modalProductId').value;
-            const product = products.find(p => p.id == productId);
-            const name = document.getElementById('buyerName').value;
-            const phone = document.getElementById('buyerPhone').value;
-            const address = document.getElementById('buyerAddress').value;
-            const qty = document.getElementById('buyerQty').value;
+            if (cart.length === 0) return;
 
-            const message = `*NEW B2B ORDER - GS BIKERS CLUB*%0A%0A` +
-                            `*Product:* ${product.name}%0A` +
-                            `*Selected Qty:* ${qty}%0A` + 
-                            `*Dealer/Shop Name:* ${name}%0A` +
-                            `*Phone Number:* ${phone}%0A` +
-                            `*Location:* ${address || 'Allagadda'}`;
+            const name = document.getElementById('cartBuyerName').value;
+            const phone = document.getElementById('cartBuyerPhone').value;
+            const address = document.getElementById('cartBuyerAddress').value;
+
+            let message = `*MULTI-ITEM B2B ORDER - GS BIKERS CLUB*%0A%0A`;
+            let grandTotal = 0;
+
+            cart.forEach((item, index) => {
+                let itemTotal = item.dealerPrice * item.qty;
+                grandTotal += itemTotal;
+                message += `${index + 1}. *${item.name}*%0A   Qty: ${item.qty} | Subtotal: ₹${itemTotal}%0A`;
+            });
+
+            message += `%0A*Estimated Total:* ₹${grandTotal.toFixed(2)}%0A`;
+            message += `*Dealer/Shop Name:* ${name}%0A`;
+            message += `*Phone Number:* ${phone}%0A`;
+            message += `*Location:* ${address || 'Allagadda'}`;
 
             window.location.href = `https://wa.me/917659928108?text=${message}`;
         }
