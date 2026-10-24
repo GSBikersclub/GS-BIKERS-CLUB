@@ -46,7 +46,7 @@
             <div>
                 <h3 class="text-xl font-extrabold text-slate-900">డీలర్ హోల్‌సేల్ కేటలాగ్ ఓపెన్ చేయండి</h3>
                 <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                    Enter your shop name & mobile number to unlock live wholesale prices, margins & place orders. (మీ షాప్ వివరాలు నమోదు చేయండి)
+                    తక్కువ మార్జిన్లతో విసిగిపోయారా? మీ షాప్ పేరు మరియు మొబైల్ నంబర్ నమోదు చేసి మా డైరెక్ట్ హోల్‌సేల్ ధరలు చూడండి!
                 </p>
             </div>
             <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
@@ -65,7 +65,7 @@
         <!-- Top Ticker Bar -->
         <div class="bg-[#2874f0] text-white text-[11px] sm:text-xs font-bold py-2 px-4 text-center tracking-wide shadow-sm flex items-center justify-center gap-2">
             <i class="fa-solid fa-bullhorn text-amber-300"></i>
-            <span>GS Traders Allagadda • 38% - 40% Dealer Margins • Coupon <code class="bg-blue-800 text-amber-300 px-1.5 py-0.5 rounded">GST5K</code> for Extra 1% Off!</span>
+            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? GS Traders తో ప్రతి పార్ట్ మీద భారీ లాభం పొందండి! • Code <code class="bg-blue-800 text-amber-300 px-1.5 py-0.5 rounded">GST5K</code> (-1% Off)</span>
         </div>
 
         <!-- Navigation Header -->
@@ -95,13 +95,13 @@
             </div>
         </header>
 
-        <!-- Promotional Banner -->
+        <!-- Promotional Banner with Quote -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
             <div class="bg-gradient-to-r from-slate-900 to-blue-950 text-white rounded-2xl p-5 sm:p-6 shadow-md flex flex-col sm:flex-row justify-between items-center gap-4 border border-slate-800">
                 <div class="space-y-1.5 text-center sm:text-left">
-                    <span class="bg-[#ff9f00] text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Special B2B Offer</span>
-                    <h2 class="text-base sm:text-xl font-extrabold">భారీ మార్జిన్లతో హెల్మెట్లు మరియు స్పేర్ పార్ట్స్</h2>
-                    <p class="text-xs text-slate-300">బ్రేక్ ప్యాడ్‌లు, చైన్ స్ప్రొకెట్లు, క్లచ్ ప్లేట్లు & హెల్మెట్లు హోల్‌సేల్ ధరలలో.</p>
+                    <span class="bg-[#ff9f00] text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Direct Manufacturer Hub</span>
+                    <h2 class="text-base sm:text-xl font-extrabold">తక్కువ మార్జిన్లతో విసిగిపోయారా? ఇప్పుడే GS Traders తో వ్యాపారం చేయండి!</h2>
+                    <p class="text-xs text-slate-300">"Tired of low margins? Get maximum retailer profits & direct wholesale rates in Allagadda."</p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
                     <div class="bg-white/10 border border-white/20 p-3 rounded-xl text-center flex-1 sm:flex-none">
@@ -154,7 +154,7 @@
                 <button onclick="applyVehicleFilter('Scooter', this)" class="vehicle-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Scooters (స్కూటర్లు - Activa/Dio)</button>
             </div>
 
-            <!-- Spare Part Name Filter Bar (No Brands) -->
+            <!-- Spare Part Name Filter Bar -->
             <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
                 <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Part Type (పార్ట్ పేరు):</span>
                 <button onclick="applyPartFilter('All', this)" class="part-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All Parts</button>
@@ -179,6 +179,7 @@
                 <div>
                     <p class="text-white font-bold text-sm">GS TRADERS (జీఎస్ ట్రేడర్స్), Allagadda</p>
                     <p class="text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP - 518543</p>
+                    <p class="text-[10px] text-amber-400 mt-1 italic">"తక్కువ మార్జిన్లతో విసిగిపోయారా? మీ షాప్ లాభాలను పెంచుకోండి!"</p>
                 </div>
                 <div class="flex gap-4 text-amber-300 font-bold">
                     <span><i class="fa-solid fa-phone mr-1"></i> 76599 28108</span>
@@ -212,11 +213,11 @@
         <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
             <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-xs space-y-1">
                 <div class="flex justify-between text-slate-600">
-                    <span>Total MRP Value (మార్కెట్ విలువ):</span>
+                    <span>Total MRP Value (మొత్తం MRP విలువ):</span>
                     <span id="cartMrpValue" class="font-bold">₹0.00</span>
                 </div>
                 <div class="flex justify-between text-emerald-700 font-extrabold">
-                    <span>Estimated Retail Profit (మీ లాభం):</span>
+                    <span>Estimated Retail Profit (మీ మొత్తం లాభం / ఆదా):</span>
                     <span id="cartTotalProfit">₹0.00</span>
                 </div>
             </div>
@@ -359,7 +360,6 @@
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
                                 const compatibility = p.compatibility || '';
                                 
-                                // Auto detect vehicle type based on compatibility text or category
                                 let vehicleType = 'Motorcycle';
                                 const lowerCompat = compatibility.toLowerCase();
                                 if (lowerCompat.includes('activa') || lowerCompat.includes('dio') || lowerCompat.includes('scooter') || lowerCompat.includes('jupiter')) {
@@ -676,7 +676,7 @@
 
             const discountAmount = (subtotal * activeDiscountPercent) / 100;
             const finalPayable = subtotal - discountAmount;
-            const totalEstimatedProfit = totalMrpVal - finalPayable;
+            const totalEstimatedProfit = (totalMrpVal - finalPayable);
 
             badge.innerText = totalUniqueItems;
             cartMrpValueEl.innerText = '₹' + totalMrpVal.toFixed(2);
@@ -685,7 +685,8 @@
             mobileSummaryEl.innerText = `${totalUniqueItems} Item(s) • ₹${finalPayable.toFixed(2)}`;
         }
 
-        function generateOrderPDF(name, phone, address, cartItems, finalPayable, totalMrpVal, totalProfit, couponStr) {
+        // Professional Clean PDF Invoice with Separate Discount & Savings Summary
+        function generateOrderPDF(name, phone, address, cartItems, finalPayable, totalMrpVal, totalProfit, couponStr, discountAmount) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
@@ -695,17 +696,17 @@
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(20);
             doc.setFont("helvetica", "bold");
-            doc.text("GS TRADERS (జీఎస్ ట్రేడర్స్)", 14, 18);
+            doc.text("GS TRADERS (Allagadda)", 14, 18);
 
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
-            doc.text("Wholesale Helmets & Spares - Allagadda (Koilakuntla Road)", 14, 26);
+            doc.text("Wholesale Helmets & Spares - Koilakuntla Road, Near Bypass", 14, 26);
             doc.text("Phone: 76599 28108 / 84648 49742", 14, 33);
 
             doc.setTextColor(15, 23, 42);
             doc.setFontSize(13);
             doc.setFont("helvetica", "bold");
-            doc.text("B2B PURCHASE ORDER & PROFIT ESTIMATE", 14, 52);
+            doc.text("B2B PURCHASE ORDER & DEALER SAVINGS ESTIMATE", 14, 52);
 
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
@@ -723,45 +724,49 @@
 
             const tableData = cartItems.map((item, index) => {
                 let totalUnits = item.boxes * item.boxSize;
-                let itemSubtotal = item.dealerPrice * totalUnits;
                 let itemMrpTotal = item.mrp * totalUnits;
-                let itemProfit = itemMrpTotal - itemSubtotal;
+                let itemDealerTotal = item.dealerPrice * totalUnits;
+                let itemProfit = itemMrpTotal - itemDealerTotal;
                 return [
                     index + 1,
                     item.name + (item.compatibility ? `\n(Fits: ${item.compatibility})` : ''),
                     `${item.boxes} Box (${totalUnits} Pcs)`,
-                    `₹${item.dealerPrice.toFixed(2)}`,
-                    `₹${itemSubtotal.toFixed(2)}`,
-                    `₹${itemProfit.toFixed(2)} (${item.marginPct}%)`
+                    `Rs. ${item.mrp.toFixed(2)}`,
+                    `Rs. ${item.dealerPrice.toFixed(2)}`,
+                    `Rs. ${itemDealerTotal.toFixed(2)}`,
+                    `Rs. ${itemProfit.toFixed(2)} (${item.marginPct}%)`
                 ];
             });
 
             doc.autoTable({
                 startY: 92,
-                head: [['#', 'Item Description & Vehicle Compatibility', 'Qty', 'Unit Rate', 'Subtotal', 'Dealer Profit']],
+                head: [['#', 'Item Description & Vehicle', 'Qty', 'MRP (Unit)', 'Dealer Price', 'Subtotal', 'Dealer Profit / Margin']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillStyle: 'F', fillColor: [40, 116, 240], textColor: [255, 255, 255], fontStyle: 'bold' },
-                styles: { fontSize: 8.5 }
+                styles: { fontSize: 8 }
             });
 
             const finalY = doc.lastAutoTable.finalY + 10;
             doc.setDrawColor(16, 185, 129);
             doc.setFillColor(236, 253, 245);
-            doc.roundedRect(14, finalY, 182, 30, 3, 3, 'FD');
+            doc.roundedRect(14, finalY, 182, 38, 3, 3, 'FD');
 
             doc.setTextColor(6, 95, 70);
             doc.setFontSize(10);
             doc.setFont("helvetica", "bold");
             doc.text(`Total Retail Value (MRP): Rs. ${totalMrpVal.toFixed(2)}`, 18, finalY + 8);
-            doc.text(`Total Payable Investment: Rs. ${finalPayable.toFixed(2)} ${couponStr ? '(' + couponStr + ')' : ''}`, 18, finalY + 16);
+            if (discountAmount > 0) {
+                doc.text(`Additional Coupon Discount (${couponStr}): - Rs. ${discountAmount.toFixed(2)}`, 18, finalY + 15);
+            }
+            doc.text(`Final Payable Investment (మొత్తం చెల్లించవలసినది): Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
             doc.setFontSize(11);
-            doc.text(`ESTIMATED TOTAL RETAIL PROFIT: Rs. ${totalProfit.toFixed(2)}`, 18, finalY + 24);
+            doc.text(`TOTAL RETAIL PROFIT & SAVINGS (మీ మొత్తం లాభం / ఆదా): Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
 
             doc.setFontSize(9);
             doc.setFont("helvetica", "italic");
             doc.setTextColor(100, 116, 139);
-            doc.text("Thank you for your business! GS Traders Allagadda.", 14, finalY + 40);
+            doc.text("Thank you for choosing GS Traders Allagadda! (తక్కువ మార్జిన్లతో విసిగిపోయారా? ఇప్పుడే మా వద్ద హోల్‌సేల్ చేయండి.)", 14, finalY + 46);
 
             doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
         }
@@ -792,15 +797,15 @@
 
             const discountAmount = (subtotal * activeDiscountPercent) / 100;
             const finalPayable = subtotal - discountAmount;
-            const totalProfit = totalMrpVal - finalPayable;
+            const totalProfit = (totalMrpVal - finalPayable);
 
             orderTextSummary += `-----------------------------------\n`;
             orderTextSummary += `Total MRP: ₹${totalMrpVal.toFixed(2)}\n`;
             if (activeDiscountPercent > 0) {
-                orderTextSummary += `Coupon: ${activeCouponName} (-₹${discountAmount.toFixed(2)})\n`;
+                orderTextSummary += `Coupon Discount (${activeCouponName}): -₹${discountAmount.toFixed(2)}\n`;
             }
             orderTextSummary += `Final Payable: ₹${finalPayable.toFixed(2)}\n`;
-            orderTextSummary += `Estimated Dealer Profit: ₹${totalProfit.toFixed(2)}\n`;
+            orderTextSummary += `TOTAL DEALER PROFIT / SAVINGS: ₹${totalProfit.toFixed(2)}\n`;
             orderTextSummary += `Location: ${address || 'Allagadda'}`;
 
             rawOrderTextMessage = `*NEW B2B ORDER - GS TRADERS*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Shop: ${name}\n• Phone: ${phone}`;
@@ -809,7 +814,7 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
             btn.disabled = true;
 
-            generateOrderPDF(name, phone, address, cart, finalPayable, totalMrpVal, totalProfit, activeCouponName);
+            generateOrderPDF(name, phone, address, cart, finalPayable, totalMrpVal, totalProfit, activeCouponName, discountAmount);
 
             document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
             document.getElementById('thankYouModal').classList.remove('hidden');
