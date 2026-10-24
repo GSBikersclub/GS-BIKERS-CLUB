@@ -116,17 +116,19 @@
             </div>
         </section>
 
-        <!-- Main Catalog Section with Sidebar & Homepage Categories -->
+        <!-- Main Catalog Section -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
             
-            <!-- Search & Global Header Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
-                <div id="breadcrumbNav" class="text-xs font-bold text-slate-600 flex items-center gap-2">
-                    <button onclick="resetView()" class="text-blue-600 hover:underline"><i class="fa-solid fa-house"></i> Home</button>
-                    <span id="breadcrumbCategory" class="hidden">/ <span id="currentCatName" class="text-slate-900 font-extrabold"></span></span>
+            <!-- Dynamic Category Filter Row Bar (Generated from Google Sheet category column) -->
+            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center mb-6 gap-3">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="dynamicCategoryTabs">
+                    <button onclick="filterCategory('All', this)" class="category-btn bg-[#2874f0] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow transition-all cursor-pointer whitespace-nowrap">
+                        All Items (అన్నీ)
+                    </button>
+                    <!-- Dynamically injected category buttons will appear here -->
                 </div>
 
-                <div class="w-full sm:w-80">
+                <div class="w-full lg:w-80">
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
@@ -137,62 +139,21 @@
                 </div>
             </div>
 
-            <!-- VIEW 1: Homepage Categories Grid -->
-            <div id="homeCategoriesView" class="space-y-6">
-                <div>
-                    <h3 class="text-base font-black text-slate-900 mb-1">Browse Parts by Category (టాప్ కేటగిరీలు)</h3>
-                    <p class="text-xs text-slate-500">Select any category below to view wholesale parts with high margins and brand filters.</p>
-                </div>
-                <div id="categoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    <!-- Dynamically populated category cards matching item names -->
-                </div>
+            <!-- Brand Filter Bar (Hero, Honda, TVS, Bajaj) -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
+                <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Brand Filter (బ్రాండ్):</span>
+                <button onclick="applyBrandFilter('All', this)" class="brand-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All Brands</button>
+                <button onclick="applyBrandFilter('Hero', this)" class="brand-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Hero</button>
+                <button onclick="applyBrandFilter('Honda', this)" class="brand-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Honda</button>
+                <button onclick="applyBrandFilter('TVS', this)" class="brand-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">TVS</button>
+                <button onclick="applyBrandFilter('Bajaj', this)" class="brand-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Bajaj</button>
             </div>
 
-            <!-- VIEW 2: Category Products & Sidebar Brand Filters -->
-            <div id="categoryProductsView" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6">
-                
-                <!-- Sidebar Brand Filters (Hero, Honda, TVS, Bajaj) -->
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4 h-fit">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <h4 class="text-xs font-extrabold uppercase text-slate-900 tracking-wider">
-                            <i class="fa-solid fa-filter text-blue-600 mr-1.5"></i> Filter by Brand (బ్రాండ్)
-                        </h4>
-                        <button onclick="selectBrand('All')" class="text-[11px] text-blue-600 font-bold hover:underline">Reset</button>
-                    </div>
-                    <div class="space-y-1.5" id="brandFilterList">
-                        <button onclick="selectBrand('All')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 flex items-center justify-between">
-                            <span>All Brands (అన్నీ)</span>
-                        </button>
-                        <button onclick="selectBrand('Hero')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
-                            <span>Hero</span>
-                        </button>
-                        <button onclick="selectBrand('Honda')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
-                            <span>Honda</span>
-                        </button>
-                        <button onclick="selectBrand('TVS')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
-                            <span>TVS</span>
-                        </button>
-                        <button onclick="selectBrand('Bajaj')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
-                            <span>Bajaj</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Product Grid Area -->
-                <div class="lg:col-span-3 space-y-4">
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-                        <div>
-                            <h3 id="activeCategoryTitle" class="text-sm font-extrabold text-slate-950">All Parts</h3>
-                            <p class="text-[11px] text-slate-500" id="activeCategoryCount">Showing wholesale parts</p>
-                        </div>
-                        <button onclick="resetView()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-1.5 rounded-lg border border-slate-300">
-                            <i class="fa-solid fa-arrow-left mr-1"></i> Back to Categories
-                        </button>
-                    </div>
-
-                    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                        <!-- Products rendered here -->
-                    </div>
+            <!-- Product Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <div class="col-span-full text-center py-20 text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl text-[#2874f0] mb-3"></i>
+                    <p class="text-xs font-medium">Loading catalog and dealer pricing from Google Sheet...</p>
                 </div>
             </div>
 
@@ -335,28 +296,12 @@
         const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
 
         let products = [];
-        let selectedCategory = null;
-        let selectedBrand = 'All';
+        let currentCategoryFilter = 'All';
+        let currentBrandFilter = 'All';
         let cart = [];
         let activeDiscountPercent = 0;
         let activeCouponName = '';
         let rawOrderTextMessage = '';
-
-        // Core Spare Parts Categories with Keywords to match item names
-        const categoryConfigs = [
-            { name: 'Clutch Assembly', keyword: 'clutch', icon: 'fa-gears', desc: 'Plates, Hubs & Levers' },
-            { name: 'Bearings & Bushes', keyword: 'bearing', icon: 'fa-dharmachakra', desc: 'Wheel & Engine bearings' },
-            { name: 'Brake Pads & Shoes', keyword: 'brake', icon: 'fa-circle-stop', desc: 'Discs, Drums & Linings' },
-            { name: 'Chain & Sprocket', keyword: 'chain', icon: 'fa-link', desc: 'Kit sets & Drive chains' },
-            { name: 'Cables & Control', keyword: 'cable', icon: 'fa-code-pull-request', desc: 'Accelerator, Clutch & Brake' },
-            { name: 'Helmets & Visors', keyword: 'helmet', icon: 'fa-motorcycle', desc: 'ISI Certified Full/Half face' },
-            { name: 'Filters (Air/Oil)', keyword: 'filter', icon: 'fa-filter', desc: 'High-filtration elements' },
-            { name: 'Electrical & Bulbs', keyword: 'bulb', icon: 'fa-bolt', desc: 'LED headlights, Horns, Relays' },
-            { name: 'Suspension & Forks', keyword: 'fork', icon: 'fa-bars-staggered', desc: 'Shock absorbers & Seals' },
-            { name: 'Engine & Gaskets', keyword: 'gasket', icon: 'fa-oil-can', desc: 'Pistons, Rings & Packing' },
-            { name: 'Tyres & Tubes', keyword: 'tyre', icon: 'fa-circle', desc: 'Heavy duty rubber' },
-            { name: 'Accessories & Care', keyword: 'accessory', icon: 'fa-spray-can-sparkles', desc: 'Oils, Locks & Polish' }
-        ];
 
         // 60-Second Blur & Dealer Number Gate Timer
         setTimeout(() => {
@@ -399,10 +344,13 @@
 
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
                                 const compatibility = p.compatibility || '';
+                                const rawCategory = (p.category && p.category.trim() !== '') ? p.category.trim() : 'General Spares';
 
                                 return {
                                     id: parseInt(p.id),
                                     name: p.name,
+                                    category: rawCategory,
+                                    badge: p.badge,
                                     mrp: mrp,
                                     strikePrice: parseFloat(p.strikePrice || 0),
                                     dealerPrice: dealerPrice,
@@ -417,70 +365,72 @@
                                 };
                             });
                     }
-                    renderHomeCategories();
+                    buildDynamicCategoryButtons();
+                    renderProducts();
                 },
                 error: function() {
-                    document.getElementById('categoryCardsGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-600 text-xs">Error connecting to Google Sheets catalog.</div>';
+                    document.getElementById('productGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-600 text-xs">Error connecting to Google Sheets catalog.</div>';
                 }
             });
         }
 
-        function renderHomeCategories() {
-            const grid = document.getElementById('categoryCardsGrid');
-            grid.innerHTML = '';
+        // Dynamically build category buttons from Google Sheet category values
+        function buildDynamicCategoryButtons() {
+            const container = document.getElementById('dynamicCategoryTabs');
+            
+            // Extract unique categories from products array
+            const uniqueCategories = [...new Set(products.map(p => p.category))];
 
-            categoryConfigs.forEach(cat => {
-                // Count items matching the name keyword
-                const count = products.filter(p => p.name.toLowerCase().includes(cat.keyword)).length;
-
-                grid.innerHTML += `
-                    <div onclick="openCategory('${cat.name}', '${cat.keyword}')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 cursor-pointer transition-all flex flex-col items-center text-center group">
-                        <div class="w-14 h-14 bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl mb-3 transition-colors shadow-inner">
-                            <i class="fa-solid ${cat.icon}"></i>
-                        </div>
-                        <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors">${cat.name}</h4>
-                        <p class="text-[10px] text-slate-400 mt-1">${count} item(s) available</p>
-                    </div>
+            uniqueCategories.forEach(cat => {
+                container.innerHTML += `
+                    <button onclick="filterCategory('${cat}', this)" class="category-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
+                        ${cat}
+                    </button>
                 `;
             });
         }
 
-        let currentKeyword = '';
-        function openCategory(catName, keyword) {
-            selectedCategory = catName;
-            currentKeyword = keyword;
-            selectedBrand = 'All';
-            
-            document.getElementById('homeCategoriesView').classList.add('hidden');
-            document.getElementById('categoryProductsView').classList.remove('hidden');
-            document.getElementById('breadcrumbCategory').classList.remove('hidden');
-            document.getElementById('currentCatName').innerText = catName;
-            document.getElementById('activeCategoryTitle').innerText = catName;
-
-            renderProducts();
-        }
-
-        function resetView() {
-            selectedCategory = null;
-            currentKeyword = '';
-            selectedBrand = 'All';
-            document.getElementById('homeCategoriesView').classList.remove('hidden');
-            document.getElementById('categoryProductsView').classList.add('hidden');
-            document.getElementById('breadcrumbCategory').classList.add('hidden');
-            document.getElementById('searchInput').value = '';
-        }
-
-        function selectBrand(brand) {
-            selectedBrand = brand;
-            
-            document.querySelectorAll('.brand-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-50', 'text-blue-700');
-                btn.classList.add('text-slate-700', 'hover:bg-slate-50');
+        function filterCategory(categoryKey, btnElement) {
+            currentCategoryFilter = categoryKey;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
             });
-            event.currentTarget.classList.remove('text-slate-700', 'hover:bg-slate-50');
-            event.currentTarget.classList.add('bg-blue-50', 'text-blue-700');
+            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow');
+            renderProducts(document.getElementById('searchInput').value);
+        }
 
-            renderProducts();
+        function applyBrandFilter(brandKey, btnElement) {
+            currentBrandFilter = brandKey;
+            document.querySelectorAll('.brand-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            });
+            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow-sm');
+            renderProducts(document.getElementById('searchInput').value);
+        }
+
+        function openGalleryModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            document.getElementById('galleryTitle').innerText = product.name;
+            const mainImg = document.getElementById('galleryMainImage');
+            mainImg.src = product.images[0];
+            const thumbsContainer = document.getElementById('galleryThumbnails');
+            thumbsContainer.innerHTML = '';
+            product.images.forEach((img) => {
+                thumbsContainer.innerHTML += `
+                    <img src="${img}" onclick="document.getElementById('galleryMainImage').src='${img}'" 
+                         class="w-12 h-12 object-cover rounded-lg border border-slate-300 hover:border-blue-600 cursor-pointer transition-all">
+                `;
+            });
+            document.getElementById('imageGalleryModal').classList.remove('hidden');
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('imageGalleryModal').classList.add('hidden');
         }
 
         function renderProducts(searchQuery = '') {
@@ -488,30 +438,23 @@
             grid.innerHTML = '';
 
             const filtered = products.filter(p => {
-                // Match against name column keyword
-                let matchesCategory = true;
-                if (currentKeyword) {
-                    matchesCategory = p.name.toLowerCase().includes(currentKeyword);
-                }
-
-                // Brand filter
+                const matchesCategory = (currentCategoryFilter === 'All' || p.category.toLowerCase() === currentCategoryFilter.toLowerCase());
+                
                 let matchesBrand = true;
-                if (selectedBrand !== 'All') {
-                    matchesBrand = p.compatibility.toLowerCase().includes(selectedBrand.toLowerCase()) || 
-                                   p.name.toLowerCase().includes(selectedBrand.toLowerCase());
+                if (currentBrandFilter !== 'All') {
+                    matchesBrand = p.compatibility.toLowerCase().includes(currentBrandFilter.toLowerCase()) || 
+                                   p.name.toLowerCase().includes(currentBrandFilter.toLowerCase());
                 }
 
-                // Search query
                 const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                       p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
 
                 return matchesCategory && matchesBrand && matchesSearch;
             });
 
-            document.getElementById('activeCategoryCount').innerText = `Showing ${filtered.length} wholesale item(s)`;
-
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No products found matching this category name. (ఈ కేటగిరీలో వస్తువులు లేవు)</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No products found. (ఏ వస్తువులూ దొరకలేదు)</div>';
                 return;
             }
 
@@ -541,6 +484,9 @@
                                 </button>` : ''}
                             </div>
                             <div class="space-y-1 mb-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">${p.category}</span>
+                                </div>
                                 <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">${p.name}</h4>
                                 ${p.compatibility ? `
                                 <p class="text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1.5 mt-1">
