@@ -344,7 +344,7 @@
 
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
                                 const compatibility = p.compatibility || '';
-                                const rawCategory = (p.category && p.category.trim() !== '') ? p.category.trim() : 'General Spares';
+                                const rawCategory = (p.category && p.category.trim() !== '') ? p.category.trim() : 'Spare Parts';
 
                                 return {
                                     id: parseInt(p.id),
@@ -374,11 +374,11 @@
             });
         }
 
-        // Dynamically build category buttons from Google Sheet category values
+        // Dynamically build category filter buttons straight from Google Sheet category column
         function buildDynamicCategoryButtons() {
             const container = document.getElementById('dynamicCategoryTabs');
             
-            // Extract unique categories from products array
+            // Extract unique categories from products data
             const uniqueCategories = [...new Set(products.map(p => p.category))];
 
             uniqueCategories.forEach(cat => {
