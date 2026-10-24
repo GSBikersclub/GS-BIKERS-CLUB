@@ -65,19 +65,19 @@
         <!-- Top Ticker Bar -->
         <div class="bg-[#2874f0] text-white text-[11px] sm:text-xs font-bold py-2 px-4 text-center tracking-wide shadow-sm flex items-center justify-center gap-2">
             <i class="fa-solid fa-bullhorn text-amber-300"></i>
-            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ లాభాలను మరింత పెంచుకోండి.</span>
+            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! Direct from manufacturer, best price in the market!</span>
         </div>
 
         <!-- Navigation Header -->
         <header class="flipkart-header sticky top-0 z-40 shadow-md">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <div>
+                    <button onclick="resetView()" class="text-left cursor-pointer">
                         <h1 class="text-lg sm:text-xl font-black tracking-tight text-white flex items-center gap-1.5">
                             GS TRADERS <span class="text-amber-300 text-xs font-bold">(జీఎస్ ట్రేడర్స్)</span>
                         </h1>
                         <p class="text-[10px] text-blue-100 font-medium">Allagadda Wholesale Hub • నంద్యాల రోడ్, ఆళ్లగడ్డ</p>
-                    </div>
+                    </button>
                 </div>
                 
                 <div class="flex items-center space-x-3">
@@ -116,61 +116,86 @@
             </div>
         </section>
 
-        <!-- Main Catalog Section -->
+        <!-- Main Catalog Section with Sidebar & Homepage Categories -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
-            <!-- Category Filter Tabs -->
-            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center mb-4 gap-3">
-                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryTabs">
-                    <button onclick="filterCategory('All', this)" class="category-btn bg-[#2874f0] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow transition-all cursor-pointer whitespace-nowrap">
-                        All Items (అన్నీ)
-                    </button>
-                    <button onclick="filterCategory('Helmets', this)" class="category-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
-                        Helmets (హెల్మెట్లు)
-                    </button>
-                    <button onclick="filterCategory('Accessories', this)" class="category-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
-                        Accessories (యాక్సెసరీస్)
-                    </button>
-                    <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
-                        Spare Parts (స్పేర్ పార్ట్స్)
-                    </button>
+            
+            <!-- Search & Global Header Bar -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+                <div id="breadcrumbNav" class="text-xs font-bold text-slate-600 flex items-center gap-2">
+                    <button onclick="resetView()" class="text-blue-600 hover:underline"><i class="fa-solid fa-house"></i> Home</button>
+                    <span id="breadcrumbCategory" class="hidden">/ <span id="currentCatName" class="text-slate-900 font-extrabold"></span></span>
                 </div>
 
-                <div class="w-full lg:w-80">
+                <div class="w-full sm:w-80">
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
                         </span>
-                        <input type="text" id="searchInput" placeholder="Search part or vehicle (వెతకండి)..." 
+                        <input type="text" id="searchInput" placeholder="Search part or bike (వెతకండి)..." 
                             class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2874f0] text-xs shadow-sm">
                     </div>
                 </div>
             </div>
 
-            <!-- Vehicle Type Filter Bar -->
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-3">
-                <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-motorcycle text-[#2874f0] mr-1"></i> Vehicle Type (వాహనం రకం):</span>
-                <button onclick="applyVehicleFilter('All', this)" class="vehicle-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All Vehicles</button>
-                <button onclick="applyVehicleFilter('Motorcycle', this)" class="vehicle-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Motorcycles (బైకులు)</button>
-                <button onclick="applyVehicleFilter('Scooter', this)" class="vehicle-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Scooters (స్కూటర్లు - Activa/Dio)</button>
-            </div>
-
-            <!-- Spare Part Name Filter Bar -->
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
-                <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Part Type (పార్ట్ పేరు):</span>
-                <button onclick="applyPartFilter('All', this)" class="part-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All Parts</button>
-                <button onclick="applyPartFilter('Chain', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Chain Sprocket (చైన్)</button>
-                <button onclick="applyPartFilter('Brake', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Brake Pads / Shoes (బ్రేక్)</button>
-                <button onclick="applyPartFilter('Clutch', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Clutch Plate (క్లచ్)</button>
-                <button onclick="applyPartFilter('Cable', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Cables (కేబుల్స్)</button>
-            </div>
-
-            <!-- Product Grid -->
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                <div class="col-span-full text-center py-20 text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                    <i class="fa-solid fa-spinner fa-spin text-3xl text-[#2874f0] mb-3"></i>
-                    <p class="text-xs font-medium">Loading catalog and dealer pricing from Google Sheet...</p>
+            <!-- VIEW 1: Homepage 12-15 Categories Grid -->
+            <div id="homeCategoriesView" class="space-y-6">
+                <div>
+                    <h3 class="text-base font-black text-slate-900 mb-1">Browse Parts by Category (టాప్ కేటగిరీలు)</h3>
+                    <p class="text-xs text-slate-500">Select any category below to view wholesale parts with high margins and brand filters.</p>
+                </div>
+                <div id="categoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- Dynamically populated category cards -->
                 </div>
             </div>
+
+            <!-- VIEW 2: Category Products & Sidebar Brand Filters -->
+            <div id="categoryProductsView" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6">
+                
+                <!-- Sidebar Brand Filters (Hero, Honda, TVS, Bajaj) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4 h-fit">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h4 class="text-xs font-extrabold uppercase text-slate-900 tracking-wider">
+                            <i class="fa-solid fa-filter text-blue-600 mr-1.5"></i> Filter by Brand (బ్రాండ్)
+                        </h4>
+                        <button onclick="selectBrand('All')" class="text-[11px] text-blue-600 font-bold hover:underline">Reset</button>
+                    </div>
+                    <div class="space-y-1.5" id="brandFilterList">
+                        <button onclick="selectBrand('All')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 flex items-center justify-between">
+                            <span>All Brands (అన్నీ)</span>
+                        </button>
+                        <button onclick="selectBrand('Hero')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+                            <span>Hero</span>
+                        </button>
+                        <button onclick="selectBrand('Honda')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+                            <span>Honda</span>
+                        </button>
+                        <button onclick="selectBrand('TVS')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+                            <span>TVS</span>
+                        </button>
+                        <button onclick="selectBrand('Bajaj')" class="brand-filter-btn w-full text-left px-3 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+                            <span>Bajaj</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Grid Area -->
+                <div class="lg:col-span-3 space-y-4">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                        <div>
+                            <h3 id="activeCategoryTitle" class="text-sm font-extrabold text-slate-950">All Parts</h3>
+                            <p class="text-[11px] text-slate-500" id="activeCategoryCount">Showing wholesale parts</p>
+                        </div>
+                        <button onclick="resetView()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-1.5 rounded-lg border border-slate-300">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Back to Categories
+                        </button>
+                    </div>
+
+                    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                        <!-- Products rendered here -->
+                    </div>
+                </div>
+            </div>
+
         </main>
 
         <!-- Footer -->
@@ -310,13 +335,28 @@
         const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
 
         let products = [];
-        let currentCategory = 'All';
-        let currentVehicleFilter = 'All';
-        let currentPartFilter = 'All';
+        let selectedCategory = null;
+        let selectedBrand = 'All';
         let cart = [];
         let activeDiscountPercent = 0;
         let activeCouponName = '';
         let rawOrderTextMessage = '';
+
+        // 12-15 Core Spare Parts Categories with Icons
+        const availableCategories = [
+            { name: 'Brake Pads & Shoes', icon: 'fa-circle-stop', desc: 'Discs, Drums & Linings' },
+            { name: 'Chain & Sprocket', icon: 'fa-link', desc: 'Kit sets & Drive chains' },
+            { name: 'Clutch Assembly', icon: 'fa-gears', desc: 'Plates, Hubs & Levers' },
+            { name: 'Cables & Control', icon: 'fa-code-pull-request', desc: 'Accelerator, Clutch & Brake' },
+            { name: 'Bearings & Bushes', icon: 'fa-dharmachakra', desc: 'Wheel & Engine bearings' },
+            { name: 'Helmets & Visors', icon: 'fa-motorcycle', desc: 'ISI Certified Full/Half face' },
+            { name: 'Filters (Air/Oil/Fuel)', icon: 'fa-filter', desc: 'High-filtration elements' },
+            { name: 'Electrical & Bulbs', icon: 'fa-bolt', desc: 'LED headlights, Horns, Relays' },
+            { name: 'Suspension & Forks', icon: 'fa-bars-staggered', desc: 'Shock absorbers & Seals' },
+            { name: 'Engine & Gaskets', icon: 'fa-oil-can', desc: 'Pistons, Rings & Packing' },
+            { name: 'Tyres & Tubes', icon: 'fa-circle', desc: 'Heavy duty rubber' },
+            { name: 'Accessories & Care', icon: 'fa-spray-can-sparkles', desc: 'Oils, Locks & Polish' }
+        ];
 
         // 60-Second Blur & Dealer Number Gate Timer
         setTimeout(() => {
@@ -358,18 +398,12 @@
                                 const marginPct = mrp > 0 ? Math.round((saving / mrp) * 100) : 38;
 
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
-                                const compatibility = p.compatibility || '';
-                                
-                                let vehicleType = 'Motorcycle';
-                                const lowerCompat = compatibility.toLowerCase();
-                                if (lowerCompat.includes('activa') || lowerCompat.includes('dio') || lowerCompat.includes('scooter') || lowerCompat.includes('jupiter')) {
-                                    vehicleType = 'Scooter';
-                                }
+                                const compatibility = p.compatibility || p.category || '';
 
                                 return {
                                     id: parseInt(p.id),
                                     name: p.name,
-                                    category: p.category,
+                                    category: p.category || 'Spare Parts',
                                     badge: p.badge,
                                     mrp: mrp,
                                     strikePrice: parseFloat(p.strikePrice || 0),
@@ -380,72 +414,73 @@
                                     status: p.status,
                                     delivery: p.delivery,
                                     compatibility: compatibility,
-                                    vehicleType: vehicleType,
                                     image: imgs.length > 0 ? imgs[0] : 'images/101.png',
                                     images: imgs.length > 0 ? imgs : ['images/101.png']
                                 };
                             });
                     }
-                    renderProducts();
+                    renderHomeCategories();
                 },
                 error: function() {
-                    document.getElementById('productGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-600 text-xs">Error connecting to Google Sheets catalog.</div>';
+                    document.getElementById('categoryCardsGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-600 text-xs">Error connecting to Google Sheets catalog.</div>';
                 }
             });
         }
 
-        function filterCategory(category, btnElement) {
-            currentCategory = category;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow');
-                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            });
-            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow');
-            renderProducts(document.getElementById('searchInput').value);
-        }
+        function renderHomeCategories() {
+            const grid = document.getElementById('categoryCardsGrid');
+            grid.innerHTML = '';
 
-        function applyVehicleFilter(vehicleKey, btnElement) {
-            currentVehicleFilter = vehicleKey;
-            document.querySelectorAll('.vehicle-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow-sm');
-                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            });
-            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow-sm');
-            renderProducts(document.getElementById('searchInput').value);
-        }
+            availableCategories.forEach(cat => {
+                // Count products in this category
+                const count = products.filter(p => p.category.toLowerCase().includes(cat.name.toLowerCase().split(' ')[0])).length;
 
-        function applyPartFilter(partKey, btnElement) {
-            currentPartFilter = partKey;
-            document.querySelectorAll('.part-filter-btn').forEach(btn => {
-                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow-sm');
-                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            });
-            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow-sm');
-            renderProducts(document.getElementById('searchInput').value);
-        }
-
-        function openGalleryModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            document.getElementById('galleryTitle').innerText = product.name;
-            const mainImg = document.getElementById('galleryMainImage');
-            mainImg.src = product.images[0];
-            const thumbsContainer = document.getElementById('galleryThumbnails');
-            thumbsContainer.innerHTML = '';
-            product.images.forEach((img) => {
-                thumbsContainer.innerHTML += `
-                    <img src="${img}" onclick="document.getElementById('galleryMainImage').src='${img}'" 
-                         class="w-12 h-12 object-cover rounded-lg border border-slate-300 hover:border-blue-600 cursor-pointer transition-all">
+                grid.innerHTML += `
+                    <div onclick="openCategory('${cat.name}')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 cursor-pointer transition-all flex flex-col items-center text-center group">
+                        <div class="w-14 h-14 bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl mb-3 transition-colors shadow-inner">
+                            <i class="fa-solid ${cat.icon}"></i>
+                        </div>
+                        <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors">${cat.name}</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">${cat.desc}</p>
+                    </div>
                 `;
             });
-            document.getElementById('imageGalleryModal').classList.remove('hidden');
         }
 
-        function closeGalleryModal() {
-            document.getElementById('imageGalleryModal').classList.add('hidden');
+        function openCategory(catName) {
+            selectedCategory = catName;
+            selectedBrand = 'All';
+            
+            document.getElementById('homeCategoriesView').classList.add('hidden');
+            document.getElementById('categoryProductsView').classList.remove('hidden');
+            document.getElementById('breadcrumbCategory').classList.remove('hidden');
+            document.getElementById('currentCatName').innerText = catName;
+            document.getElementById('activeCategoryTitle').innerText = catName;
+
+            renderProducts();
+        }
+
+        function resetView() {
+            selectedCategory = null;
+            selectedBrand = 'All';
+            document.getElementById('homeCategoriesView').classList.remove('hidden');
+            document.getElementById('categoryProductsView').classList.add('hidden');
+            document.getElementById('breadcrumbCategory').classList.add('hidden');
+            document.getElementById('searchInput').value = '';
+        }
+
+        function selectBrand(brand) {
+            selectedBrand = brand;
+            
+            // Highlight active brand in sidebar
+            document.querySelectorAll('.brand-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-blue-700');
+                btn.classList.add('text-slate-700', 'hover:bg-slate-50');
+            });
+            event.currentTarget.classList.remove('text-slate-700', 'hover:bg-slate-50');
+            event.currentTarget.classList.add('bg-blue-50', 'text-blue-700');
+
+            renderProducts();
         }
 
         function renderProducts(searchQuery = '') {
@@ -453,24 +488,27 @@
             grid.innerHTML = '';
 
             const filtered = products.filter(p => {
-                const matchesCategory = (currentCategory === 'All' || p.category === currentCategory);
-                const matchesVehicle = (currentVehicleFilter === 'All' || p.vehicleType === currentVehicleFilter);
-                
-                let matchesPart = true;
-                if (currentPartFilter !== 'All') {
-                    const pTerm = currentPartFilter.toLowerCase();
-                    matchesPart = p.name.toLowerCase().includes(pTerm);
+                // If in category view, match category roughly
+                const matchesCategory = !selectedCategory || p.category.toLowerCase().includes(selectedCategory.toLowerCase().split(' ')[0]) || p.name.toLowerCase().includes(selectedCategory.toLowerCase().split(' ')[0]);
+
+                // Brand filter
+                let matchesBrand = true;
+                if (selectedBrand !== 'All') {
+                    matchesBrand = p.compatibility.toLowerCase().includes(selectedBrand.toLowerCase()) || p.name.toLowerCase().includes(selectedBrand.toLowerCase());
                 }
 
+                // Search query
                 const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                                       p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                       p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
 
-                return matchesCategory && matchesVehicle && matchesPart && matchesSearch;
+                return matchesCategory && matchesBrand && matchesSearch;
             });
 
+            document.getElementById('activeCategoryCount').innerText = `Showing ${filtered.length} wholesale item(s)`;
+
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No products found. (ఏ వస్తువులూ దొరకలేదు)</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No products found for this filter. (ఏ వస్తువులూ దొరకలేదు)</div>';
                 return;
             }
 
@@ -491,8 +529,8 @@
                         <div>
                             <div class="relative h-48 rounded-xl overflow-hidden bg-slate-100 group mb-3">
                                 <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                <span class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded shadow">
-                                    ${p.marginPct}% MARGIN
+                                <span class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">
+                                    ${p.marginPct}% DEALER MARGIN
                                 </span>
                                 ${p.images.length > 1 ? `
                                 <button onclick="openGalleryModal(${p.id})" class="absolute bottom-2 right-2 bg-slate-900/80 hover:bg-slate-900 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow">
@@ -502,7 +540,6 @@
                             <div class="space-y-1 mb-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">${p.category}</span>
-                                    <span class="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">${p.vehicleType}</span>
                                 </div>
                                 <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">${p.name}</h4>
                                 ${p.compatibility ? `
@@ -724,129 +761,4 @@
 
             const tableData = cartItems.map((item, index) => {
                 let totalUnits = item.boxes * item.boxSize;
-                let itemMrpTotal = item.mrp * totalUnits;
-                let itemDealerTotal = item.dealerPrice * totalUnits;
-                let itemProfit = itemMrpTotal - itemDealerTotal;
-                return [
-                    index + 1,
-                    item.name + (item.compatibility ? `\n(Fits: ${item.compatibility})` : ''),
-                    `${item.boxes} Box (${totalUnits} Pcs)`,
-                    `Rs. ${item.mrp.toFixed(2)}`,
-                    `Rs. ${item.dealerPrice.toFixed(2)}`,
-                    `Rs. ${itemDealerTotal.toFixed(2)}`,
-                    `Rs. ${itemProfit.toFixed(2)} (${item.marginPct}%)`
-                ];
-            });
-
-            doc.autoTable({
-                startY: 92,
-                head: [['#', 'Item Description & Vehicle', 'Qty', 'MRP (Unit)', 'Dealer Price', 'Subtotal', 'Dealer Profit / Margin']],
-                body: tableData,
-                theme: 'striped',
-                headStyles: { fillStyle: 'F', fillColor: [40, 116, 240], textColor: [255, 255, 255], fontStyle: 'bold' },
-                styles: { fontSize: 8 }
-            });
-
-            const finalY = doc.lastAutoTable.finalY + 10;
-            doc.setDrawColor(16, 185, 129);
-            doc.setFillColor(236, 253, 245);
-            doc.roundedRect(14, finalY, 182, 38, 3, 3, 'FD');
-
-            doc.setTextColor(6, 95, 70);
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "bold");
-            doc.text(`Total Retail Value (MRP): Rs. ${totalMrpVal.toFixed(2)}`, 18, finalY + 8);
-            if (discountAmount > 0) {
-                doc.text(`Additional Coupon Discount (${couponStr}): - Rs. ${discountAmount.toFixed(2)}`, 18, finalY + 15);
-            }
-            doc.text(`Final Payable Investment: Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
-            doc.setFontSize(11);
-            doc.text(`TOTAL RETAIL PROFIT & SAVINGS: Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
-
-            doc.setFontSize(9);
-            doc.setFont("helvetica", "italic");
-            doc.setTextColor(100, 116, 139);
-            doc.text("Thank you for choosing GS Traders Allagadda! Direct from manufacturer, best price in the market.", 14, finalY + 46);
-
-            doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
-        }
-
-        async function submitOrderBackground(e) {
-            e.preventDefault();
-            if (cart.length === 0) return;
-
-            const name = document.getElementById('cartBuyerName').value;
-            const phone = document.getElementById('cartBuyerPhone').value;
-            const address = document.getElementById('cartBuyerAddress').value;
-
-            if (phone.length !== 10) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return;
-            }
-
-            let subtotal = 0;
-            let totalMrpVal = 0;
-            let orderTextSummary = `--- GS TRADERS NEW ORDER ---\n`;
-
-            cart.forEach((item, index) => {
-                let totalUnits = item.boxes * item.boxSize;
-                let itemSubtotal = item.dealerPrice * totalUnits;
-                let itemMrpTotal = item.mrp * totalUnits;
-                let itemProfit = itemMrpTotal - itemSubtotal;
-                
-                subtotal += itemSubtotal;
-                totalMrpVal += itemMrpTotal;
-
-                orderTextSummary += `${index + 1}. ${item.name} (${item.compatibility || 'General'}) | Qty: ${item.boxes} Box (${totalUnits} Pcs) | Cost: ₹${itemSubtotal.toFixed(2)} | Profit: ₹${itemProfit.toFixed(2)}\n`;
-            });
-
-            const discountAmount = (subtotal * activeDiscountPercent) / 100;
-            const finalPayable = subtotal - discountAmount;
-            const totalProfit = (totalMrpVal - finalPayable);
-
-            orderTextSummary += `-----------------------------------\n`;
-            orderTextSummary += `Total MRP: ₹${totalMrpVal.toFixed(2)}\n`;
-            if (activeDiscountPercent > 0) {
-                orderTextSummary += `Coupon Discount (${activeCouponName}): -₹${discountAmount.toFixed(2)}\n`;
-            }
-            orderTextSummary += `Final Payable: ₹${finalPayable.toFixed(2)}\n`;
-            orderTextSummary += `TOTAL DEALER PROFIT / SAVINGS: ₹${totalProfit.toFixed(2)}\n`;
-            orderTextSummary += `Location: ${address || 'Allagadda'}`;
-
-            rawOrderTextMessage = `*NEW B2B ORDER - GS TRADERS*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Shop: ${name}\n• Phone: ${phone}`;
-
-            const btn = document.getElementById('submitOrderBtn');
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
-            btn.disabled = true;
-
-            generateOrderPDF(name, phone, address, cart, finalPayable, totalMrpVal, totalProfit, activeCouponName, discountAmount);
-
-            document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
-            document.getElementById('thankYouModal').classList.remove('hidden');
-            toggleCart();
-            cart = [];
-            activeDiscountPercent = 0;
-            activeCouponName = '';
-            updateCartUI();
-
-            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)`;
-            btn.disabled = false;
-        }
-
-        function openWhatsApp(phoneNumber) {
-            const url = `https://wa.me/91${phoneNumber}?text=${encodeURIComponent(rawOrderTextMessage)}`;
-            window.open(url, '_blank');
-        }
-
-        function closeThankYouModal() {
-            document.getElementById('thankYouModal').classList.add('hidden');
-        }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            renderProducts(e.target.value);
-        });
-
-        loadProductsFromGoogleSheet();
-    </script>
-</body>
-</html>
+                let itemMrpTotal
