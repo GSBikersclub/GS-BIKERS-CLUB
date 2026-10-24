@@ -7,6 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- jsPDF & AutoTable for Order Receipt PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- PapaParse for Google Sheets Live CSV Fetching -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .pro-card { transition: all 0.3s ease; }
@@ -25,7 +33,7 @@
         <span class="uppercase">Dassara Dealer Bookings Open! | దసరా ఆర్డర్లు ప్రారంభమైనవి!</span>
     </div>
 
-    <!-- Compact Navigation Header with Cart Button -->
+    <!-- Header -->
     <header class="bg-slate-900/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-2.5">
@@ -46,7 +54,6 @@
                     <span>76599 28108</span>
                 </a>
                 
-                <!-- Cart Toggle Button -->
                 <button onclick="toggleCart()" class="relative bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs transition-all shadow flex items-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span class="hidden sm:inline">Cart</span>
@@ -56,33 +63,9 @@
         </div>
     </header>
 
-    <!-- Ultra-Compact Hero & Notice Section -->
-    <section class="bg-gradient-to-b from-slate-900 to-slate-950 py-6 px-4 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <div class="inline-flex items-center gap-1.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider mb-2">
-                        <i class="fa-solid fa-shield-halved"></i> Authorized Wholesale Supplier
-                    </div>
-                    <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
-                        Helmets, Spares & Accessories Direct Rates
-                    </h2>
-                </div>
-                <!-- Compact Dealer Notice Box -->
-                <div class="bg-slate-900/90 border border-amber-500/30 p-3 rounded-xl text-xs text-slate-300 md:max-w-md shadow-inner">
-                    <span class="font-bold text-amber-400 block mb-0.5"><i class="fa-solid fa-circle-info"></i> Dealer Notice (డీలర్ల గమనిక):</span>
-                    హీరో, హోండా, బజాజ్, టివిఎస్ హెల్మెట్లు & స్పేర్స్ హోల్‌సేల్/రిటైల్ ధరలలో లభించును.
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Main Catalog View -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
-        
-        <!-- Controls Bar: Categories & Search -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            
             <div class="flex flex-wrap gap-2 w-full md:w-auto overflow-x-auto pb-1" id="categoryTabs">
                 <button onclick="filterCategory('All', this)" class="category-btn bg-amber-500 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition-all cursor-pointer whitespace-nowrap">
                     All Items
@@ -109,23 +92,24 @@
             </div>
         </div>
 
-        <!-- Product Grid -->
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Populated Dynamically -->
+            <div class="col-span-full text-center py-12 text-slate-400">
+                <i class="fa-solid fa-spinner fa-spin text-2xl text-amber-500 mb-2"></i>
+                <p class="text-xs">Loading live catalog from Google Sheets...</p>
+            </div>
         </div>
     </main>
 
     <!-- Slide-Over Shopping Cart Drawer -->
     <div id="cartOverlay" class="fixed inset-0 bg-slate-950/80 z-50 hidden backdrop-blur-sm transition-opacity"></div>
     <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-slate-900 border-l border-slate-800 shadow-2xl z-50 transform translate-x-full flex flex-col">
-        <!-- Cart Header -->
         <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
             <div class="flex items-center gap-2 text-amber-500">
                 <i class="fa-solid fa-cart-shopping text-base"></i>
                 <h3 class="text-base font-bold text-white tracking-tight">Your Dealer Cart</h3>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="clearCart()" class="text-xs text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-900/50 px-2.5 py-1 rounded-lg font-bold cursor-pointer transition-all" title="Empty Cart">
+                <button onclick="clearCart()" class="text-xs text-rose-400 hover:text-rose-300 bg-rose-950/40 border border-rose-900/50 px-2.5 py-1 rounded-lg font-bold cursor-pointer transition-all">
                     <i class="fa-solid fa-trash-can mr-1"></i> Clear
                 </button>
                 <button onclick="toggleCart()" class="text-slate-400 hover:text-white text-base font-bold cursor-pointer bg-slate-800 w-7 h-7 rounded-full flex items-center justify-center">
@@ -134,32 +118,27 @@
             </div>
         </div>
 
-        <!-- Cart Items List -->
-        <div id="cartItemsContainer" class="p-4 flex-grow overflow-y-auto space-y-3">
-            <!-- Populated via JS -->
-        </div>
+        <div id="cartItemsContainer" class="p-4 flex-grow overflow-y-auto space-y-3"></div>
 
-        <!-- Cart Footer & Checkout Form -->
         <div class="p-4 border-t border-slate-800 bg-slate-950 space-y-3">
             <div class="flex justify-between items-center text-sm font-bold text-slate-200">
                 <span>Estimated Total:</span>
                 <span id="cartTotalPrice" class="text-amber-400 text-base font-black">₹0.00</span>
             </div>
 
-            <!-- Form submission handled securely via JavaScript fetch -->
             <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-2.5">
                 <div>
-                    <input type="text" id="cartBuyerName" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Business / Shop Name *">
+                    <input type="text" id="cartBuyerName" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 text-slate-100" placeholder="Business / Shop Name *">
                 </div>
                 <div>
-                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="10-Digit Mobile Number *">
+                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 text-slate-100" placeholder="10-Digit Mobile Number *">
                 </div>
                 <div>
-                    <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 focus:outline-none text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
+                    <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2 border border-slate-800 bg-slate-900 rounded-xl text-xs focus:ring-1 focus:ring-amber-500 text-slate-100" placeholder="Delivery Town / Landmark (Optional)">
                 </div>
 
                 <button type="submit" id="submitOrderBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3 rounded-xl transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-sm"></i> Submit Order Now
+                    <i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Generate PDF
                 </button>
             </form>
         </div>
@@ -176,52 +155,66 @@
                 <p id="thankYouDealerName" class="text-amber-400 font-bold text-xs mt-1"></p>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-                Order sent to email successfully! You can also send the order directly to our WhatsApp numbers below:
+                Your PDF order receipt was downloaded automatically. Send the order summary or attach the PDF to WhatsApp below:
             </p>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow">
+                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs cursor-pointer flex items-center justify-center gap-1.5 shadow">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Send to 76599
                 </button>
-                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow">
+                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-xl text-xs cursor-pointer flex items-center justify-center gap-1.5 shadow">
                     <i class="fa-brands fa-whatsapp text-sm"></i> Send to 84648
                 </button>
             </div>
-            <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs transition-all cursor-pointer border border-slate-700">
+            <button onclick="closeThankYouModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer border border-slate-700">
                 Close Window
             </button>
         </div>
     </div>
 
-    <!-- Compact Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 mt-12 border-t border-slate-800 text-xs">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div>
-                <p class="text-white font-bold">GS BIKERS CLUB, Allagadda</p>
-                <p class="text-[11px] text-slate-500">Koilakuntla Road, Near Bypass, AP - 518543</p>
-            </div>
-            <div class="flex gap-4 text-slate-300">
-                <span><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 76599 28108</span>
-                <span><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 84648 49742</span>
-            </div>
-        </div>
-    </footer>
-
     <!-- JavaScript Engine -->
     <script>
-        const products = [
-            { id: 101, name: "TVS Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/101.png" },
-            { id: 102, name: "Hero Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/102.png" },
-            { id: 103, name: "Honda Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/103.png" },
-            { id: 104, name: "Bajaj Full Face Helmet with Logo", category: "Helmets", badge: "1 Box = 24 Pcs", mrp: 999.00, strikePrice: 379.00, dealerPrice: 349.00, boxSize: 24, moqText: "MOQ: 1 Box (24 Pcs)", status: "available", delivery: "Instant Ready", image: "images/104.png" },
-            { id: 105, name: "TWS i12 Wireless Earbuds", category: "Accessories", badge: "Special Offer", mrp: 899.00, strikePrice: 299.00, dealerPrice: 240.00, boxSize: 50, moqText: "MOQ: 50 Units", status: "available", delivery: "5-7 Days", image: "images/105.png" },
-            { id: 106, name: "Bike Body Cover", category: "Accessories", badge: "Coming Soon", mrp: 499.00, strikePrice: 0, dealerPrice: 0, boxSize: 1, moqText: "Coming Soon", status: "coming_soon", delivery: "Stay Tuned", image: "images/106.png" },
-            { id: 107, name: "Motorcycle Spark Plug", category: "Spare Parts", badge: "Out of Stock", mrp: 149.00, strikePrice: 0, dealerPrice: 99.00, boxSize: 10, moqText: "MOQ: 10 Pcs", status: "out_of_stock", delivery: "Unavailable", image: "images/107.png" },
-            { id: 108, name: "Bike Wheel Bearings Set (1 Pc)", category: "Spare Parts", badge: "Ready Stock", mrp: 129.00, strikePrice: 89.00, dealerPrice: 69.00, boxSize: 20, moqText: "MOQ: 20 Pcs", status: "available", delivery: "Instant Dispatch", image: "images/108.png" }
-        ];
+        // Your Google Sheet ID linked directly
+        const GOOGLE_SHEET_ID = '16txRIS_EiqoRv0Ogjo7WX8Q5oVlzGGOazQN3buEHyoM'; 
+        const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
 
+        let products = [];
         let currentCategory = 'All';
         let cart = [];
         let rawOrderTextMessage = '';
+
+        // Fetch Dynamic Data from Google Sheet
+        function loadProductsFromGoogleSheet() {
+            Papa.parse(SHEET_CSV_URL, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        products = results.data
+                            .filter(p => p.id && p.name) // Filter empty rows
+                            .map(p => ({
+                                id: parseInt(p.id),
+                                name: p.name,
+                                category: p.category,
+                                badge: p.badge,
+                                mrp: parseFloat(p.mrp || 0),
+                                strikePrice: parseFloat(p.strikePrice || 0),
+                                dealerPrice: parseFloat(p.dealerPrice || 0),
+                                boxSize: parseInt(p.boxSize || 1),
+                                moqText: p.moqText,
+                                status: p.status,
+                                delivery: p.delivery,
+                                image: p.image1 || 'images/101.png',
+                                images: [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '')
+                            }));
+                    }
+                    renderProducts();
+                },
+                error: function(err) {
+                    console.error("Error loading CSV:", err);
+                    document.getElementById('productGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-400 text-xs">Error loading catalog from Google Sheet. Check sharing permissions.</div>';
+                }
+            });
+        }
 
         function filterCategory(category, btnElement) {
             currentCategory = category;
@@ -277,7 +270,8 @@
                                 <h4 class="text-sm font-extrabold text-white mt-1 mb-2 leading-snug">${p.name}</h4>
                                 ${p.status === 'available' ? `
                                 <div class="flex items-baseline gap-2 mb-3 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
-                                    <span class="text-xl font-black text-amber-400">₹${p.dealerPrice.toFixed(2)}</span>${p.strikePrice > 0 ? `<span class="text-[11px] text-slate-400 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
+                                    <span class="text-xl font-black text-amber-400">₹${p.dealerPrice.toFixed(2)}</span>
+                                    ${p.strikePrice > 0 ? `<span class="text-[11px] text-slate-400 line-through">₹${p.strikePrice.toFixed(2)}</span>` : ''}
                                     <span class="text-[10px] text-slate-500 line-through ml-auto">MRP: ₹${p.mrp.toFixed(2)}</span>
                                 </div>` : ''}
                                 <div class="text-[11px] text-slate-400 bg-slate-950 p-2 rounded-lg border border-slate-800 mb-1 flex justify-between items-center">
@@ -387,6 +381,85 @@
             totalPriceEl.innerText = '₹' + totalPrice.toFixed(2);
         }
 
+        // PDF Generation Engine using jsPDF
+        function generateOrderPDF(name, phone, address, cartItems, grandTotal) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header Section
+            doc.setFillColor(15, 23, 42); // slate-900
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(245, 158, 11); // amber-500
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text("GS BIKERS CLUB", 14, 18);
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Wholesale Helmets & Spares - Allagadda", 14, 25);
+            doc.text("Phone: 76599 28108 / 84648 49742", 14, 32);
+
+            // Invoice Title
+            doc.setTextColor(15, 23, 42);
+            doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
+            doc.text("B2B PURCHASE ORDER", 14, 52);
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Order Date: ${new Date().toLocaleDateString('en-IN')}`, 140, 52);
+
+            // Dealer Details Box
+            doc.setDrawColor(226, 232, 240);
+            doc.rect(14, 58, 182, 28);
+            
+            doc.setFont("helvetica", "bold");
+            doc.text("Dealer / Shop Details:", 18, 66);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Shop Name: ${name}`, 18, 73);
+            doc.text(`Phone Number: ${phone}`, 18, 80);
+            doc.text(`Delivery Location: ${address || 'Allagadda'}`, 110, 73);
+
+            // Order Table
+            const tableData = cartItems.map((item, index) => {
+                let totalUnits = item.boxes * item.boxSize;
+                let itemTotal = item.dealerPrice * totalUnits;
+                return [
+                    index + 1,
+                    item.name,
+                    `${item.boxes} Box(es) (${totalUnits} Pcs)`,
+                    `₹${item.dealerPrice.toFixed(2)}`,
+                    `₹${itemTotal.toFixed(2)}`
+                ];
+            });
+
+            doc.autoTable({
+                startY: 92,
+                head: [['#', 'Item Description', 'Quantity', 'Unit Rate', 'Subtotal']],
+                body: tableData,
+                theme: 'striped',
+                headStyles: { fillStyle: 'F', fillColor: [245, 158, 11], textColor: [15, 23, 42], fontStyle: 'bold' },
+                styles: { fontSize: 9 }
+            });
+
+            // Grand Total Section
+            const finalY = doc.lastAutoTable.finalY + 10;
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Grand Total Estimated: Rs. ${grandTotal.toFixed(2)}`, 120, finalY);
+
+            // Footer Note
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "italic");
+            doc.setTextColor(100, 116, 139);
+            doc.text("Thank you for your business! GS Bikers Club Allagadda.", 14, finalY + 15);
+
+            // Save PDF
+            doc.save(`GS_Bikers_Order_${name.replace(/\s+/g, '_')}.pdf`);
+        }
+
         async function submitOrderBackground(e) {
             e.preventDefault();
             if (cart.length === 0) return;
@@ -415,8 +488,10 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
             btn.disabled = true;
 
+            // Generate & Download PDF
+            generateOrderPDF(name, phone, address, cart, grandTotal);
+
             try {
-                // Connected using your verified FormSubmit secure endpoint token
                 const response = await fetch("https://formsubmit.co/ajax/el/saceva", {
                     method: "POST",
                     headers: { 
@@ -444,7 +519,7 @@
             } catch (err) {
                 alert("Network error. Please check your internet connection.");
             } finally {
-                btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order Now`;
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Generate PDF`;
                 btn.disabled = false;
             }
         }
@@ -462,7 +537,8 @@
             renderProducts(e.target.value);
         });
 
-        renderProducts();
+        // Initialize Catalog from Google Sheets
+        loadProductsFromGoogleSheet();
     </script>
 </body>
 </html>
