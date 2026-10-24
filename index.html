@@ -44,9 +44,9 @@
                 <i class="fa-solid fa-store"></i>
             </div>
             <div>
-                <h3 class="text-xl font-extrabold text-slate-900">డీలర్ హోల్‌సేల్ కేటలాగ్ ఓపెన్ చేయండి</h3>
-                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                    తక్కువ మార్జిన్లతో విసిగిపోయారా? మీ షాప్ పేరు మరియు 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి మా డైరెక్ట్ హోల్‌సేల్ ధరలు చూడండి!
+                <h3 class="text-xl font-extrabold text-slate-900">తక్కువ మార్జిన్లతో విసిగిపోయారా?</h3>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                    అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ షాప్ లాభాలను మరింత పెంచుకోండి. మీ 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి హోల్‌సేల్ ధరలు చూడండి!
                 </p>
             </div>
             <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
@@ -65,7 +65,7 @@
         <!-- Top Ticker Bar -->
         <div class="bg-[#2874f0] text-white text-[11px] sm:text-xs font-bold py-2 px-4 text-center tracking-wide shadow-sm flex items-center justify-center gap-2">
             <i class="fa-solid fa-bullhorn text-amber-300"></i>
-            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? GS Traders తో ప్రతి పార్ట్ మీద భారీ లాభం పొందండి! • Code <code class="bg-blue-800 text-amber-300 px-1.5 py-0.5 rounded">GST5K</code> (-1% Off)</span>
+            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ లాభాలను మరింత పెంచుకోండి.</span>
         </div>
 
         <!-- Navigation Header -->
@@ -99,9 +99,9 @@
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
             <div class="bg-gradient-to-r from-slate-900 to-blue-950 text-white rounded-2xl p-5 sm:p-6 shadow-md flex flex-col sm:flex-row justify-between items-center gap-4 border border-slate-800">
                 <div class="space-y-1.5 text-center sm:text-left">
-                    <span class="bg-[#ff9f00] text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Direct Manufacturer Hub</span>
-                    <h2 class="text-base sm:text-xl font-extrabold">తక్కువ మార్జిన్లతో విసిగిపోయారా? ఇప్పుడే GS Traders తో వ్యాపారం చేయండి!</h2>
-                    <p class="text-xs text-slate-300">"Tired of low margins? Get maximum retailer profits & direct wholesale rates in Allagadda."</p>
+                    <span class="bg-[#ff9f00] text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Direct from Manufacturer</span>
+                    <h2 class="text-base sm:text-xl font-extrabold">తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి!</h2>
+                    <p class="text-xs text-amber-300 font-semibold">మీ లాభాలను మరింత పెంచుకోండి • Direct from manufacturer, best price in the market!</p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
                     <div class="bg-white/10 border border-white/20 p-3 rounded-xl text-center flex-1 sm:flex-none">
@@ -179,7 +179,7 @@
                 <div>
                     <p class="text-white font-bold text-sm">GS TRADERS (జీఎస్ ట్రేడర్స్), Allagadda</p>
                     <p class="text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP - 518543</p>
-                    <p class="text-[10px] text-amber-400 mt-1 italic">"తక్కువ మార్జిన్లతో విసిగిపోయారా? మీ షాప్ లాభాలను పెంచుకోండి!"</p>
+                    <p class="text-[11px] text-amber-300 font-semibold mt-1">"తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ లాభాలను మరింత పెంచుకోండి."</p>
                 </div>
                 <div class="flex gap-4 text-amber-300 font-bold">
                     <span><i class="fa-solid fa-phone mr-1"></i> 76599 28108</span>
@@ -766,7 +766,7 @@
             doc.setFontSize(9);
             doc.setFont("helvetica", "italic");
             doc.setTextColor(100, 116, 139);
-            doc.text("Thank you for choosing GS Traders Allagadda! (Boost your shop margins with direct wholesale rates).", 14, finalY + 46);
+            doc.text("Thank you for choosing GS Traders Allagadda! Direct from manufacturer, best price in the market.", 14, finalY + 46);
 
             doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
         }
