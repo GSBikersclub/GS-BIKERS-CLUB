@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS Traders | Wholesale Helmets & Spares - Allagadda (జీఎస్ ట్రేడర్స్)</title>
+    <title>GS Traders | Wholesale Spares & Helmets - Allagadda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- jsPDF & AutoTable for PDF Generation -->
+    <!-- jsPDF & AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     
@@ -16,15 +16,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f3f6; }
-        .flipkart-header { background: #2874f0; }
-        .pro-card {
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f3f4f6; }
+        .bsm-header { background: #1e40af; }
+        .cat-card {
             transition: all 0.2s ease-in-out;
             background: #ffffff;
         }
-        .pro-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 16px 0 rgba(0,0,0,0.15);
+        .cat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -37,22 +37,22 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-900 pb-20 sm:pb-0">
 
-    <!-- Dealer Phone Number Unlock Modal (Appears after 1 minute) -->
+    <!-- Dealer Unlock Gate Modal -->
     <div id="dealerUnlockModal" class="fixed inset-0 bg-slate-900/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 text-center">
-            <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-5 sm:p-8 shadow-2xl space-y-4 text-center">
+            <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
                 <i class="fa-solid fa-store"></i>
             </div>
             <div>
-                <h3 class="text-xl font-extrabold text-slate-900">తక్కువ మార్జిన్లతో విసిగిపోయారా?</h3>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                    అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ షాప్ లాభాలను మరింత పెంచుకోండి. మీ 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి హోల్‌సేల్ ధరలు చూడండి!
+                <h3 class="text-lg font-extrabold text-slate-900">తక్కువ మార్జిన్లతో విసిగిపోయారా?</h3>
+                <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                    GS Traders తో వ్యాపారం చేయండి! మీ 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి హోల్‌సేల్ ధరలు చూడండి!
                 </p>
             </div>
             <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
-                <input type="text" id="unlockShopName" required placeholder="Shop / Business Name (షాప్ పేరు) *" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
-                <input type="tel" id="unlockPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఉదా: 9876543210) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
-                <button type="submit" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-3.5 rounded-xl text-xs uppercase tracking-wider shadow-md cursor-pointer">
+                <input type="text" id="unlockShopName" required placeholder="Shop / Business Name (షాప్ పేరు) *" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                <input type="tel" id="unlockPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                <button type="submit" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider shadow-md cursor-pointer">
                     Unlock Wholesale Prices (ధరలు చూడండి)
                 </button>
             </form>
@@ -60,155 +60,131 @@
         </div>
     </div>
 
-    <!-- Main App Container -->
+    <!-- Main Container -->
     <div id="mainSiteContainer" class="flex flex-col flex-grow transition-all duration-500">
-        <!-- Top Ticker Bar -->
-        <div class="bg-[#2874f0] text-white text-[11px] sm:text-xs font-bold py-2 px-4 text-center tracking-wide shadow-sm flex items-center justify-center gap-2">
+        <!-- Top Announcement Ticker -->
+        <div class="bg-blue-900 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 text-center tracking-wide flex items-center justify-center gap-1.5">
             <i class="fa-solid fa-bullhorn text-amber-300"></i>
-            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! Direct from manufacturer, best price in the market!</span>
+            <span>Direct from manufacturer, best wholesale rates in Allagadda!</span>
         </div>
 
-        <!-- Navigation Header -->
-        <header class="flipkart-header sticky top-0 z-40 shadow-md">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                <div class="flex items-center space-x-3">
+        <!-- Header -->
+        <header class="bsm-header sticky top-0 z-40 shadow-md">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
                     <button onclick="resetView()" class="text-left cursor-pointer">
-                        <h1 class="text-lg sm:text-xl font-black tracking-tight text-white flex items-center gap-1.5">
-                            GS TRADERS <span class="text-amber-300 text-xs font-bold">(జీఎస్ ట్రేడర్స్)</span>
+                        <h1 class="text-base sm:text-xl font-black tracking-tight text-white flex items-center gap-1">
+                            GS TRADERS <span class="text-amber-300 text-[10px] sm:text-xs font-bold">(జీఎస్)</span>
                         </h1>
-                        <p class="text-[10px] text-blue-100 font-medium">Allagadda Wholesale Hub • నంద్యాల రోడ్, ఆళ్లగడ్డ</p>
+                        <p class="text-[9px] sm:text-[10px] text-blue-100 font-medium">Wholesale Spare Parts & Helmets</p>
                     </button>
                 </div>
                 
-                <div class="flex items-center space-x-3">
-                    <a href="tel:7659928108" class="hidden md:flex items-center gap-1.5 bg-blue-700 hover:bg-blue-800 text-white font-bold px-3.5 py-2 rounded-lg text-xs transition-all shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <a href="tel:7659928108" class="hidden md:flex items-center gap-1.5 bg-blue-800 hover:bg-blue-900 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition-all shadow-sm">
                         <i class="fa-solid fa-phone text-amber-300"></i>
                         <span>76599 28108</span>
                     </a>
                     
-                    <button onclick="toggleCart()" class="relative bg-white text-[#2874f0] hover:bg-blue-50 font-extrabold px-4 py-2 rounded-lg text-xs transition-all shadow flex items-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping text-sm text-[#2874f0]"></i>
-                        <span class="hidden xs:inline">Cart (కార్ట్)</span>
-                        <span id="cartBadge" class="bg-[#ff9f00] text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center hidden">0</span>
+                    <button onclick="toggleCart()" class="relative bg-white text-blue-900 hover:bg-blue-50 font-extrabold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs transition-all shadow flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-cart-shopping text-xs sm:text-sm text-blue-800"></i>
+                        <span>Cart</span>
+                        <span id="cartBadge" class="bg-[#ff9f00] text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded-full min-w-[18px] text-center hidden">0</span>
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Promotional Banner with Quote -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-            <div class="bg-gradient-to-r from-slate-900 to-blue-950 text-white rounded-2xl p-5 sm:p-6 shadow-md flex flex-col sm:flex-row justify-between items-center gap-4 border border-slate-800">
-                <div class="space-y-1.5 text-center sm:text-left">
-                    <span class="bg-[#ff9f00] text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Direct from Manufacturer</span>
-                    <h2 class="text-base sm:text-xl font-extrabold">తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి!</h2>
-                    <p class="text-xs text-amber-300 font-semibold">మీ లాభాలను మరింత పెంచుకోండి • Direct from manufacturer, best price in the market!</p>
-                </div>
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <div class="bg-white/10 border border-white/20 p-3 rounded-xl text-center flex-1 sm:flex-none">
-                        <p class="text-[10px] text-amber-300 font-bold">Orders ≥ ₹5,000</p>
-                        <p class="text-xs font-extrabold mt-0.5">Code: GST5K (-1%)</p>
-                    </div>
-                    <div class="bg-white/10 border border-white/20 p-3 rounded-xl text-center flex-1 sm:flex-none">
-                        <p class="text-[10px] text-emerald-300 font-bold">Orders ≥ ₹10,000</p>
-                        <p class="text-xs font-extrabold mt-0.5">Code: GST10K (-2%)</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust & Feature Badges Bar (Lowest Price, Fast Shipping, COD, Support) -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+        <!-- Feature Badges Bar -->
+        <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
                         <i class="fa-solid fa-tags"></i>
                     </div>
                     <div>
-                        <h4 class="text-xs font-extrabold text-slate-900">Lowest Wholesale Price</h4>
-                        <p class="text-[10px] text-slate-500">Direct from factory</p>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Lowest Price</h4>
+                        <p class="text-[9px] sm:text-[10px] text-slate-500">Factory Direct</p>
                     </div>
                 </div>
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-emerald-50 text-emerald-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
                     <div>
-                        <h4 class="text-xs font-extrabold text-slate-900">Fast Shipping</h4>
-                        <p class="text-[10px] text-slate-500">Quick dispatch to shops</p>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Fast Shipping</h4>
+                        <p class="text-[9px] sm:text-[10px] text-slate-500">Quick Dispatch</p>
                     </div>
                 </div>
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-amber-50 text-amber-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
                         <i class="fa-solid fa-wallet"></i>
                     </div>
                     <div>
-                        <h4 class="text-xs font-extrabold text-slate-900">COD Available</h4>
-                        <p class="text-[10px] text-slate-500">Easy dealer terms</p>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">COD Available</h4>
+                        <p class="text-[9px] sm:text-[10px] text-slate-500">Easy Terms</p>
                     </div>
                 </div>
-                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
-                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-indigo-50 text-indigo-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
                         <i class="fa-solid fa-headset"></i>
                     </div>
                     <div>
-                        <h4 class="text-xs font-extrabold text-slate-900">24/7 Support</h4>
-                        <p class="text-[10px] text-slate-500">Call & WhatsApp active</p>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">24/7 Support</h4>
+                        <p class="text-[9px] sm:text-[10px] text-slate-500">Call & WhatsApp</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Main Catalog Section -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-6">
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 flex-grow w-full space-y-4">
             
-            <!-- Column C Top Row Filter (Helmets, Accessories, Spare Parts) -->
+            <!-- Column C Top Filter Tabs -->
             <div>
-                <p class="text-[11px] font-bold text-slate-500 mb-2"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Top Category Filter (Column C):</p>
-                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="columnCCategoryTabs">
-                    <button onclick="filterByColumnC('All', this)" class="colc-btn bg-[#2874f0] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow transition-all cursor-pointer whitespace-nowrap">
-                        All Items (అన్నీ)
+                <p class="text-[10px] sm:text-xs font-bold text-slate-500 mb-1.5"><i class="fa-solid fa-filter text-blue-700 mr-1"></i> Main Categories (Column C):</p>
+                <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1" id="columnCCategoryTabs">
+                    <button onclick="filterByColumnC('All', this)" class="colc-btn bg-blue-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow-sm transition-all cursor-pointer whitespace-nowrap">
+                        All Items
                     </button>
-                    <!-- Dynamically injected Column C category buttons will appear here -->
                 </div>
             </div>
 
-            <!-- Search and Header Bar -->
-            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 pt-2">
+            <!-- Search and Heading Bar -->
+            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 pt-1">
                 <div>
-                    <h3 id="sectionHeading" class="text-sm font-black text-slate-900 uppercase tracking-wide">Product Categories (Column B Items)</h3>
-                    <p class="text-xs text-slate-500">Click any category (e.g. Motorcycle Spark Plug) to view applicable variants and pricing.</p>
+                    <h3 class="text-xs sm:text-sm font-black text-slate-900 uppercase tracking-wide">Category Display (Column B)</h3>
                 </div>
 
-                <div class="w-full lg:w-80">
+                <div class="w-full sm:w-72">
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
                         </span>
-                        <input type="text" id="searchInput" placeholder="Search spark plug, brake pad..." 
-                            class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2874f0] text-xs shadow-sm">
+                        <input type="text" id="searchInput" placeholder="Search fuel pump, spark plug..." 
+                            class="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 text-xs shadow-2xs">
                     </div>
                 </div>
             </div>
 
-            <!-- Categories Grid (Column B Items) -->
-            <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                <div class="col-span-full text-center py-20 text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                    <i class="fa-solid fa-spinner fa-spin text-3xl text-[#2874f0] mb-3"></i>
-                    <p class="text-xs font-medium">Loading categories from Google Sheet...</p>
+            <!-- Mobile 2-Column Responsive Grid -->
+            <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+                <div class="col-span-full text-center py-16 text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-2xs">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-700 mb-2"></i>
+                    <p class="text-xs font-medium">Loading catalog from Google Sheet...</p>
                 </div>
             </div>
 
         </main>
 
         <!-- Footer -->
-        <footer class="bg-slate-900 text-slate-300 py-8 mt-12 border-t border-slate-800 text-xs mb-12 sm:mb-0">
-            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <footer class="bg-slate-900 text-slate-300 py-6 mt-8 border-t border-slate-800 text-xs mb-12 sm:mb-0">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
                 <div>
-                    <p class="text-white font-bold text-sm">GS TRADERS (జీఎస్ ట్రేడర్స్), Allagadda</p>
-                    <p class="text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP - 518543</p>
-                    <p class="text-[11px] text-amber-300 font-semibold mt-1">"తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ లాభాలను మరింత పెంచుకోండి."</p>
+                    <p class="text-white font-bold text-xs sm:text-sm">GS TRADERS (జీఎస్ ట్రేడర్స్), Allagadda</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP</p>
                 </div>
-                <div class="flex gap-4 text-amber-300 font-bold">
+                <div class="flex gap-3 text-amber-300 font-bold text-xs">
                     <span><i class="fa-solid fa-phone mr-1"></i> 76599 28108</span>
                     <span><i class="fa-solid fa-phone mr-1"></i> 84648 49742</span>
                 </div>
@@ -216,128 +192,130 @@
         </footer>
     </div>
 
-    <!-- Sticky Floating WhatsApp Button at Bottom Right -->
+    <!-- WhatsApp Floating Button -->
     <a href="https://wa.me/917659928108?text=Hello%20GS%20Traders,%20I%20want%20to%20place%20an%20order." target="_blank" 
-       class="fixed bottom-6 right-6 bg-emerald-600 hover:bg-emerald-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl z-40 transition-transform hover:scale-110 cursor-pointer"
+       class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 bg-emerald-600 hover:bg-emerald-500 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl z-40 transition-transform hover:scale-110 cursor-pointer"
        title="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- Category Details Modal (Opens when user clicks a category like Spark Plug) -->
-    <div id="categoryDetailModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            <div class="p-4 bg-[#2874f0] text-white flex items-center justify-between">
+    <!-- Category Popup Modal -->
+    <div id="categoryDetailModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-3 sm:p-4 bg-blue-800 text-white flex items-center justify-between">
                 <div>
-                    <h3 id="modalCategoryTitle" class="text-base font-black">Category Items</h3>
-                    <p class="text-[11px] text-blue-100">Select applicable models and add to cart</p>
+                    <h3 id="modalCategoryTitle" class="text-xs sm:text-base font-black">Category Items</h3>
+                    <p class="text-[10px] text-blue-100">Select applicable models and add to cart</p>
                 </div>
-                <button onclick="closeCategoryModal()" class="text-white hover:text-slate-200 text-base font-bold cursor-pointer w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
+                <button onclick="closeCategoryModal()" class="text-white hover:text-slate-200 text-sm font-bold cursor-pointer w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-700 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div id="modalProductsContainer" class="p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-50 flex-grow">
-                <!-- Dynamically injected items -->
-            </div>
+            <div id="modalProductsContainer" class="p-3 sm:p-5 overflow-y-auto grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 bg-slate-50 flex-grow"></div>
         </div>
     </div>
 
-    <!-- Slide-Over Shopping Cart Drawer -->
+    <!-- Slide-Over Shopping Cart -->
     <div id="cartOverlay" class="fixed inset-0 bg-slate-900/60 z-50 hidden backdrop-blur-xs transition-opacity"></div>
     <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full flex flex-col transition-transform duration-300">
-        <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-[#2874f0] text-white">
+        <div class="p-3.5 border-b border-slate-200 flex items-center justify-between bg-blue-800 text-white">
             <div class="flex items-center gap-2">
-                <i class="fa-solid fa-cart-shopping text-lg"></i>
-                <h3 class="text-base font-extrabold">Dealer Cart (ఆర్డర్ కార్ట్)</h3>
+                <i class="fa-solid fa-cart-shopping text-base"></i>
+                <h3 class="text-sm font-extrabold">Dealer Cart</h3>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="clearCart()" class="text-xs text-rose-100 hover:text-white bg-rose-600/80 px-2.5 py-1 rounded font-bold cursor-pointer">
-                    <i class="fa-solid fa-trash-can mr-1"></i> Clear
-                </button>
-                <button onclick="toggleCart()" class="text-white hover:text-slate-200 text-base font-bold cursor-pointer w-7 h-7 rounded-full flex items-center justify-center">
+                <button onclick="clearCart()" class="text-[11px] text-rose-100 hover:text-white bg-rose-600/80 px-2 py-0.5 rounded font-bold cursor-pointer">Clear</button>
+                <button onclick="toggleCart()" class="text-white text-sm font-bold cursor-pointer w-6 h-6 rounded-full flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
         </div>
 
-        <div id="cartItemsContainer" class="p-4 flex-grow overflow-y-auto space-y-3"></div>
+        <div id="cartItemsContainer" class="p-3 sm:p-4 flex-grow overflow-y-auto space-y-2.5"></div>
 
-        <!-- Cart Financials & Profit Preview -->
-        <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
-            <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-xs space-y-1">
+        <div class="p-3.5 border-t border-slate-200 bg-slate-50 space-y-2.5">
+            <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-xs space-y-0.5">
                 <div class="flex justify-between text-slate-600">
-                    <span>Total MRP Value (మొత్తం MRP విలువ):</span>
+                    <span>Total MRP Value:</span>
                     <span id="cartMrpValue" class="font-bold">₹0.00</span>
                 </div>
                 <div class="flex justify-between text-emerald-700 font-extrabold">
-                    <span>Estimated Retail Profit (మీ మొత్తం లాభం / ఆదా):</span>
+                    <span>Estimated Retail Profit:</span>
                     <span id="cartTotalProfit">₹0.00</span>
                 </div>
             </div>
 
-            <!-- Coupon Input Box -->
             <div class="flex gap-2">
-                <input type="text" id="couponInput" placeholder="Coupon Code (e.g. GST5K)" class="flex-grow px-3 py-2 border border-slate-300 bg-white rounded-lg text-xs uppercase text-slate-900 placeholder-slate-400 focus:ring-1 focus:ring-[#2874f0]">
-                <button onclick="applyCoupon()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold px-3 py-2 rounded-lg text-xs cursor-pointer">Apply</button>
+                <input type="text" id="couponInput" placeholder="Coupon Code (e.g. GST5K)" class="flex-grow px-2.5 py-1.5 border border-slate-300 bg-white rounded-lg text-xs uppercase text-slate-900 focus:ring-1 focus:ring-blue-700">
+                <button onclick="applyCoupon()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold px-3 py-1.5 rounded-lg text-xs cursor-pointer">Apply</button>
             </div>
-            <div id="couponMessage" class="text-[11px] text-emerald-600 font-bold hidden"></div>
+            <div id="couponMessage" class="text-[10px] text-emerald-600 font-bold hidden"></div>
 
-            <div class="flex justify-between items-center text-sm font-bold text-slate-900 pt-1 border-t border-slate-200">
-                <span>Final Payable Total (మొత్తం చెల్లించవలసినది):</span>
-                <span id="cartTotalPrice" class="text-blue-600 text-base font-black">₹0.00</span>
+            <div class="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-900 pt-1 border-t border-slate-200">
+                <span>Final Payable Total:</span>
+                <span id="cartTotalPrice" class="text-blue-700 text-base font-black">₹0.00</span>
             </div>
 
-            <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-2.5 pt-1">
-                <div>
-                    <input type="text" id="cartBuyerName" required class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900" placeholder="Business / Shop Name (షాప్ పేరు) *">
-                </div>
-                <div>
-                    <input type="tel" id="cartBuyerPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఉదా: 9876543210) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900">
-                </div>
-                <div>
-                    <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900" placeholder="Delivery Town / Landmark (గ్రామం/టౌన్ - ఆప్షనల్)">
-                </div>
+            <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-2 pt-0.5">
+                <input type="text" id="cartBuyerName" required class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Business / Shop Name *">
+                <input type="tel" id="cartBuyerPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900">
+                <input type="text" id="cartBuyerAddress" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Delivery Town / Landmark">
 
-                <button type="submit" id="submitOrderBtn" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-black py-3 rounded-lg transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)
+                <button type="submit" id="submitOrderBtn" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-black py-2.5 rounded-lg transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Mobile Sticky Bottom Floating Cart Bar -->
-    <div class="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 p-3 z-30 flex items-center justify-between shadow-lg">
+    <!-- Mobile Bottom Floating Summary Bar -->
+    <div class="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 p-2.5 z-30 flex items-center justify-between shadow-lg">
         <div>
-            <p class="text-[10px] text-slate-500 font-bold">Cart Summary (కార్ట్)</p>
-            <p id="mobileCartSummary" class="text-xs font-black text-blue-600">0 Items • ₹0.00</p>
+            <p class="text-[9px] text-slate-500 font-bold">Cart Summary</p>
+            <p id="mobileCartSummary" class="text-xs font-black text-blue-700">0 Items • ₹0.00</p>
         </div>
-        <button onclick="toggleCart()" class="bg-[#ff9f00] text-slate-950 font-black px-4 py-2 rounded-lg text-xs shadow flex items-center gap-2">
-            <i class="fa-solid fa-bag-shopping"></i> View Cart (చూడండి)
+        <button onclick="toggleCart()" class="bg-[#ff9f00] text-slate-950 font-black px-3.5 py-1.5 rounded-lg text-xs shadow flex items-center gap-1.5">
+            <i class="fa-solid fa-bag-shopping"></i> View Cart
         </button>
+    </div>
+
+    <!-- Image Gallery Modal -->
+    <div id="imageGalleryModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-3">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-4 relative shadow-2xl space-y-2">
+            <button onclick="closeGalleryModal()" class="absolute top-2.5 right-2.5 text-slate-500 hover:text-slate-800 bg-slate-100 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark text-xs"></i>
+            </button>
+            <h4 id="galleryTitle" class="text-xs font-bold text-slate-900 pr-6">Product Images</h4>
+            <div class="h-52 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200">
+                <img id="galleryMainImage" src="" class="max-h-full max-w-full object-contain">
+            </div>
+            <div id="galleryThumbnails" class="flex gap-1.5 overflow-x-auto justify-center pt-1"></div>
+        </div>
     </div>
 
     <!-- Order Confirmation Modal -->
     <div id="thankYouModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
-            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-5 text-center shadow-2xl space-y-3">
+            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
             <div>
-                <h3 class="text-base font-extrabold text-slate-900">Order Placed Successfully! (ఆర్డర్ విజయవంతం)</h3>
-                <p id="thankYouDealerName" class="text-blue-600 font-bold text-xs mt-1"></p>
+                <h3 class="text-sm font-extrabold text-slate-900">Order Placed Successfully!</h3>
+                <p id="thankYouDealerName" class="text-blue-700 font-bold text-xs mt-0.5"></p>
             </div>
-            <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200">
-                మీ ప్రాఫిట్ PDF ఇన్‌వాయిస్ ఆటోమేటిక్‌గా డౌన్‌లోడ్ అయింది. వాట్సాప్ ద్వారా వెంటనే ఆర్డర్‌ను పంపండి:
+            <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                మీ PDF ఇన్‌వాయిస్ ఆటోమేటిక్‌గా డౌన్‌లోడ్ అయింది. వాట్సాప్ ద్వారా వెంటనే పంపండి:
             </p>
             <div class="grid grid-cols-2 gap-2">
-                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> 76599 (WhatsApp)
+                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
+                    <i class="fa-brands fa-whatsapp"></i> 76599 (WA)
                 </button>
-                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-2 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> 84648 (WhatsApp)
+                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
+                    <i class="fa-brands fa-whatsapp"></i> 84648 (WA)
                 </button>
             </div>
-            <button onclick="closeThankYouModal()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2.5 rounded-lg text-xs cursor-pointer">
-                Close (మూసివేయి)
+            <button onclick="closeThankYouModal()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2 rounded-lg text-xs cursor-pointer">
+                Close
             </button>
         </div>
     </div>
@@ -354,7 +332,7 @@
         let activeCouponName = '';
         let rawOrderTextMessage = '';
 
-        // 60-Second Blur & Dealer Number Gate Timer
+        // 60-Second Blur Gate
         setTimeout(() => {
             const unlocked = localStorage.getItem('gs_dealer_unlocked');
             if (!unlocked) {
@@ -374,7 +352,7 @@
             document.getElementById('mainSiteContainer').classList.remove('blur-locked');
             document.getElementById('dealerUnlockModal').classList.add('hidden');
 
-            const leadMsg = `*NEW DEALER CATALOG UNLOCK LEAD - GS TRADERS*\n\n• Shop Name: ${shopName}\n• Phone Number: ${phone}\n\n(Dealer unlocked catalog after 1 minute).`;
+            const leadMsg = `*NEW DEALER UNLOCK LEAD - GS TRADERS*\n\n• Shop: ${shopName}\n• Phone: ${phone}`;
             const waUrl = `https://wa.me/917659928108?text=${encodeURIComponent(leadMsg)}`;
             window.open(waUrl, '_blank');
         }
@@ -396,17 +374,16 @@
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
                                 const compatibility = p.compatibility || '';
                                 
-                                // Column C = Top filter category (Helmets, Accessories, Spare Parts)
                                 const columnCVal = (p.category && p.category.trim() !== '') ? p.category.trim() : 'Spare Parts';
-                                
-                                // Column B = Sub-category item name (Motorcycle Spark Plug, Brake Pads, etc.)
                                 const columnBVal = (p.name && p.name.trim() !== '') ? p.name.trim() : 'General Item';
+                                const categoryImg = (p.categoryImage && p.categoryImage.trim() !== '') ? p.categoryImage.trim() : (imgs.length > 0 ? imgs[0] : 'images/101.png');
 
                                 return {
                                     id: parseInt(p.id),
                                     name: p.name,
-                                    columnC: columnCVal, // Top row filter category
-                                    columnB: columnBVal, // Home page category card
+                                    columnC: columnCVal, 
+                                    columnB: columnBVal, 
+                                    categoryImage: categoryImg,
                                     badge: p.badge,
                                     mrp: mrp,
                                     strikePrice: parseFloat(p.strikePrice || 0),
@@ -431,14 +408,13 @@
             });
         }
 
-        // Build top row filter buttons from Column C values
         function buildColumnCFilters() {
             const container = document.getElementById('columnCCategoryTabs');
             const uniqueColumnC = [...new Set(products.map(p => p.columnC))];
 
             uniqueColumnC.forEach(colC => {
                 container.innerHTML += `
-                    <button onclick="filterByColumnC('${colC}', this)" class="colc-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
+                    <button onclick="filterByColumnC('${colC}', this)" class="colc-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-3.5 py-2 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
                         ${colC}
                     </button>
                 `;
@@ -448,20 +424,19 @@
         function filterByColumnC(filterKey, btnElement) {
             currentColumnCFilter = filterKey;
             document.querySelectorAll('.colc-btn').forEach(btn => {
-                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow');
+                btn.classList.remove('bg-blue-800', 'text-white', 'shadow-sm');
                 btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
             });
             btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow');
+            btnElement.classList.add('bg-blue-800', 'text-white', 'shadow-sm');
             renderCategories(document.getElementById('searchInput').value);
         }
 
-        // Render Column B Category Cards on Home Page
+        // Render Category Tiles (bikesparemarket style)
         function renderCategories(searchQuery = '') {
             const grid = document.getElementById('categoryGrid');
             grid.innerHTML = '';
 
-            // Filter products based on Top Row Filter (Column C)
             const filteredByC = products.filter(p => {
                 const matchesC = (currentColumnCFilter === 'All' || p.columnC.toLowerCase() === currentColumnCFilter.toLowerCase());
                 const matchesSearch = p.columnB.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -469,13 +444,12 @@
                 return matchesC && matchesSearch;
             });
 
-            // Group by Column B (e.g. Motorcycle Spark Plug, Brake Pads)
             const categoryMap = {};
             filteredByC.forEach(p => {
                 if (!categoryMap[p.columnB]) {
                     categoryMap[p.columnB] = {
                         name: p.columnB,
-                        image: p.image,
+                        image: p.categoryImage,
                         items: []
                     };
                 }
@@ -485,25 +459,25 @@
             const categories = Object.values(categoryMap);
 
             if (categories.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No categories found matching this filter.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No categories found.</div>';
                 return;
             }
 
             categories.forEach(cat => {
                 grid.innerHTML += `
-                    <div onclick="openCategoryModal('${cat.name}')" class="pro-card rounded-2xl shadow-sm overflow-hidden border border-slate-200 flex flex-col justify-between p-4 cursor-pointer group">
+                    <div onclick="openCategoryModal('${cat.name}')" class="cat-card rounded-xl shadow-2xs overflow-hidden border border-slate-200 flex flex-col justify-between p-2.5 sm:p-3.5 cursor-pointer group">
                         <div>
-                            <div class="relative h-44 rounded-xl overflow-hidden bg-slate-100 mb-3">
+                            <div class="relative h-28 sm:h-40 rounded-lg overflow-hidden bg-slate-100 mb-2">
                                 <img src="${cat.image}" alt="${cat.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                <span class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">
-                                    ${cat.items.length} Type(s) Available
+                                <span class="absolute top-1.5 left-1.5 bg-blue-700 text-white text-[8px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded shadow-xs">
+                                    ${cat.items.length} Type(s)
                                 </span>
                             </div>
-                            <h4 class="text-sm font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors">${cat.name}</h4>
-                            <p class="text-[11px] text-slate-500 mt-1">Click to view all variants and applicable models</p>
+                            <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-1">${cat.name}</h4>
+                            <p class="text-[9px] sm:text-[11px] text-slate-500 mt-0.5 truncate">Click to view items</p>
                         </div>
-                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
-                            <span>View All Types</span>
+                        <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-xs font-bold text-blue-700">
+                            <span>View Details</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                         </div>
                     </div>
@@ -511,7 +485,6 @@
             });
         }
 
-        // Open Modal showing full details of items in this category (e.g. 3 types of Spark Plugs)
         function openCategoryModal(columnBName) {
             const matchingProducts = products.filter(p => p.columnB === columnBName);
             document.getElementById('modalCategoryTitle').innerText = columnBName + ` (${matchingProducts.length} Items)`;
@@ -522,38 +495,42 @@
             matchingProducts.forEach(p => {
                 let actionBtn = '';
                 if (p.status === 'coming_soon') {
-                    actionBtn = `<div class="w-full bg-slate-100 text-slate-500 font-bold py-2 rounded-lg text-center text-[11px]">Coming Soon</div>`;
+                    actionBtn = `<div class="w-full bg-slate-100 text-slate-500 font-bold py-1.5 rounded-lg text-center text-[10px]">Coming Soon</div>`;
                 } else if (p.status === 'out_of_stock') {
-                    actionBtn = `<div class="w-full bg-rose-50 text-rose-600 border border-rose-200 font-bold py-2 rounded-lg text-center text-[11px]">Out of Stock</div>`;
+                    actionBtn = `<div class="w-full bg-rose-50 text-rose-600 border border-rose-200 font-bold py-1.5 rounded-lg text-center text-[10px]">Out of Stock</div>`;
                 } else {
-                    actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-2.5 rounded-xl text-center transition-all shadow-sm text-xs cursor-pointer flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-cart-plus"></i> Add to Cart (${p.moqText})
+                    actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-2 rounded-lg text-center transition-all shadow-2xs text-[11px] cursor-pointer flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-cart-plus text-[10px]"></i> Add to Cart (${p.moqText})
                     </button>`;
                 }
 
                 container.innerHTML += `
-                    <div class="bg-white rounded-xl border border-slate-200 p-3.5 flex flex-col justify-between shadow-xs">
+                    <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 flex flex-col justify-between shadow-2xs">
                         <div>
-                            <div class="relative h-36 rounded-lg overflow-hidden bg-slate-100 mb-2.5">
+                            <div class="relative h-28 sm:h-36 rounded-lg overflow-hidden bg-slate-100 mb-2 group">
                                 <img src="${p.image}" class="w-full h-full object-cover">
-                                <span class="absolute top-2 left-2 bg-emerald-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow">
+                                <span class="absolute top-1.5 left-1.5 bg-emerald-600 text-white text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.2 rounded shadow-2xs">
                                     ${p.marginPct}% MARGIN
                                 </span>
+                                ${p.images.length > 1 ? `
+                                <button onclick="openGalleryModal(${p.id})" class="absolute bottom-1.5 right-1.5 bg-slate-900/80 hover:bg-slate-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 shadow cursor-pointer">
+                                    <i class="fa-solid fa-images text-amber-300"></i> ${p.images.length}
+                                </button>` : ''}
                             </div>
-                            <h5 class="text-xs font-extrabold text-slate-900 leading-snug">${p.name}</h5>
+                            <h5 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-snug line-clamp-2">${p.name}</h5>
                             ${p.compatibility ? `
-                            <p class="text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1.5 mt-2">
-                                <i class="fa-solid fa-motorcycle text-amber-500"></i> <span class="font-medium truncate">Fits: ${p.compatibility}</span>
+                            <p class="text-[9px] sm:text-[11px] text-slate-600 bg-slate-50 px-1.5 py-1 rounded-md border border-slate-200 flex items-center gap-1 mt-1.5">
+                                <i class="fa-solid fa-motorcycle text-amber-500 text-[10px]"></i> <span class="font-medium truncate">Fits: ${p.compatibility}</span>
                             </p>` : ''}
-                            <div class="mt-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1">
+                            <div class="mt-2 bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-slate-200 space-y-0.5">
                                 <div class="flex items-baseline justify-between">
-                                    <span class="text-base font-black text-slate-900">₹${p.dealerPrice.toFixed(2)}</span>
-                                    <span class="text-[10px] text-slate-400 line-through">MRP: ₹${p.mrp.toFixed(2)}</span>
+                                    <span class="text-xs sm:text-sm font-black text-slate-900">₹${p.dealerPrice.toFixed(2)}</span>
+                                    <span class="text-[9px] text-slate-400 line-through">MRP: ₹${p.mrp.toFixed(2)}</span>
                                 </div>
-                                <div class="text-[10px] text-emerald-600 font-extrabold">Retail Profit: ₹${(p.mrp - p.dealerPrice).toFixed(2)}</div>
+                                <div class="text-[9px] sm:text-[10px] text-emerald-600 font-extrabold truncate">Profit: ₹${(p.mrp - p.dealerPrice).toFixed(2)}</div>
                             </div>
                         </div>
-                        <div class="mt-3">
+                        <div class="mt-2.5">
                             ${actionBtn}
                         </div>
                     </div>
@@ -565,6 +542,27 @@
 
         function closeCategoryModal() {
             document.getElementById('categoryDetailModal').classList.add('hidden');
+        }
+
+        function openGalleryModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            document.getElementById('galleryTitle').innerText = product.name;
+            const mainImg = document.getElementById('galleryMainImage');
+            mainImg.src = product.images[0];
+            const thumbsContainer = document.getElementById('galleryThumbnails');
+            thumbsContainer.innerHTML = '';
+            product.images.forEach((img) => {
+                thumbsContainer.innerHTML += `
+                    <img src="${img}" onclick="document.getElementById('galleryMainImage').src='${img}'" 
+                         class="w-10 h-10 object-cover rounded-md border border-slate-300 hover:border-blue-600 cursor-pointer transition-all">
+                `;
+            });
+            document.getElementById('imageGalleryModal').classList.remove('hidden');
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('imageGalleryModal').classList.add('hidden');
         }
 
         function toggleCart() {
@@ -627,11 +625,11 @@
                 if (subtotal >= 5000) {
                     activeDiscountPercent = 1;
                     activeCouponName = 'GST5K (1% OFF)';
-                    msgEl.innerText = 'Coupon GST5K applied successfully!';
+                    msgEl.innerText = 'Coupon GST5K applied!';
                     msgEl.classList.remove('hidden', 'text-rose-600');
                     msgEl.classList.add('text-emerald-600');
                 } else {
-                    msgEl.innerText = 'Minimum order of ₹5,000 required for GST5K.';
+                    msgEl.innerText = 'Min ₹5,000 required.';
                     msgEl.classList.remove('hidden', 'text-emerald-600');
                     msgEl.classList.add('text-rose-600');
                     activeDiscountPercent = 0;
@@ -641,11 +639,11 @@
                 if (subtotal >= 10000) {
                     activeDiscountPercent = 2;
                     activeCouponName = 'GST10K (2% OFF)';
-                    msgEl.innerText = 'Coupon GST10K applied successfully!';
+                    msgEl.innerText = 'Coupon GST10K applied!';
                     msgEl.classList.remove('hidden', 'text-rose-600');
                     msgEl.classList.add('text-emerald-600');
                 } else {
-                    msgEl.innerText = 'Minimum order of ₹10,000 required for GST10K.';
+                    msgEl.innerText = 'Min ₹10,000 required.';
                     msgEl.classList.remove('hidden', 'text-emerald-600');
                     msgEl.classList.add('text-rose-600');
                     activeDiscountPercent = 0;
@@ -675,7 +673,7 @@
             let totalMrpVal = 0;
 
             if (cart.length === 0) {
-                container.innerHTML = '<div class="text-center py-16 text-slate-400 text-xs">Your cart is empty. (కార్ట్ ఖాళీగా ఉంది)</div>';
+                container.innerHTML = '<div class="text-center py-12 text-slate-400 text-xs">Your cart is empty.</div>';
                 badge.classList.add('hidden');
                 totalPriceEl.innerText = '₹0.00';
                 cartMrpValueEl.innerText = '₹0.00';
@@ -696,17 +694,17 @@
                 totalMrpVal += itemMrpTotal;
 
                 container.innerHTML += `
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between gap-3 text-xs">
-                        <img src="${item.image}" class="w-12 h-12 object-cover rounded-lg bg-white border border-slate-200">
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-2.5 text-xs">
+                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg bg-white border border-slate-200 flex-shrink-0">
                         <div class="flex-grow">
-                            <h5 class="font-bold text-slate-900 leading-tight">${item.name}</h5>
-                            <p class="text-blue-600 font-extrabold mt-0.5">${item.boxes} Box(es) <span class="text-slate-500 font-normal">(${totalUnits} Pcs)</span></p>
-                            <p class="text-[10px] text-emerald-600 font-bold">Profit: ₹${(itemMrpTotal - itemSubtotal).toFixed(2)} (${item.marginPct}%)</p>
+                            <h5 class="font-bold text-slate-900 leading-tight line-clamp-1">${item.name}</h5>
+                            <p class="text-blue-700 font-extrabold text-[11px]">${item.boxes} Box(es) <span class="text-slate-500 font-normal">(${totalUnits} Pcs)</span></p>
+                            <p class="text-[9px] text-emerald-600 font-bold">Profit: ₹${(itemMrpTotal - itemSubtotal).toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center gap-1 bg-white border border-slate-300 rounded-lg p-0.5">
-                            <button onclick="changeBoxes(${item.id}, -1)" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-bold flex items-center justify-center cursor-pointer">-</button>
-                            <span class="w-5 text-center font-bold text-slate-900">${item.boxes}</span>
-                            <button onclick="changeBoxes(${item.id}, 1)" class="w-6 h-6 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-bold flex items-center justify-center cursor-pointer">+</button>
+                        <div class="flex items-center gap-1 bg-white border border-slate-300 rounded-lg p-0.5 flex-shrink-0">
+                            <button onclick="changeBoxes(${item.id}, -1)" class="w-5 h-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-bold flex items-center justify-center cursor-pointer text-xs">-</button>
+                            <span class="w-4 text-center font-bold text-slate-900 text-xs">${item.boxes}</span>
+                            <button onclick="changeBoxes(${item.id}, 1)" class="w-5 h-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-bold flex items-center justify-center cursor-pointer text-xs">+</button>
                         </div>
                     </div>
                 `;
@@ -727,7 +725,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            doc.setFillColor(40, 116, 240);
+            doc.setFillColor(30, 64, 175);
             doc.rect(0, 0, 210, 42, 'F');
             
             doc.setTextColor(255, 255, 255);
@@ -737,7 +735,7 @@
 
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
-            doc.text("Wholesale Helmets & Spares - Koilakuntla Road, Near Bypass", 14, 26);
+            doc.text("Wholesale Spares & Helmets - Koilakuntla Road, Near Bypass", 14, 26);
             doc.text("Phone: 76599 28108 / 84648 49742", 14, 33);
 
             doc.setTextColor(15, 23, 42);
@@ -780,7 +778,7 @@
                 head: [['#', 'Item Description & Vehicle', 'Qty', 'MRP (Unit)', 'Dealer Price', 'Subtotal', 'Dealer Profit / Margin']],
                 body: tableData,
                 theme: 'striped',
-                headStyles: { fillStyle: 'F', fillColor: [40, 116, 240], textColor: [255, 255, 255], fontStyle: 'bold' },
+                headStyles: { fillStyle: 'F', fillColor: [30, 64, 175], textColor: [255, 255, 255], fontStyle: 'bold' },
                 styles: { fontSize: 8 }
             });
 
@@ -799,11 +797,6 @@
             doc.text(`Final Payable Investment: Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
             doc.setFontSize(11);
             doc.text(`TOTAL RETAIL PROFIT & SAVINGS: Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
-
-            doc.setFontSize(9);
-            doc.setFont("helvetica", "italic");
-            doc.setTextColor(100, 116, 139);
-            doc.text("Thank you for choosing GS Traders Allagadda! Direct from manufacturer, best price in the market.", 14, finalY + 46);
 
             doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
         }
@@ -866,7 +859,7 @@
             activeCouponName = '';
             updateCartUI();
 
-            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)`;
+            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF`;
             btn.disabled = false;
         }
 
