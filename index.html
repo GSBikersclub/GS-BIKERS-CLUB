@@ -31,132 +31,184 @@
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.5); }
+        .blur-locked {
+            filter: blur(8px);
+            pointer-events: none;
+            user-select: none;
         }
-        .glow-banner { animation: pulseGlow 3s infinite; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 pb-20 sm:pb-0">
 
-    <!-- Top Ticker Bar -->
-    <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-slate-950 text-[11px] sm:text-xs font-extrabold py-2 px-4 text-center tracking-wide shadow-md flex items-center justify-center gap-2">
-        <span class="flex h-2 w-2 relative">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
-        </span>
-        <span class="uppercase tracking-wider">GS Traders B2B Portal • 38% to 40% Dealer Margins • Use Code <code class="bg-slate-950 text-amber-400 px-1.5 py-0.5 rounded">GST5K</code> for Extra 1% Off!</span>
+    <!-- Dealer Phone Number Unlock Modal (Appears after 1 minute) -->
+    <div id="dealerUnlockModal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 backdrop-blur-md hidden">
+        <div class="bg-slate-900 border border-amber-500/50 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 text-center">
+            <div class="w-16 h-16 bg-amber-500/10 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-lock-open"></i>
+            </div>
+            <div>
+                <h3 class="text-xl font-black text-white">Unlock Wholesale Catalog</h3>
+                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                    You've been viewing our dealer rates. Enter your mobile number to unlock live prices, margins, and place your order. Our team will call you back!
+                </p>
+            </div>
+            <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
+                <input type="text" id="unlockShopName" required placeholder="Shop / Business Name *" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-slate-100 focus:ring-2 focus:ring-amber-500">
+                <input type="tel" id="unlockPhone" required placeholder="10-Digit Mobile Number *" class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs text-slate-100 focus:ring-2 focus:ring-amber-500">
+                <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow-lg cursor-pointer">
+                    Unlock Catalog & Call Me
+                </button>
+            </form>
+            <p class="text-[10px] text-slate-500">GS Traders Allagadda • Authorized Dealer Portal</p>
+        </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header class="glass-header sticky top-0 z-40 border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 p-2.5 sm:p-3 rounded-2xl font-black text-xl shadow-lg shadow-amber-500/20">
-                    <i class="fa-solid fa-chart-line"></i>
+    <!-- Main App Container -->
+    <div id="mainSiteContainer" class="flex flex-col flex-grow transition-all duration-500">
+        <!-- Top Ticker Bar -->
+        <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-slate-950 text-[11px] sm:text-xs font-extrabold py-2 px-4 text-center tracking-wide shadow-md flex items-center justify-center gap-2">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+            </span>
+            <span class="uppercase tracking-wider">GS Traders B2B Portal • 38% to 40% Dealer Margins • Use Code <code class="bg-slate-950 text-amber-400 px-1.5 py-0.5 rounded">GST5K</code> for Extra 1% Off!</span>
+        </div>
+
+        <!-- Navigation Header -->
+        <header class="glass-header sticky top-0 z-40 border-b border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 p-2.5 sm:p-3 rounded-2xl font-black text-xl shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
+                            GS TRADERS 
+                            <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-emerald-500/30 tracking-wider hidden sm:inline-block">DEALER HUB</span>
+                        </h1>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">Allagadda Wholesale Distributor</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-base sm:text-lg font-black tracking-tight text-white flex items-center gap-2">
-                        GS TRADERS 
-                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-emerald-500/30 tracking-wider hidden sm:inline-block">B2B HUB</span>
-                    </h1>
-                    <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">Allagadda Wholesale Distributor</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center space-x-2 sm:space-x-3">
-                <a href="tel:7659928108" class="hidden md:flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs transition-all border border-slate-800 shadow-sm">
-                    <i class="fa-solid fa-headset text-amber-500 text-sm"></i>
-                    <span>76599 28108</span>
-                </a>
                 
-                <button onclick="toggleCart()" class="relative bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold px-4 sm:px-5 py-2.5 rounded-xl text-xs transition-all shadow-lg shadow-amber-500/10 flex items-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-bag-shopping text-sm"></i>
-                    <span class="hidden xs:inline">Order Cart</span>
-                    <span id="cartBadge" class="bg-slate-950 text-amber-400 text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center hidden">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- High-Tech Interactive Banner Carousel Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <div class="relative bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden glow-banner">
-            <div class="absolute -right-10 -bottom-10 opacity-10 text-amber-500 text-9xl pointer-events-none">
-                <i class="fa-solid fa-motorcycle"></i>
-            </div>
-            
-            <div class="relative z-10 max-w-2xl">
-                <div class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] sm:text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider mb-4">
-                    <i class="fa-solid fa-bolt text-amber-400"></i> Direct Manufacturer Wholesale Rates
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <a href="tel:7659928108" class="hidden md:flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold px-4 py-2.5 rounded-xl text-xs transition-all border border-slate-800 shadow-sm">
+                        <i class="fa-solid fa-headset text-amber-500 text-sm"></i>
+                        <span>76599 28108</span>
+                    </a>
+                    
+                    <button onclick="toggleCart()" class="relative bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold px-4 sm:px-5 py-2.5 rounded-xl text-xs transition-all shadow-lg shadow-amber-500/10 flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-bag-shopping text-sm"></i>
+                        <span class="hidden xs:inline">Order Cart</span>
+                        <span id="cartBadge" class="bg-slate-950 text-amber-400 text-[10px] font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center hidden">0</span>
+                    </button>
                 </div>
-                <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-                    Equip Your Shop With <span class="text-amber-400">Maximum Margins</span>
-                </h2>
-                <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-                    Premium Helmets, Brake Pads, Chains & Spares supplied directly across Andhra Pradesh with guaranteed high ROI for retailers and mechanics.
-                </p>
+            </div>
+        </header>
 
-                <!-- Coupon Quick Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
-                    <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl flex items-center justify-between">
-                        <div>
-                            <p class="text-[10px] text-slate-400 uppercase font-bold">Bulk Order Offer</p>
-                            <p class="text-xs font-black text-amber-400 mt-0.5">Orders ≥ ₹5,000</p>
-                        </div>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-xs font-black px-2.5 py-1 rounded-xl">GST5K (-1%)</span>
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <div class="relative bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-amber-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-amber-500 text-9xl pointer-events-none">
+                    <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                
+                <div class="relative z-10 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] sm:text-xs font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider mb-4">
+                        <i class="fa-solid fa-bolt text-amber-400"></i> Direct Manufacturer Wholesale Rates
                     </div>
-                    <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl flex items-center justify-between">
-                        <div>
-                            <p class="text-[10px] text-slate-400 uppercase font-bold">Super Wholesale Offer</p>
-                            <p class="text-xs font-black text-emerald-400 mt-0.5">Orders ≥ ₹10,000</p>
+                    <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+                        Equip Your Shop With <span class="text-amber-400">Maximum Margins</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+                        Premium Helmets, Brake Pads, Chain Sprockets & Spares supplied directly across Andhra Pradesh with guaranteed high ROI for retailers.
+                    </p>
+
+                    <!-- Coupon Quick Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
+                        <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Bulk Order Offer</p>
+                                <p class="text-xs font-black text-amber-400 mt-0.5">Orders ≥ ₹5,000</p>
+                            </div>
+                            <span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono text-xs font-black px-2.5 py-1 rounded-xl">GST5K (-1%)</span>
                         </div>
-                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono text-xs font-black px-2.5 py-1 rounded-xl">GST10K (-2%)</span>
+                        <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">Super Wholesale Offer</p>
+                                <p class="text-xs font-black text-emerald-400 mt-0.5">Orders ≥ ₹10,000</p>
+                            </div>
+                            <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono text-xs font-black px-2.5 py-1 rounded-xl">GST10K (-2%)</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Main Catalog Section -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
-        <!-- Controls & Search Bar -->
-        <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center mb-8 gap-4">
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryTabs">
-                <button onclick="filterCategory('All', this)" class="category-btn bg-amber-500 text-slate-950 text-xs font-black px-5 py-3 rounded-2xl shadow-lg transition-all cursor-pointer whitespace-nowrap">
-                    All Categories
-                </button>
-                <button onclick="filterCategory('Helmets', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-2xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
-                    Helmets
-                </button>
-                <button onclick="filterCategory('Accessories', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-2xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
-                    Accessories
-                </button>
-                <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-2xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
-                    Spare Parts
-                </button>
-            </div>
+        <!-- Main Catalog Section -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+            <!-- Category Filter Tabs -->
+            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center mb-4 gap-4">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryTabs">
+                    <button onclick="filterCategory('All', this)" class="category-btn bg-amber-500 text-slate-950 text-xs font-black px-5 py-3 rounded-2xl shadow-lg transition-all cursor-pointer whitespace-nowrap">
+                        All Categories
+                    </button>
+                    <button onclick="filterCategory('Helmets', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-2xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
+                        Helmets
+                    </button>
+                    <button onclick="filterCategory('Accessories', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-2xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
+                        Accessories
+                    </button>
+                    <button onclick="filterCategory('Spare Parts', this)" class="category-btn bg-slate-900 text-slate-300 hover:bg-slate-800 text-xs font-bold px-5 py-3 rounded-2xl border border-slate-800 transition-all cursor-pointer whitespace-nowrap">
+                        Spare Parts
+                    </button>
+                </div>
 
-            <div class="w-full lg:w-80">
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                    </span>
-                    <input type="text" id="searchInput" placeholder="Search by name, part or category..." 
-                        class="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-800 bg-slate-900 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs shadow-inner transition-all">
+                <div class="w-full lg:w-80">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </span>
+                        <input type="text" id="searchInput" placeholder="Search part name, bike or brand..." 
+                            class="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-800 bg-slate-900 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 text-xs shadow-inner transition-all">
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Product Grid -->
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div class="col-span-full text-center py-20 text-slate-400 bg-slate-900/40 rounded-3xl border border-slate-800/60">
-                <i class="fa-solid fa-spinner fa-spin text-3xl text-amber-500 mb-3"></i>
-                <p class="text-xs font-medium">Syncing live catalog and margin calculations from Google Sheet...</p>
+            <!-- Quick Item / Brand Sub-Filter Chips -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-4 mb-6" id="quickFiltersBar">
+                <span class="text-[11px] font-bold text-slate-400 whitespace-nowrap"><i class="fa-solid fa-filter text-amber-500 mr-1"></i> Quick Filters:</span>
+                <button onclick="applyQuickFilter('All', this)" class="quick-filter-btn bg-slate-800 text-amber-400 text-[11px] font-extrabold px-3.5 py-1.5 rounded-xl border border-slate-700 cursor-pointer whitespace-nowrap">All Items</button>
+                <button onclick="applyQuickFilter('Chain', this)" class="quick-filter-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-[11px] font-bold px-3.5 py-1.5 rounded-xl border border-slate-800 cursor-pointer whitespace-nowrap">Chain Sprockets</button>
+                <button onclick="applyQuickFilter('Brake', this)" class="quick-filter-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-[11px] font-bold px-3.5 py-1.5 rounded-xl border border-slate-800 cursor-pointer whitespace-nowrap">Brake Pads / Shoes</button>
+                <button onclick="applyQuickFilter('Splendor', this)" class="quick-filter-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-[11px] font-bold px-3.5 py-1.5 rounded-xl border border-slate-800 cursor-pointer whitespace-nowrap">Splendor / Passion</button>
+                <button onclick="applyQuickFilter('Pulsar', this)" class="quick-filter-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-[11px] font-bold px-3.5 py-1.5 rounded-xl border border-slate-800 cursor-pointer whitespace-nowrap">Pulsar</button>
+                <button onclick="applyQuickFilter('Activa', this)" class="quick-filter-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-[11px] font-bold px-3.5 py-1.5 rounded-xl border border-slate-800 cursor-pointer whitespace-nowrap">Activa / Dio</button>
+                <button onclick="applyQuickFilter('Shine', this)" class="quick-filter-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-[11px] font-bold px-3.5 py-1.5 rounded-xl border border-slate-800 cursor-pointer whitespace-nowrap">CB Shine</button>
             </div>
-        </div>
-    </main>
+
+            <!-- Product Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="col-span-full text-center py-20 text-slate-400 bg-slate-900/40 rounded-3xl border border-slate-800/60">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl text-amber-500 mb-3"></i>
+                    <p class="text-xs font-medium">Syncing live catalog and vehicle compatibilities from Google Sheet...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-slate-900 text-slate-400 py-8 mt-12 border-t border-slate-800 text-xs mb-12 sm:mb-0">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                <div>
+                    <p class="text-white font-bold">GS TRADERS, Allagadda</p>
+                    <p class="text-[11px] text-slate-500">Koilakuntla Road, Near Bypass, AP - 518543</p>
+                </div>
+                <div class="flex gap-4 text-slate-300">
+                    <span><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 76599 28108</span>
+                    <span><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 84648 49742</span>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <!-- Slide-Over Shopping Cart Drawer -->
     <div id="cartOverlay" class="fixed inset-0 bg-slate-950/80 z-50 hidden backdrop-blur-sm transition-opacity"></div>
@@ -273,20 +325,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 mt-12 border-t border-slate-800 text-xs mb-12 sm:mb-0">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div>
-                <p class="text-white font-bold">GS TRADERS, Allagadda</p>
-                <p class="text-[11px] text-slate-500">Koilakuntla Road, Near Bypass, AP - 518543</p>
-            </div>
-            <div class="flex gap-4 text-slate-300">
-                <span><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 76599 28108</span>
-                <span><i class="fa-solid fa-phone text-amber-500 mr-1"></i> 84648 49742</span>
-            </div>
-        </div>
-    </footer>
-
     <!-- JavaScript Engine -->
     <script>
         const GOOGLE_SHEET_ID = '16txRIS_EiqoRv0Ogjo7WX8Q5oVlzGGOazQN3buEHyoM'; 
@@ -294,10 +332,36 @@
 
         let products = [];
         let currentCategory = 'All';
+        let currentQuickFilter = 'All';
         let cart = [];
         let activeDiscountPercent = 0;
         let activeCouponName = '';
         let rawOrderTextMessage = '';
+
+        // 60-Second Blur & Dealer Number Gate Timer
+        setTimeout(() => {
+            const unlocked = localStorage.getItem('gs_dealer_unlocked');
+            if (!unlocked) {
+                document.getElementById('mainSiteContainer').classList.add('blur-locked');
+                document.getElementById('dealerUnlockModal').classList.remove('hidden');
+            }
+        }, 60000);
+
+        function unlockSiteWithNumber(e) {
+            e.preventDefault();
+            const shopName = document.getElementById('unlockShopName').value.trim();
+            const phone = document.getElementById('unlockPhone').value.trim();
+
+            if (!shopName || !phone) return;
+
+            localStorage.setItem('gs_dealer_unlocked', 'true');
+            document.getElementById('mainSiteContainer').classList.remove('blur-locked');
+            document.getElementById('dealerUnlockModal').classList.add('hidden');
+
+            const leadMsg = `*NEW DEALER CATALOG UNLOCK LEAD - GS TRADERS*\n\n• Shop Name: ${shopName}\n• Phone Number: ${phone}\n\n(This dealer checked the catalog for 1 minute and unlocked pricing).`;
+            const waUrl = `https://wa.me/917659928108?text=${encodeURIComponent(leadMsg)}`;
+            window.open(waUrl, '_blank');
+        }
 
         function loadProductsFromGoogleSheet() {
             Papa.parse(SHEET_CSV_URL, {
@@ -327,6 +391,7 @@
                                     moqText: p.moqText,
                                     status: p.status,
                                     delivery: p.delivery,
+                                    compatibility: p.compatibility || '',
                                     image: imgs.length > 0 ? imgs[0] : 'images/101.png',
                                     images: imgs.length > 0 ? imgs : ['images/101.png']
                                 };
@@ -348,6 +413,17 @@
             });
             btnElement.classList.remove('bg-slate-900', 'text-slate-300');
             btnElement.classList.add('bg-amber-500', 'text-slate-950', 'shadow-lg');
+            renderProducts(document.getElementById('searchInput').value);
+        }
+
+        function applyQuickFilter(filterKey, btnElement) {
+            currentQuickFilter = filterKey;
+            document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'text-amber-400', 'border-slate-700');
+                btn.classList.add('bg-slate-900', 'text-slate-300', 'border-slate-800');
+            });
+            btnElement.classList.remove('bg-slate-900', 'text-slate-300', 'border-slate-800');
+            btnElement.classList.add('bg-slate-800', 'text-amber-400', 'border-slate-700');
             renderProducts(document.getElementById('searchInput').value);
         }
 
@@ -378,12 +454,24 @@
 
             const filtered = products.filter(p => {
                 const matchesCategory = (currentCategory === 'All' || p.category === currentCategory);
-                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase());
-                return matchesCategory && matchesSearch;
+                
+                let matchesQuick = true;
+                if (currentQuickFilter !== 'All') {
+                    const qTerm = currentQuickFilter.toLowerCase();
+                    const nameMatch = p.name.toLowerCase().includes(qTerm);
+                    const compatMatch = p.compatibility.toLowerCase().includes(qTerm);
+                    matchesQuick = (nameMatch || compatMatch);
+                }
+
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
+
+                return matchesCategory && matchesQuick && matchesSearch;
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-slate-900/40 rounded-3xl border border-slate-800">No matching products found.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-slate-900/40 rounded-3xl border border-slate-800">No matching parts or vehicles found.</div>';
                 return;
             }
 
@@ -414,7 +502,11 @@
                             </div>
                             <div class="p-5">
                                 <span class="text-[10px] text-amber-500 font-extrabold uppercase tracking-wider">${p.category}</span>
-                                <h4 class="text-sm sm:text-base font-extrabold text-white mt-1 mb-3 leading-snug">${p.name}</h4>
+                                <h4 class="text-sm sm:text-base font-extrabold text-white mt-1 mb-2 leading-snug">${p.name}</h4>
+                                ${p.compatibility ? `
+                                <p class="text-[11px] text-slate-300 mb-3 bg-slate-950/60 px-3 py-1.5 rounded-xl border border-slate-800 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-motorcycle text-amber-400"></i> <span class="truncate">Fits: ${p.compatibility}</span>
+                                </p>` : ''}
                                 ${p.status === 'available' ? `
                                 <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800/80 mb-3 space-y-1.5">
                                     <div class="flex items-baseline gap-2">
@@ -595,7 +687,6 @@
             mobileSummaryEl.innerText = `${totalUniqueItems} Item(s) • ₹${finalPayable.toFixed(2)}`;
         }
 
-        // Generate PDF Invoice with Detailed Profit & Margins
         function generateOrderPDF(name, phone, address, cartItems, finalPayable, totalMrpVal, totalProfit, couponStr) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -640,7 +731,7 @@
                 let itemProfit = itemMrpTotal - itemSubtotal;
                 return [
                     index + 1,
-                    item.name,
+                    item.name + (item.compatibility ? `\n(Fits: ${item.compatibility})` : ''),
                     `${item.boxes} Box (${totalUnits} Pcs)`,
                     `₹${item.dealerPrice.toFixed(2)}`,
                     `₹${itemSubtotal.toFixed(2)}`,
@@ -650,7 +741,7 @@
 
             doc.autoTable({
                 startY: 92,
-                head: [['#', 'Item Description', 'Qty', 'Unit Rate', 'Subtotal', 'Dealer Profit']],
+                head: [['#', 'Item Description & Vehicle', 'Qty', 'Unit Rate', 'Subtotal', 'Dealer Profit']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillStyle: 'F', fillColor: [245, 158, 11], textColor: [15, 23, 42], fontStyle: 'bold' },
@@ -699,7 +790,7 @@
                 subtotal += itemSubtotal;
                 totalMrpVal += itemMrpTotal;
 
-                orderTextSummary += `${index + 1}. ${item.name} | Qty: ${item.boxes} Box (${totalUnits} Pcs) | Cost: ₹${itemSubtotal.toFixed(2)} | Profit: ₹${itemProfit.toFixed(2)} (${item.marginPct}%)\n`;
+                orderTextSummary += `${index + 1}. ${item.name} (${item.compatibility || 'General'}) | Qty: ${item.boxes} Box (${totalUnits} Pcs) | Cost: ₹${itemSubtotal.toFixed(2)} | Profit: ₹${itemProfit.toFixed(2)}\n`;
             });
 
             const discountAmount = (subtotal * activeDiscountPercent) / 100;
@@ -723,33 +814,16 @@
 
             generateOrderPDF(name, phone, address, cart, finalPayable, totalMrpVal, totalProfit, activeCouponName);
 
-            try {
-                await fetch("https://formsubmit.co/ajax/el/saceva", {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        _subject: "New B2B Order with Profit Breakdown - GS Traders!",
-                        Shop_Name: name,
-                        Phone_Number: phone,
-                        Delivery_Location: address || 'Allagadda',
-                        Order_Summary: orderTextSummary,
-                        Grand_Total: '₹' + finalPayable.toFixed(2)
-                    })
-                });
+            document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
+            document.getElementById('thankYouModal').classList.remove('hidden');
+            toggleCart();
+            cart = [];
+            activeDiscountPercent = 0;
+            activeCouponName = '';
+            updateCartUI();
 
-                document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
-                document.getElementById('thankYouModal').classList.remove('hidden');
-                toggleCart();
-                cart = [];
-                activeDiscountPercent = 0;
-                activeCouponName = '';
-                updateCartUI();
-            } catch (err) {
-                alert("Order recorded locally, but network error occurred.");
-            } finally {
-                btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download Profit PDF`;
-                btn.disabled = false;
-            }
+            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download Profit PDF`;
+            btn.disabled = false;
         }
 
         function openWhatsApp(phoneNumber) {
