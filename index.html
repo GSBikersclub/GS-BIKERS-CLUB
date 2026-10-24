@@ -17,9 +17,7 @@
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f3f6; }
-        .flipkart-header {
-            background: #2874f0;
-        }
+        .flipkart-header { background: #2874f0; }
         .pro-card {
             transition: all 0.2s ease-in-out;
             background: #ffffff;
@@ -58,19 +56,19 @@
                     Unlock Wholesale Prices (ధరలు చూడండి)
                 </button>
             </form>
-            <p class="text-[10px] text-slate-400">GS Traders Allagadda • ఆల్గడ హోల్‌సేల్ డిస్ట్రిబ్యూటర్</p>
+            <p class="text-[10px] text-slate-400">GS Traders Allagadda • ఆళ్లగడ్డ హోల్‌సేల్ డిస్ట్రిబ్యూటర్</p>
         </div>
     </div>
 
     <!-- Main App Container -->
     <div id="mainSiteContainer" class="flex flex-col flex-grow transition-all duration-500">
-        <!-- Top Ticker Bar (Telugu & English) -->
+        <!-- Top Ticker Bar -->
         <div class="bg-[#2874f0] text-white text-[11px] sm:text-xs font-bold py-2 px-4 text-center tracking-wide shadow-sm flex items-center justify-center gap-2">
             <i class="fa-solid fa-bullhorn text-amber-300"></i>
             <span>GS Traders Allagadda • 38% - 40% Dealer Margins • Coupon <code class="bg-blue-800 text-amber-300 px-1.5 py-0.5 rounded">GST5K</code> for Extra 1% Off!</span>
         </div>
 
-        <!-- Flipkart Style Navigation Header -->
+        <!-- Navigation Header -->
         <header class="flipkart-header sticky top-0 z-40 shadow-md">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
@@ -97,13 +95,13 @@
             </div>
         </header>
 
-        <!-- Promotional Banner (Flipkart Style) -->
+        <!-- Promotional Banner -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
             <div class="bg-gradient-to-r from-slate-900 to-blue-950 text-white rounded-2xl p-5 sm:p-6 shadow-md flex flex-col sm:flex-row justify-between items-center gap-4 border border-slate-800">
                 <div class="space-y-1.5 text-center sm:text-left">
                     <span class="bg-[#ff9f00] text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded uppercase">Special B2B Offer</span>
                     <h2 class="text-base sm:text-xl font-extrabold">భారీ మార్జిన్లతో హెల్మెట్లు మరియు స్పేర్ పార్ట్స్</h2>
-                    <p class="text-xs text-slate-300">Splendor, Pulsar, Shine, Activa బ్రేక్ ప్యాడ్‌లు, చైన్ స్ప్రొకెట్లు & హెల్మెట్లు హోల్‌సేల్ ధరలలో.</p>
+                    <p class="text-xs text-slate-300">బ్రేక్ ప్యాడ్‌లు, చైన్ స్ప్రొకెట్లు, క్లచ్ ప్లేట్లు & హెల్మెట్లు హోల్‌సేల్ ధరలలో.</p>
                 </div>
                 <div class="flex gap-2 w-full sm:w-auto">
                     <div class="bg-white/10 border border-white/20 p-3 rounded-xl text-center flex-1 sm:flex-none">
@@ -142,22 +140,28 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
                         </span>
-                        <input type="text" id="searchInput" placeholder="Search part, bike or brand (వెతకండి)..." 
+                        <input type="text" id="searchInput" placeholder="Search part or vehicle (వెతకండి)..." 
                             class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2874f0] text-xs shadow-sm">
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Sub-Filters Bar -->
+            <!-- Vehicle Type Filter Bar -->
+            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-3">
+                <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-motorcycle text-[#2874f0] mr-1"></i> Vehicle Type (వాహనం రకం):</span>
+                <button onclick="applyVehicleFilter('All', this)" class="vehicle-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All Vehicles</button>
+                <button onclick="applyVehicleFilter('Motorcycle', this)" class="vehicle-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Motorcycles (బైకులు)</button>
+                <button onclick="applyVehicleFilter('Scooter', this)" class="vehicle-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Scooters (స్కూటర్లు - Activa/Dio)</button>
+            </div>
+
+            <!-- Spare Part Name Filter Bar (No Brands) -->
             <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
-                <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Quick Filter (త్వరిత ఫిల్టర్):</span>
-                <button onclick="applyQuickFilter('All', this)" class="quick-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All</button>
-                <button onclick="applyQuickFilter('Chain', this)" class="quick-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Chain Sprocket (చైన్)</button>
-                <button onclick="applyQuickFilter('Brake', this)" class="quick-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Brake Pads (బ్రేక్)</button>
-                <button onclick="applyQuickFilter('Splendor', this)" class="quick-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Splendor</button>
-                <button onclick="applyQuickFilter('Pulsar', this)" class="quick-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Pulsar</button>
-                <button onclick="applyQuickFilter('Activa', this)" class="quick-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Activa / Dio</button>
-                <button onclick="applyQuickFilter('Shine', this)" class="quick-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">CB Shine</button>
+                <span class="text-[11px] font-bold text-slate-500 whitespace-nowrap"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Part Type (పార్ట్ పేరు):</span>
+                <button onclick="applyPartFilter('All', this)" class="part-filter-btn bg-[#2874f0] text-white text-[11px] font-bold px-3 py-1.5 rounded-md cursor-pointer whitespace-nowrap shadow-sm">All Parts</button>
+                <button onclick="applyPartFilter('Chain', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Chain Sprocket (చైన్)</button>
+                <button onclick="applyPartFilter('Brake', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Brake Pads / Shoes (బ్రేక్)</button>
+                <button onclick="applyPartFilter('Clutch', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Clutch Plate (క్లచ్)</button>
+                <button onclick="applyPartFilter('Cable', this)" class="part-filter-btn bg-white hover:bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-1.5 rounded-md border border-slate-300 cursor-pointer whitespace-nowrap">Cables (కేబుల్స్)</button>
             </div>
 
             <!-- Product Grid -->
@@ -306,7 +310,8 @@
 
         let products = [];
         let currentCategory = 'All';
-        let currentQuickFilter = 'All';
+        let currentVehicleFilter = 'All';
+        let currentPartFilter = 'All';
         let cart = [];
         let activeDiscountPercent = 0;
         let activeCouponName = '';
@@ -352,6 +357,15 @@
                                 const marginPct = mrp > 0 ? Math.round((saving / mrp) * 100) : 38;
 
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
+                                const compatibility = p.compatibility || '';
+                                
+                                // Auto detect vehicle type based on compatibility text or category
+                                let vehicleType = 'Motorcycle';
+                                const lowerCompat = compatibility.toLowerCase();
+                                if (lowerCompat.includes('activa') || lowerCompat.includes('dio') || lowerCompat.includes('scooter') || lowerCompat.includes('jupiter')) {
+                                    vehicleType = 'Scooter';
+                                }
+
                                 return {
                                     id: parseInt(p.id),
                                     name: p.name,
@@ -365,7 +379,8 @@
                                     moqText: p.moqText,
                                     status: p.status,
                                     delivery: p.delivery,
-                                    compatibility: p.compatibility || '',
+                                    compatibility: compatibility,
+                                    vehicleType: vehicleType,
                                     image: imgs.length > 0 ? imgs[0] : 'images/101.png',
                                     images: imgs.length > 0 ? imgs : ['images/101.png']
                                 };
@@ -390,9 +405,20 @@
             renderProducts(document.getElementById('searchInput').value);
         }
 
-        function applyQuickFilter(filterKey, btnElement) {
-            currentQuickFilter = filterKey;
-            document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+        function applyVehicleFilter(vehicleKey, btnElement) {
+            currentVehicleFilter = vehicleKey;
+            document.querySelectorAll('.vehicle-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            });
+            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow-sm');
+            renderProducts(document.getElementById('searchInput').value);
+        }
+
+        function applyPartFilter(partKey, btnElement) {
+            currentPartFilter = partKey;
+            document.querySelectorAll('.part-filter-btn').forEach(btn => {
                 btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow-sm');
                 btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
             });
@@ -428,20 +454,19 @@
 
             const filtered = products.filter(p => {
                 const matchesCategory = (currentCategory === 'All' || p.category === currentCategory);
+                const matchesVehicle = (currentVehicleFilter === 'All' || p.vehicleType === currentVehicleFilter);
                 
-                let matchesQuick = true;
-                if (currentQuickFilter !== 'All') {
-                    const qTerm = currentQuickFilter.toLowerCase();
-                    const nameMatch = p.name.toLowerCase().includes(qTerm);
-                    const compatMatch = p.compatibility.toLowerCase().includes(qTerm);
-                    matchesQuick = (nameMatch || compatMatch);
+                let matchesPart = true;
+                if (currentPartFilter !== 'All') {
+                    const pTerm = currentPartFilter.toLowerCase();
+                    matchesPart = p.name.toLowerCase().includes(pTerm);
                 }
 
                 const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                                       p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                       p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
 
-                return matchesCategory && matchesQuick && matchesSearch;
+                return matchesCategory && matchesVehicle && matchesPart && matchesSearch;
             });
 
             if (filtered.length === 0) {
@@ -475,11 +500,14 @@
                                 </button>` : ''}
                             </div>
                             <div class="space-y-1 mb-3">
-                                <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">${p.category}</span>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">${p.category}</span>
+                                    <span class="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">${p.vehicleType}</span>
+                                </div>
                                 <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">${p.name}</h4>
                                 ${p.compatibility ? `
-                                <p class="text-[11px] text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 flex items-center gap-1">
-                                    <i class="fa-solid fa-motorcycle text-amber-500"></i> <span class="truncate">Fits: ${p.compatibility}</span>
+                                <p class="text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1.5 mt-1">
+                                    <i class="fa-solid fa-motorcycle text-amber-500"></i> <span class="font-medium truncate">Fits: ${p.compatibility}</span>
                                 </p>` : ''}
                             </div>
                             ${p.status === 'available' ? `
@@ -710,7 +738,7 @@
 
             doc.autoTable({
                 startY: 92,
-                head: [['#', 'Item Description & Vehicle', 'Qty', 'Unit Rate', 'Subtotal', 'Dealer Profit']],
+                head: [['#', 'Item Description & Vehicle Compatibility', 'Qty', 'Unit Rate', 'Subtotal', 'Dealer Profit']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillStyle: 'F', fillColor: [40, 116, 240], textColor: [255, 255, 255], fontStyle: 'bold' },
