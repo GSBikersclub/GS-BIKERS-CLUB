@@ -137,14 +137,14 @@
                 </div>
             </div>
 
-            <!-- VIEW 1: Homepage 12-15 Categories Grid -->
+            <!-- VIEW 1: Homepage Categories Grid -->
             <div id="homeCategoriesView" class="space-y-6">
                 <div>
                     <h3 class="text-base font-black text-slate-900 mb-1">Browse Parts by Category (టాప్ కేటగిరీలు)</h3>
                     <p class="text-xs text-slate-500">Select any category below to view wholesale parts with high margins and brand filters.</p>
                 </div>
                 <div id="categoryCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    <!-- Dynamically populated category cards -->
+                    <!-- Dynamically populated category cards matching item names -->
                 </div>
             </div>
 
@@ -342,20 +342,20 @@
         let activeCouponName = '';
         let rawOrderTextMessage = '';
 
-        // 12-15 Core Spare Parts Categories with Icons
-        const availableCategories = [
-            { name: 'Brake Pads & Shoes', icon: 'fa-circle-stop', desc: 'Discs, Drums & Linings' },
-            { name: 'Chain & Sprocket', icon: 'fa-link', desc: 'Kit sets & Drive chains' },
-            { name: 'Clutch Assembly', icon: 'fa-gears', desc: 'Plates, Hubs & Levers' },
-            { name: 'Cables & Control', icon: 'fa-code-pull-request', desc: 'Accelerator, Clutch & Brake' },
-            { name: 'Bearings & Bushes', icon: 'fa-dharmachakra', desc: 'Wheel & Engine bearings' },
-            { name: 'Helmets & Visors', icon: 'fa-motorcycle', desc: 'ISI Certified Full/Half face' },
-            { name: 'Filters (Air/Oil/Fuel)', icon: 'fa-filter', desc: 'High-filtration elements' },
-            { name: 'Electrical & Bulbs', icon: 'fa-bolt', desc: 'LED headlights, Horns, Relays' },
-            { name: 'Suspension & Forks', icon: 'fa-bars-staggered', desc: 'Shock absorbers & Seals' },
-            { name: 'Engine & Gaskets', icon: 'fa-oil-can', desc: 'Pistons, Rings & Packing' },
-            { name: 'Tyres & Tubes', icon: 'fa-circle', desc: 'Heavy duty rubber' },
-            { name: 'Accessories & Care', icon: 'fa-spray-can-sparkles', desc: 'Oils, Locks & Polish' }
+        // Core Spare Parts Categories with Keywords to match item names
+        const categoryConfigs = [
+            { name: 'Clutch Assembly', keyword: 'clutch', icon: 'fa-gears', desc: 'Plates, Hubs & Levers' },
+            { name: 'Bearings & Bushes', keyword: 'bearing', icon: 'fa-dharmachakra', desc: 'Wheel & Engine bearings' },
+            { name: 'Brake Pads & Shoes', keyword: 'brake', icon: 'fa-circle-stop', desc: 'Discs, Drums & Linings' },
+            { name: 'Chain & Sprocket', keyword: 'chain', icon: 'fa-link', desc: 'Kit sets & Drive chains' },
+            { name: 'Cables & Control', keyword: 'cable', icon: 'fa-code-pull-request', desc: 'Accelerator, Clutch & Brake' },
+            { name: 'Helmets & Visors', keyword: 'helmet', icon: 'fa-motorcycle', desc: 'ISI Certified Full/Half face' },
+            { name: 'Filters (Air/Oil)', keyword: 'filter', icon: 'fa-filter', desc: 'High-filtration elements' },
+            { name: 'Electrical & Bulbs', keyword: 'bulb', icon: 'fa-bolt', desc: 'LED headlights, Horns, Relays' },
+            { name: 'Suspension & Forks', keyword: 'fork', icon: 'fa-bars-staggered', desc: 'Shock absorbers & Seals' },
+            { name: 'Engine & Gaskets', keyword: 'gasket', icon: 'fa-oil-can', desc: 'Pistons, Rings & Packing' },
+            { name: 'Tyres & Tubes', keyword: 'tyre', icon: 'fa-circle', desc: 'Heavy duty rubber' },
+            { name: 'Accessories & Care', keyword: 'accessory', icon: 'fa-spray-can-sparkles', desc: 'Oils, Locks & Polish' }
         ];
 
         // 60-Second Blur & Dealer Number Gate Timer
@@ -398,13 +398,11 @@
                                 const marginPct = mrp > 0 ? Math.round((saving / mrp) * 100) : 38;
 
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
-                                const compatibility = p.compatibility || p.category || '';
+                                const compatibility = p.compatibility || '';
 
                                 return {
                                     id: parseInt(p.id),
                                     name: p.name,
-                                    category: p.category || 'Spare Parts',
-                                    badge: p.badge,
                                     mrp: mrp,
                                     strikePrice: parseFloat(p.strikePrice || 0),
                                     dealerPrice: dealerPrice,
@@ -431,24 +429,26 @@
             const grid = document.getElementById('categoryCardsGrid');
             grid.innerHTML = '';
 
-            availableCategories.forEach(cat => {
-                // Count products in this category
-                const count = products.filter(p => p.category.toLowerCase().includes(cat.name.toLowerCase().split(' ')[0])).length;
+            categoryConfigs.forEach(cat => {
+                // Count items matching the name keyword
+                const count = products.filter(p => p.name.toLowerCase().includes(cat.keyword)).length;
 
                 grid.innerHTML += `
-                    <div onclick="openCategory('${cat.name}')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 cursor-pointer transition-all flex flex-col items-center text-center group">
+                    <div onclick="openCategory('${cat.name}', '${cat.keyword}')" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-500 cursor-pointer transition-all flex flex-col items-center text-center group">
                         <div class="w-14 h-14 bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl mb-3 transition-colors shadow-inner">
                             <i class="fa-solid ${cat.icon}"></i>
                         </div>
                         <h4 class="text-xs sm:text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors">${cat.name}</h4>
-                        <p class="text-[10px] text-slate-400 mt-1">${cat.desc}</p>
+                        <p class="text-[10px] text-slate-400 mt-1">${count} item(s) available</p>
                     </div>
                 `;
             });
         }
 
-        function openCategory(catName) {
+        let currentKeyword = '';
+        function openCategory(catName, keyword) {
             selectedCategory = catName;
+            currentKeyword = keyword;
             selectedBrand = 'All';
             
             document.getElementById('homeCategoriesView').classList.add('hidden');
@@ -462,6 +462,7 @@
 
         function resetView() {
             selectedCategory = null;
+            currentKeyword = '';
             selectedBrand = 'All';
             document.getElementById('homeCategoriesView').classList.remove('hidden');
             document.getElementById('categoryProductsView').classList.add('hidden');
@@ -472,7 +473,6 @@
         function selectBrand(brand) {
             selectedBrand = brand;
             
-            // Highlight active brand in sidebar
             document.querySelectorAll('.brand-filter-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-50', 'text-blue-700');
                 btn.classList.add('text-slate-700', 'hover:bg-slate-50');
@@ -488,18 +488,21 @@
             grid.innerHTML = '';
 
             const filtered = products.filter(p => {
-                // If in category view, match category roughly
-                const matchesCategory = !selectedCategory || p.category.toLowerCase().includes(selectedCategory.toLowerCase().split(' ')[0]) || p.name.toLowerCase().includes(selectedCategory.toLowerCase().split(' ')[0]);
+                // Match against name column keyword
+                let matchesCategory = true;
+                if (currentKeyword) {
+                    matchesCategory = p.name.toLowerCase().includes(currentKeyword);
+                }
 
                 // Brand filter
                 let matchesBrand = true;
                 if (selectedBrand !== 'All') {
-                    matchesBrand = p.compatibility.toLowerCase().includes(selectedBrand.toLowerCase()) || p.name.toLowerCase().includes(selectedBrand.toLowerCase());
+                    matchesBrand = p.compatibility.toLowerCase().includes(selectedBrand.toLowerCase()) || 
+                                   p.name.toLowerCase().includes(selectedBrand.toLowerCase());
                 }
 
                 // Search query
                 const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                      p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                       p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
 
                 return matchesCategory && matchesBrand && matchesSearch;
@@ -508,7 +511,7 @@
             document.getElementById('activeCategoryCount').innerText = `Showing ${filtered.length} wholesale item(s)`;
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No products found for this filter. (ఏ వస్తువులూ దొరకలేదు)</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No products found matching this category name. (ఈ కేటగిరీలో వస్తువులు లేవు)</div>';
                 return;
             }
 
@@ -538,9 +541,6 @@
                                 </button>` : ''}
                             </div>
                             <div class="space-y-1 mb-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">${p.category}</span>
-                                </div>
                                 <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">${p.name}</h4>
                                 ${p.compatibility ? `
                                 <p class="text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1.5 mt-1">
@@ -761,4 +761,129 @@
 
             const tableData = cartItems.map((item, index) => {
                 let totalUnits = item.boxes * item.boxSize;
-                let itemMrpTotal
+                let itemMrpTotal = item.mrp * totalUnits;
+                let itemDealerTotal = item.dealerPrice * totalUnits;
+                let itemProfit = itemMrpTotal - itemDealerTotal;
+                return [
+                    index + 1,
+                    item.name + (item.compatibility ? `\n(Fits: ${item.compatibility})` : ''),
+                    `${item.boxes} Box (${totalUnits} Pcs)`,
+                    `Rs. ${item.mrp.toFixed(2)}`,
+                    `Rs. ${item.dealerPrice.toFixed(2)}`,
+                    `Rs. ${itemDealerTotal.toFixed(2)}`,
+                    `Rs. ${itemProfit.toFixed(2)} (${item.marginPct}%)`
+                ];
+            });
+
+            doc.autoTable({
+                startY: 92,
+                head: [['#', 'Item Description & Vehicle', 'Qty', 'MRP (Unit)', 'Dealer Price', 'Subtotal', 'Dealer Profit / Margin']],
+                body: tableData,
+                theme: 'striped',
+                headStyles: { fillStyle: 'F', fillColor: [40, 116, 240], textColor: [255, 255, 255], fontStyle: 'bold' },
+                styles: { fontSize: 8 }
+            });
+
+            const finalY = doc.lastAutoTable.finalY + 10;
+            doc.setDrawColor(16, 185, 129);
+            doc.setFillColor(236, 253, 245);
+            doc.roundedRect(14, finalY, 182, 38, 3, 3, 'FD');
+
+            doc.setTextColor(6, 95, 70);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Total Retail Value (MRP): Rs. ${totalMrpVal.toFixed(2)}`, 18, finalY + 8);
+            if (discountAmount > 0) {
+                doc.text(`Additional Coupon Discount (${couponStr}): - Rs. ${discountAmount.toFixed(2)}`, 18, finalY + 15);
+            }
+            doc.text(`Final Payable Investment: Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
+            doc.setFontSize(11);
+            doc.text(`TOTAL RETAIL PROFIT & SAVINGS: Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
+
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "italic");
+            doc.setTextColor(100, 116, 139);
+            doc.text("Thank you for choosing GS Traders Allagadda! Direct from manufacturer, best price in the market.", 14, finalY + 46);
+
+            doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
+        }
+
+        async function submitOrderBackground(e) {
+            e.preventDefault();
+            if (cart.length === 0) return;
+
+            const name = document.getElementById('cartBuyerName').value;
+            const phone = document.getElementById('cartBuyerPhone').value;
+            const address = document.getElementById('cartBuyerAddress').value;
+
+            if (phone.length !== 10) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return;
+            }
+
+            let subtotal = 0;
+            let totalMrpVal = 0;
+            let orderTextSummary = `--- GS TRADERS NEW ORDER ---\n`;
+
+            cart.forEach((item, index) => {
+                let totalUnits = item.boxes * item.boxSize;
+                let itemSubtotal = item.dealerPrice * totalUnits;
+                let itemMrpTotal = item.mrp * totalUnits;
+                let itemProfit = itemMrpTotal - itemSubtotal;
+                
+                subtotal += itemSubtotal;
+                totalMrpVal += itemMrpTotal;
+
+                orderTextSummary += `${index + 1}. ${item.name} (${item.compatibility || 'General'}) | Qty: ${item.boxes} Box (${totalUnits} Pcs) | Cost: ₹${itemSubtotal.toFixed(2)} | Profit: ₹${itemProfit.toFixed(2)}\n`;
+            });
+
+            const discountAmount = (subtotal * activeDiscountPercent) / 100;
+            const finalPayable = subtotal - discountAmount;
+            const totalProfit = (totalMrpVal - finalPayable);
+
+            orderTextSummary += `-----------------------------------\n`;
+            orderTextSummary += `Total MRP: ₹${totalMrpVal.toFixed(2)}\n`;
+            if (activeDiscountPercent > 0) {
+                orderTextSummary += `Coupon Discount (${activeCouponName}): -₹${discountAmount.toFixed(2)}\n`;
+            }
+            orderTextSummary += `Final Payable: ₹${finalPayable.toFixed(2)}\n`;
+            orderTextSummary += `TOTAL DEALER PROFIT / SAVINGS: ₹${totalProfit.toFixed(2)}\n`;
+            orderTextSummary += `Location: ${address || 'Allagadda'}`;
+
+            rawOrderTextMessage = `*NEW B2B ORDER - GS TRADERS*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Shop: ${name}\n• Phone: ${phone}`;
+
+            const btn = document.getElementById('submitOrderBtn');
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
+            btn.disabled = true;
+
+            generateOrderPDF(name, phone, address, cart, finalPayable, totalMrpVal, totalProfit, activeCouponName, discountAmount);
+
+            document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
+            document.getElementById('thankYouModal').classList.remove('hidden');
+            toggleCart();
+            cart = [];
+            activeDiscountPercent = 0;
+            activeCouponName = '';
+            updateCartUI();
+
+            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-sm"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)`;
+            btn.disabled = false;
+        }
+
+        function openWhatsApp(phoneNumber) {
+            const url = `https://wa.me/91${phoneNumber}?text=${encodeURIComponent(rawOrderTextMessage)}`;
+            window.open(url, '_blank');
+        }
+
+        function closeThankYouModal() {
+            document.getElementById('thankYouModal').classList.add('hidden');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderProducts(e.target.value);
+        });
+
+        loadProductsFromGoogleSheet();
+    </script>
+</body>
+</html>
