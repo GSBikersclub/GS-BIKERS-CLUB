@@ -116,13 +116,67 @@
             </div>
         </section>
 
+        <!-- Trust & Feature Badges Bar (Lowest Price, Fast Shipping, COD, Support) -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-extrabold text-slate-900">Lowest Wholesale Price</h4>
+                        <p class="text-[10px] text-slate-500">Direct from factory</p>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-extrabold text-slate-900">Fast Shipping</h4>
+                        <p class="text-[10px] text-slate-500">Quick dispatch to shops</p>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-extrabold text-slate-900">COD Available</h4>
+                        <p class="text-[10px] text-slate-500">Easy dealer terms</p>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-extrabold text-slate-900">24/7 Support</h4>
+                        <p class="text-[10px] text-slate-500">Call & WhatsApp active</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Main Catalog Section -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full space-y-6">
             
-            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center mb-6 gap-3">
+            <!-- Column C Top Row Filter (Helmets, Accessories, Spare Parts) -->
+            <div>
+                <p class="text-[11px] font-bold text-slate-500 mb-2"><i class="fa-solid fa-filter text-[#2874f0] mr-1"></i> Top Category Filter (Column C):</p>
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="columnCCategoryTabs">
+                    <button onclick="filterByColumnC('All', this)" class="colc-btn bg-[#2874f0] text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow transition-all cursor-pointer whitespace-nowrap">
+                        All Items (అన్నీ)
+                    </button>
+                    <!-- Dynamically injected Column C category buttons will appear here -->
+                </div>
+            </div>
+
+            <!-- Search and Header Bar -->
+            <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 pt-2">
                 <div>
-                    <h3 class="text-sm font-black text-slate-900 uppercase tracking-wide">Browse Categories (కేటగిరీలు)</h3>
-                    <p class="text-xs text-slate-500">Click any category (e.g. Motorcycle Spark Plug) to view all applicable models and variants.</p>
+                    <h3 id="sectionHeading" class="text-sm font-black text-slate-900 uppercase tracking-wide">Product Categories (Column B Items)</h3>
+                    <p class="text-xs text-slate-500">Click any category (e.g. Motorcycle Spark Plug) to view applicable variants and pricing.</p>
                 </div>
 
                 <div class="w-full lg:w-80">
@@ -130,13 +184,13 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                             <i class="fa-solid fa-magnifying-glass text-xs"></i>
                         </span>
-                        <input type="text" id="searchInput" placeholder="Search category or part..." 
+                        <input type="text" id="searchInput" placeholder="Search spark plug, brake pad..." 
                             class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2874f0] text-xs shadow-sm">
                     </div>
                 </div>
             </div>
 
-            <!-- Categories Grid -->
+            <!-- Categories Grid (Column B Items) -->
             <div id="categoryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 <div class="col-span-full text-center py-20 text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-sm">
                     <i class="fa-solid fa-spinner fa-spin text-3xl text-[#2874f0] mb-3"></i>
@@ -161,6 +215,13 @@
             </div>
         </footer>
     </div>
+
+    <!-- Sticky Floating WhatsApp Button at Bottom Right -->
+    <a href="https://wa.me/917659928108?text=Hello%20GS%20Traders,%20I%20want%20to%20place%20an%20order." target="_blank" 
+       class="fixed bottom-6 right-6 bg-emerald-600 hover:bg-emerald-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl z-40 transition-transform hover:scale-110 cursor-pointer"
+       title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <!-- Category Details Modal (Opens when user clicks a category like Spark Plug) -->
     <div id="categoryDetailModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
@@ -254,20 +315,6 @@
         </button>
     </div>
 
-    <!-- Product Multi-Image Viewer Modal -->
-    <div id="imageGalleryModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-5 relative shadow-2xl space-y-3">
-            <button onclick="closeGalleryModal()" class="absolute top-3 right-3 text-slate-500 hover:text-slate-800 bg-slate-100 w-7 h-7 rounded-full flex items-center justify-center cursor-pointer">
-                <i class="fa-solid fa-xmark text-xs"></i>
-            </button>
-            <h4 id="galleryTitle" class="text-xs font-bold text-slate-900 pr-8">Product Images</h4>
-            <div class="h-60 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200">
-                <img id="galleryMainImage" src="" class="max-h-full max-w-full object-contain">
-            </div>
-            <div id="galleryThumbnails" class="flex gap-2 overflow-x-auto justify-center pt-1"></div>
-        </div>
-    </div>
-
     <!-- Order Confirmation Modal -->
     <div id="thankYouModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl space-y-4">
@@ -301,6 +348,7 @@
         const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
 
         let products = [];
+        let currentColumnCFilter = 'All';
         let cart = [];
         let activeDiscountPercent = 0;
         let activeCouponName = '';
@@ -348,13 +396,17 @@
                                 const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
                                 const compatibility = p.compatibility || '';
                                 
-                                // Category based strictly on Google Sheet name or category column
-                                const rawCategory = (p.category && p.category.trim() !== '') ? p.category.trim() : p.name.trim();
+                                // Column C = Top filter category (Helmets, Accessories, Spare Parts)
+                                const columnCVal = (p.category && p.category.trim() !== '') ? p.category.trim() : 'Spare Parts';
+                                
+                                // Column B = Sub-category item name (Motorcycle Spark Plug, Brake Pads, etc.)
+                                const columnBVal = (p.name && p.name.trim() !== '') ? p.name.trim() : 'General Item';
 
                                 return {
                                     id: parseInt(p.id),
                                     name: p.name,
-                                    category: rawCategory,
+                                    columnC: columnCVal, // Top row filter category
+                                    columnB: columnBVal, // Home page category card
                                     badge: p.badge,
                                     mrp: mrp,
                                     strikePrice: parseFloat(p.strikePrice || 0),
@@ -370,6 +422,7 @@
                                 };
                             });
                     }
+                    buildColumnCFilters();
                     renderCategories();
                 },
                 error: function() {
@@ -378,30 +431,61 @@
             });
         }
 
-        // Render Category Folders on Home Page
+        // Build top row filter buttons from Column C values
+        function buildColumnCFilters() {
+            const container = document.getElementById('columnCCategoryTabs');
+            const uniqueColumnC = [...new Set(products.map(p => p.columnC))];
+
+            uniqueColumnC.forEach(colC => {
+                container.innerHTML += `
+                    <button onclick="filterByColumnC('${colC}', this)" class="colc-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
+                        ${colC}
+                    </button>
+                `;
+            });
+        }
+
+        function filterByColumnC(filterKey, btnElement) {
+            currentColumnCFilter = filterKey;
+            document.querySelectorAll('.colc-btn').forEach(btn => {
+                btn.classList.remove('bg-[#2874f0]', 'text-white', 'shadow');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            });
+            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+            btnElement.classList.add('bg-[#2874f0]', 'text-white', 'shadow');
+            renderCategories(document.getElementById('searchInput').value);
+        }
+
+        // Render Column B Category Cards on Home Page
         function renderCategories(searchQuery = '') {
             const grid = document.getElementById('categoryGrid');
             grid.innerHTML = '';
 
-            // Group products by category name
+            // Filter products based on Top Row Filter (Column C)
+            const filteredByC = products.filter(p => {
+                const matchesC = (currentColumnCFilter === 'All' || p.columnC.toLowerCase() === currentColumnCFilter.toLowerCase());
+                const matchesSearch = p.columnB.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesC && matchesSearch;
+            });
+
+            // Group by Column B (e.g. Motorcycle Spark Plug, Brake Pads)
             const categoryMap = {};
-            products.forEach(p => {
-                if (!categoryMap[p.category]) {
-                    categoryMap[p.category] = {
-                        name: p.category,
+            filteredByC.forEach(p => {
+                if (!categoryMap[p.columnB]) {
+                    categoryMap[p.columnB] = {
+                        name: p.columnB,
                         image: p.image,
                         items: []
                     };
                 }
-                categoryMap[p.category].items.push(p);
+                categoryMap[p.columnB].items.push(p);
             });
 
-            const categories = Object.values(categoryMap).filter(cat => 
-                cat.name.toLowerCase().includes(searchQuery.toLowerCase())
-            );
+            const categories = Object.values(categoryMap);
 
             if (categories.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No categories found.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No categories found matching this filter.</div>';
                 return;
             }
 
@@ -412,14 +496,14 @@
                             <div class="relative h-44 rounded-xl overflow-hidden bg-slate-100 mb-3">
                                 <img src="${cat.image}" alt="${cat.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                 <span class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow">
-                                    ${cat.items.length} Model(s) Available
+                                    ${cat.items.length} Type(s) Available
                                 </span>
                             </div>
                             <h4 class="text-sm font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors">${cat.name}</h4>
-                            <p class="text-[11px] text-slate-500 mt-1">Click to view applicable models & wholesale prices</p>
+                            <p class="text-[11px] text-slate-500 mt-1">Click to view all variants and applicable models</p>
                         </div>
                         <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
-                            <span>View Details</span>
+                            <span>View All Types</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                         </div>
                     </div>
@@ -427,10 +511,10 @@
             });
         }
 
-        // Open Category Details Modal showing all items matching that category
-        function openCategoryModal(categoryName) {
-            const matchingProducts = products.filter(p => p.category === categoryName);
-            document.getElementById('modalCategoryTitle').innerText = categoryName;
+        // Open Modal showing full details of items in this category (e.g. 3 types of Spark Plugs)
+        function openCategoryModal(columnBName) {
+            const matchingProducts = products.filter(p => p.columnB === columnBName);
+            document.getElementById('modalCategoryTitle').innerText = columnBName + ` (${matchingProducts.length} Items)`;
             
             const container = document.getElementById('modalProductsContainer');
             container.innerHTML = '';
@@ -448,7 +532,7 @@
                 }
 
                 container.innerHTML += `
-                    <div class="bg-white rounded-xl border border-slate-200 p-3 flex flex-col justify-between shadow-xs">
+                    <div class="bg-white rounded-xl border border-slate-200 p-3.5 flex flex-col justify-between shadow-xs">
                         <div>
                             <div class="relative h-36 rounded-lg overflow-hidden bg-slate-100 mb-2.5">
                                 <img src="${p.image}" class="w-full h-full object-cover">
@@ -458,12 +542,12 @@
                             </div>
                             <h5 class="text-xs font-extrabold text-slate-900 leading-snug">${p.name}</h5>
                             ${p.compatibility ? `
-                            <p class="text-[11px] text-slate-600 bg-slate-50 px-2 py-1 rounded border border-slate-200 flex items-center gap-1 mt-1.5">
-                                <i class="fa-solid fa-motorcycle text-amber-500"></i> <span class="truncate">Fits: ${p.compatibility}</span>
+                            <p class="text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200 flex items-center gap-1.5 mt-2">
+                                <i class="fa-solid fa-motorcycle text-amber-500"></i> <span class="font-medium truncate">Fits: ${p.compatibility}</span>
                             </p>` : ''}
-                            <div class="mt-2.5 bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-0.5">
-                                <div class="flex justify-between items-baseline">
-                                    <span class="text-sm font-black text-slate-900">₹${p.dealerPrice.toFixed(2)}</span>
+                            <div class="mt-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-200 space-y-1">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-base font-black text-slate-900">₹${p.dealerPrice.toFixed(2)}</span>
                                     <span class="text-[10px] text-slate-400 line-through">MRP: ₹${p.mrp.toFixed(2)}</span>
                                 </div>
                                 <div class="text-[10px] text-emerald-600 font-extrabold">Retail Profit: ₹${(p.mrp - p.dealerPrice).toFixed(2)}</div>
