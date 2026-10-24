@@ -46,12 +46,12 @@
             <div>
                 <h3 class="text-xl font-extrabold text-slate-900">డీలర్ హోల్‌సేల్ కేటలాగ్ ఓపెన్ చేయండి</h3>
                 <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                    తక్కువ మార్జిన్లతో విసిగిపోయారా? మీ షాప్ పేరు మరియు మొబైల్ నంబర్ నమోదు చేసి మా డైరెక్ట్ హోల్‌సేల్ ధరలు చూడండి!
+                    తక్కువ మార్జిన్లతో విసిగిపోయారా? మీ షాప్ పేరు మరియు 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి మా డైరెక్ట్ హోల్‌సేల్ ధరలు చూడండి!
                 </p>
             </div>
             <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
                 <input type="text" id="unlockShopName" required placeholder="Shop / Business Name (షాప్ పేరు) *" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
-                <input type="tel" id="unlockPhone" required placeholder="10-Digit Mobile Number (ఫోన్ నంబర్) *" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                <input type="tel" id="unlockPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఉదా: 9876543210) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
                 <button type="submit" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-3.5 rounded-xl text-xs uppercase tracking-wider shadow-md cursor-pointer">
                     Unlock Wholesale Prices (ధరలు చూడండి)
                 </button>
@@ -239,7 +239,7 @@
                     <input type="text" id="cartBuyerName" required class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900" placeholder="Business / Shop Name (షాప్ పేరు) *">
                 </div>
                 <div>
-                    <input type="tel" id="cartBuyerPhone" required class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900" placeholder="10-Digit Mobile Number (ఫోన్ నంబర్) *">
+                    <input type="tel" id="cartBuyerPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఉదా: 9876543210) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900">
                 </div>
                 <div>
                     <input type="text" id="cartBuyerAddress" class="w-full px-3 py-2.5 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-[#2874f0] text-slate-900" placeholder="Delivery Town / Landmark (గ్రామం/టౌన్ - ఆప్షనల్)">
@@ -332,7 +332,7 @@
             const shopName = document.getElementById('unlockShopName').value.trim();
             const phone = document.getElementById('unlockPhone').value.trim();
 
-            if (!shopName || !phone) return;
+            if (!shopName || phone.length !== 10) return;
 
             localStorage.setItem('gs_dealer_unlocked', 'true');
             document.getElementById('mainSiteContainer').classList.remove('blur-locked');
@@ -685,7 +685,7 @@
             mobileSummaryEl.innerText = `${totalUniqueItems} Item(s) • ₹${finalPayable.toFixed(2)}`;
         }
 
-        // Professional Clean PDF Invoice with Separate Discount & Savings Summary
+        // Clean Professional PDF with Perfect English Alignment & Accurate Totals
         function generateOrderPDF(name, phone, address, cartItems, finalPayable, totalMrpVal, totalProfit, couponStr, discountAmount) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -716,7 +716,7 @@
             doc.rect(14, 58, 182, 28);
             
             doc.setFont("helvetica", "bold");
-            doc.text("Dealer Details (డీలర్ వివరాలు):", 18, 66);
+            doc.text("Dealer Details:", 18, 66);
             doc.setFont("helvetica", "normal");
             doc.text(`Shop Name: ${name}`, 18, 73);
             doc.text(`Phone Number: ${phone}`, 18, 80);
@@ -759,14 +759,14 @@
             if (discountAmount > 0) {
                 doc.text(`Additional Coupon Discount (${couponStr}): - Rs. ${discountAmount.toFixed(2)}`, 18, finalY + 15);
             }
-            doc.text(`Final Payable Investment (మొత్తం చెల్లించవలసినది): Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
+            doc.text(`Final Payable Investment: Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
             doc.setFontSize(11);
-            doc.text(`TOTAL RETAIL PROFIT & SAVINGS (మీ మొత్తం లాభం / ఆదా): Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
+            doc.text(`TOTAL RETAIL PROFIT & SAVINGS: Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
 
             doc.setFontSize(9);
             doc.setFont("helvetica", "italic");
             doc.setTextColor(100, 116, 139);
-            doc.text("Thank you for choosing GS Traders Allagadda! (తక్కువ మార్జిన్లతో విసిగిపోయారా? ఇప్పుడే మా వద్ద హోల్‌సేల్ చేయండి.)", 14, finalY + 46);
+            doc.text("Thank you for choosing GS Traders Allagadda! (Boost your shop margins with direct wholesale rates).", 14, finalY + 46);
 
             doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
         }
@@ -778,6 +778,11 @@
             const name = document.getElementById('cartBuyerName').value;
             const phone = document.getElementById('cartBuyerPhone').value;
             const address = document.getElementById('cartBuyerAddress').value;
+
+            if (phone.length !== 10) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return;
+            }
 
             let subtotal = 0;
             let totalMrpVal = 0;
