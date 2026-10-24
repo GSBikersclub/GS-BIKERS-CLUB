@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="te" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS Traders | Wholesale Spares & Helmets - Allagadda</title>
+    <title>GS Traders | Wholesale Spares & Helmets - Allagadda (జీఎస్ ట్రేడర్స్)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,12 +46,12 @@
             <div>
                 <h3 class="text-lg font-extrabold text-slate-900">తక్కువ మార్జిన్లతో విసిగిపోయారా?</h3>
                 <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                    GS Traders తో వ్యాపారం చేయండి! మీ 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి హోల్‌సేల్ ధరలు చూడండి!
+                    అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ షాప్ లాభాలను మరింత పెంచుకోండి. మీ 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి హోల్‌సేల్ ధరలు చూడండి!
                 </p>
             </div>
             <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
                 <input type="text" id="unlockShopName" required placeholder="Shop / Business Name (షాప్ పేరు) *" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
-                <input type="tel" id="unlockPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                <input type="tel" id="unlockPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఉదా: 9876543210) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
                 <button type="submit" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider shadow-md cursor-pointer">
                     Unlock Wholesale Prices (ధరలు చూడండి)
                 </button>
@@ -65,7 +65,7 @@
         <!-- Top Announcement Ticker -->
         <div class="bg-blue-900 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 text-center tracking-wide flex items-center justify-center gap-1.5">
             <i class="fa-solid fa-bullhorn text-amber-300"></i>
-            <span>Direct from manufacturer, best wholesale rates in Allagadda!</span>
+            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? Direct from manufacturer, best wholesale price in the market!</span>
         </div>
 
         <!-- Header -->
@@ -74,9 +74,9 @@
                 <div class="flex items-center space-x-2">
                     <button onclick="resetView()" class="text-left cursor-pointer">
                         <h1 class="text-base sm:text-xl font-black tracking-tight text-white flex items-center gap-1">
-                            GS TRADERS <span class="text-amber-300 text-[10px] sm:text-xs font-bold">(జీఎస్)</span>
+                            GS TRADERS <span class="text-amber-300 text-[10px] sm:text-xs font-bold">(జీఎస్ ట్రేడర్స్)</span>
                         </h1>
-                        <p class="text-[9px] sm:text-[10px] text-blue-100 font-medium">Wholesale Spare Parts & Helmets</p>
+                        <p class="text-[9px] sm:text-[10px] text-blue-100 font-medium">Wholesale Spare Parts & Helmets • నంద్యాల రోడ్, ఆళ్లగడ్డ</p>
                     </button>
                 </div>
                 
@@ -88,7 +88,7 @@
                     
                     <button onclick="toggleCart()" class="relative bg-white text-blue-900 hover:bg-blue-50 font-extrabold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs transition-all shadow flex items-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-cart-shopping text-xs sm:text-sm text-blue-800"></i>
-                        <span>Cart</span>
+                        <span>Cart (కార్ట్)</span>
                         <span id="cartBadge" class="bg-[#ff9f00] text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded-full min-w-[18px] text-center hidden">0</span>
                     </button>
                 </div>
@@ -103,8 +103,8 @@
                         <i class="fa-solid fa-tags"></i>
                     </div>
                     <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Lowest Price</h4>
-                        <p class="text-[9px] sm:text-[10px] text-slate-500">Factory Direct</p>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Lowest Price (ఉత్తమ ధర)</h4>
+                        <p class="text-[9px] sm:text-[10px] text-slate-500">Direct Factory Rate</p>
                     </div>
                 </div>
                 <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
@@ -112,7 +112,7 @@
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
                     <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Fast Shipping</h4>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Fast Shipping (త్వరిత రవాణా)</h4>
                         <p class="text-[9px] sm:text-[10px] text-slate-500">Quick Dispatch</p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                         <i class="fa-solid fa-wallet"></i>
                     </div>
                     <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">COD Available</h4>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">COD Available (క్యాష్ ఆన్ డెలిバリー)</h4>
                         <p class="text-[9px] sm:text-[10px] text-slate-500">Easy Terms</p>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                         <i class="fa-solid fa-headset"></i>
                     </div>
                     <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">24/7 Support</h4>
+                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">24/7 Support (సపోర్ట్)</h4>
                         <p class="text-[9px] sm:text-[10px] text-slate-500">Call & WhatsApp</p>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                 <p class="text-[10px] sm:text-xs font-bold text-slate-500 mb-1.5"><i class="fa-solid fa-filter text-blue-700 mr-1"></i> Main Categories (Column C):</p>
                 <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1" id="columnCCategoryTabs">
                     <button onclick="filterByColumnC('All', this)" class="colc-btn bg-blue-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow-sm transition-all cursor-pointer whitespace-nowrap">
-                        All Items
+                        All Items (అన్నీ)
                     </button>
                 </div>
             </div>
@@ -153,7 +153,8 @@
             <!-- Search and Heading Bar -->
             <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 pt-1">
                 <div>
-                    <h3 class="text-xs sm:text-sm font-black text-slate-900 uppercase tracking-wide">Category Display (Column B)</h3>
+                    <h3 class="text-xs sm:text-sm font-black text-slate-900 uppercase tracking-wide">Category Display (Column B Items)</h3>
+                    <p class="text-[11px] text-slate-500">తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి!</p>
                 </div>
 
                 <div class="w-full sm:w-72">
@@ -182,7 +183,8 @@
             <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
                 <div>
                     <p class="text-white font-bold text-xs sm:text-sm">GS TRADERS (జీఎస్ ట్రేడర్స్), Allagadda</p>
-                    <p class="text-[10px] sm:text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP - 518543</p>
+                    <p class="text-[10px] sm:text-[11px] text-amber-300 font-semibold mt-1">"తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ లాభాలను మరింత పెంచుకోండి."</p>
                 </div>
                 <div class="flex gap-3 text-amber-300 font-bold text-xs">
                     <span><i class="fa-solid fa-phone mr-1"></i> 76599 28108</span>
@@ -221,7 +223,7 @@
         <div class="p-3.5 border-b border-slate-200 flex items-center justify-between bg-blue-800 text-white">
             <div class="flex items-center gap-2">
                 <i class="fa-solid fa-cart-shopping text-base"></i>
-                <h3 class="text-sm font-extrabold">Dealer Cart</h3>
+                <h3 class="text-sm font-extrabold">Dealer Cart (ఆర్డర్ కార్ట్)</h3>
             </div>
             <div class="flex items-center gap-2">
                 <button onclick="clearCart()" class="text-[11px] text-rose-100 hover:text-white bg-rose-600/80 px-2 py-0.5 rounded font-bold cursor-pointer">Clear</button>
@@ -236,11 +238,11 @@
         <div class="p-3.5 border-t border-slate-200 bg-slate-50 space-y-2.5">
             <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-xs space-y-0.5">
                 <div class="flex justify-between text-slate-600">
-                    <span>Total MRP Value:</span>
+                    <span>Total MRP Value (మొత్తం MRP):</span>
                     <span id="cartMrpValue" class="font-bold">₹0.00</span>
                 </div>
                 <div class="flex justify-between text-emerald-700 font-extrabold">
-                    <span>Estimated Retail Profit:</span>
+                    <span>Estimated Retail Profit (మీ మొత్తం లాభం):</span>
                     <span id="cartTotalProfit">₹0.00</span>
                 </div>
             </div>
@@ -252,17 +254,17 @@
             <div id="couponMessage" class="text-[10px] text-emerald-600 font-bold hidden"></div>
 
             <div class="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-900 pt-1 border-t border-slate-200">
-                <span>Final Payable Total:</span>
+                <span>Final Payable Total (మొత్తం చెల్లించవలసినది):</span>
                 <span id="cartTotalPrice" class="text-blue-700 text-base font-black">₹0.00</span>
             </div>
 
             <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-2 pt-0.5">
-                <input type="text" id="cartBuyerName" required class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Business / Shop Name *">
-                <input type="tel" id="cartBuyerPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900">
-                <input type="text" id="cartBuyerAddress" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Delivery Town / Landmark">
+                <input type="text" id="cartBuyerName" required class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Business / Shop Name (షాప్ పేరు) *">
+                <input type="tel" id="cartBuyerPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఫోన్ నంబర్) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900">
+                <input type="text" id="cartBuyerAddress" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Delivery Town / Landmark (గ్రామం/టౌన్)">
 
                 <button type="submit" id="submitOrderBtn" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-black py-2.5 rounded-lg transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF
+                    <i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)
                 </button>
             </form>
         </div>
@@ -271,11 +273,11 @@
     <!-- Mobile Bottom Floating Summary Bar -->
     <div class="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 p-2.5 z-30 flex items-center justify-between shadow-lg">
         <div>
-            <p class="text-[9px] text-slate-500 font-bold">Cart Summary</p>
+            <p class="text-[9px] text-slate-500 font-bold">Cart Summary (కార్ట్)</p>
             <p id="mobileCartSummary" class="text-xs font-black text-blue-700">0 Items • ₹0.00</p>
         </div>
         <button onclick="toggleCart()" class="bg-[#ff9f00] text-slate-950 font-black px-3.5 py-1.5 rounded-lg text-xs shadow flex items-center gap-1.5">
-            <i class="fa-solid fa-bag-shopping"></i> View Cart
+            <i class="fa-solid fa-bag-shopping"></i> View Cart (చూడండి)
         </button>
     </div>
 
@@ -300,22 +302,22 @@
                 <i class="fa-solid fa-circle-check"></i>
             </div>
             <div>
-                <h3 class="text-sm font-extrabold text-slate-900">Order Placed Successfully!</h3>
+                <h3 class="text-sm font-extrabold text-slate-900">Order Placed Successfully! (ఆర్డర్ విజయవంతం)</h3>
                 <p id="thankYouDealerName" class="text-blue-700 font-bold text-xs mt-0.5"></p>
             </div>
             <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                మీ PDF ఇన్‌వాయిస్ ఆటోమేటిక్‌గా డౌన్‌లోడ్ అయింది. వాట్సాప్ ద్వారా వెంటనే పంపండి:
+                మీ ప్రాఫిట్ PDF ఇన్‌వాయిస్ డౌన్‌లోడ్ అయింది. వాట్సాప్ ద్వారా వెంటనే ఆర్డర్‌ను పంపండి:
             </p>
             <div class="grid grid-cols-2 gap-2">
                 <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
-                    <i class="fa-brands fa-whatsapp"></i> 76599 (WA)
+                    <i class="fa-brands fa-whatsapp"></i> 76599 (WhatsApp)
                 </button>
                 <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
-                    <i class="fa-brands fa-whatsapp"></i> 84648 (WA)
+                    <i class="fa-brands fa-whatsapp"></i> 84648 (WhatsApp)
                 </button>
             </div>
             <button onclick="closeThankYouModal()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2 rounded-lg text-xs cursor-pointer">
-                Close
+                Close (మూసివేయి)
             </button>
         </div>
     </div>
@@ -432,7 +434,6 @@
             renderCategories(document.getElementById('searchInput').value);
         }
 
-        // Render Category Tiles (bikesparemarket style)
         function renderCategories(searchQuery = '') {
             const grid = document.getElementById('categoryGrid');
             grid.innerHTML = '';
@@ -673,7 +674,7 @@
             let totalMrpVal = 0;
 
             if (cart.length === 0) {
-                container.innerHTML = '<div class="text-center py-12 text-slate-400 text-xs">Your cart is empty.</div>';
+                container.innerHTML = '<div class="text-center py-12 text-slate-400 text-xs">Your cart is empty. (కార్ట్ ఖాళీగా ఉంది)</div>';
                 badge.classList.add('hidden');
                 totalPriceEl.innerText = '₹0.00';
                 cartMrpValueEl.innerText = '₹0.00';
@@ -859,7 +860,7 @@
             activeCouponName = '';
             updateCartUI();
 
-            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF`;
+            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)`;
             btn.disabled = false;
         }
 
