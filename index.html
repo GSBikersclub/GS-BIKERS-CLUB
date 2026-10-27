@@ -1,883 +1,780 @@
 <!DOCTYPE html>
-<html lang="te" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS Traders | Wholesale Spares & Helmets - Allagadda (జీఎస్ ట్రేడర్స్)</title>
+    <title>GS Traders - Premium 3D Interactive B2B Catalog</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- jsPDF & AutoTable -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef6ff',
+                            100: '#d9ecff',
+                            500: '#1d4ed8',
+                            600: '#1e40af',
+                            900: '#0f172a',
+                            gold: '#f59e0b',
+                            goldDark: '#d97706',
+                            accent: '#38bdf8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     
-    <!-- PapaParse for Live Google Sheet Sync -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f3f4f6; }
-        .bsm-header { background: #1e40af; }
-        .cat-card {
-            transition: all 0.2s ease-in-out;
-            background: #ffffff;
+        body {
+            background-color: #090d16;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
-        .cat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+
+        /* 3D Container Setup */
+        .tilt-card-wrapper {
+            perspective: 1000px;
         }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .blur-locked {
-            filter: blur(8px);
+
+        .tilt-card {
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* Specular Dynamic Overlay */
+        .shine-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
             pointer-events: none;
-            user-select: none;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .tilt-card:hover .shine-overlay {
+            opacity: 1;
+        }
+
+        /* Preserve 3D translate for child elements */
+        .layer-depth-1 { transform: translateZ(15px); }
+        .layer-depth-2 { transform: translateZ(30px); }
+        .layer-depth-3 { transform: translateZ(45px); }
+
+        /* Custom Animated Background Grid */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Subtle Glow Animation */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .ambient-glow {
+            animation: pulseGlow 8s infinite ease-in-out;
+        }
+        
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
         }
     </style>
 </head>
-<body class="text-slate-800 min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-900 pb-20 sm:pb-0">
+<body class="font-sans antialiased min-h-screen relative selection:bg-brand-500 selection:text-white">
 
-    <!-- Dealer Unlock Gate Modal -->
-    <div id="dealerUnlockModal" class="fixed inset-0 bg-slate-900/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-5 sm:p-8 shadow-2xl space-y-4 text-center">
-            <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
-                <i class="fa-solid fa-store"></i>
-            </div>
-            <div>
-                <h3 class="text-lg font-extrabold text-slate-900">తక్కువ మార్జిన్లతో విసిగిపోయారా?</h3>
-                <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                    అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ షాప్ లాభాలను మరింత పెంచుకోండి. మీ 10-అంకెల మొబైల్ నంబర్ నమోదు చేసి హోల్‌సేల్ ధరలు చూడండి!
-                </p>
-            </div>
-            <form onsubmit="unlockSiteWithNumber(event)" class="space-y-3">
-                <input type="text" id="unlockShopName" required placeholder="Shop / Business Name (షాప్ పేరు) *" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
-                <input type="tel" id="unlockPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఉదా: 9876543210) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none">
-                <button type="submit" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider shadow-md cursor-pointer">
-                    Unlock Wholesale Prices (ధరలు చూడండి)
-                </button>
-            </form>
-            <p class="text-[10px] text-slate-400">GS Traders Allagadda • ఆళ్లగడ్డ హోల్‌సేల్ డిస్ట్రిబ్యూటర్</p>
-        </div>
-    </div>
+    <!-- Ambient Glowing Background Elements -->
+    <div class="fixed top-0 left-1/4 -translate-x-1/2 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none ambient-glow"></div>
+    <div class="fixed bottom-0 right-1/4 w-[30rem] h-[30rem] bg-amber-500/10 rounded-full blur-[150px] pointer-events-none ambient-glow" style="animation-delay: 4s;"></div>
 
-    <!-- Main Container -->
-    <div id="mainSiteContainer" class="flex flex-col flex-grow transition-all duration-500">
-        <!-- Top Announcement Ticker -->
-        <div class="bg-blue-900 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 text-center tracking-wide flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-bullhorn text-amber-300"></i>
-            <span>తక్కువ మార్జిన్లతో విసిగిపోయారా? Direct from manufacturer, best wholesale price in the market!</span>
-        </div>
-
-        <!-- Header -->
-        <header class="bsm-header sticky top-0 z-40 shadow-md">
-            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <button onclick="resetView()" class="text-left cursor-pointer">
-                        <h1 class="text-base sm:text-xl font-black tracking-tight text-white flex items-center gap-1">
-                            GS TRADERS <span class="text-amber-300 text-[10px] sm:text-xs font-bold">(జీఎస్ ట్రేడర్స్)</span>
-                        </h1>
-                        <p class="text-[9px] sm:text-[10px] text-blue-100 font-medium">Wholesale Spare Parts & Helmets • నంద్యాల రోడ్, ఆళ్లగడ్డ</p>
-                    </button>
+    <!-- Main Page Wrapper -->
+    <div class="relative z-10 bg-grid-pattern min-h-screen">
+        
+        <!-- Navigation Bar -->
+        <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <!-- Brand Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-blue-500 to-amber-400 p-[2px] shadow-lg shadow-blue-500/20">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid fa-gears text-amber-400 text-lg"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-blue-400">GS TRADERS</span>
+                        <span class="block text-[10px] font-semibold uppercase tracking-widest text-amber-400">B2B Wholesale Parts</span>
+                    </div>
                 </div>
-                
-                <div class="flex items-center space-x-2">
-                    <a href="tel:7659928108" class="hidden md:flex items-center gap-1.5 bg-blue-800 hover:bg-blue-900 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition-all shadow-sm">
-                        <i class="fa-solid fa-phone text-amber-300"></i>
-                        <span>76599 28108</span>
+
+                <!-- Live Specs & Action Buttons -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center bg-slate-900/80 border border-slate-800 rounded-full px-4 py-1.5 text-xs text-slate-400">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
+                        3D Lighting Engine: <strong class="text-slate-200 ml-1">Active</strong>
+                    </div>
+
+                    <a href="https://wa.me/?text=Hello%20GS%20Traders,%20I%20want%20to%20place%20a%20wholesale%20order." target="_blank" class="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-emerald-600/20 active:scale-95">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span class="hidden sm:inline">Bulk Dealer Orders</span>
                     </a>
-                    
-                    <button onclick="toggleCart()" class="relative bg-white text-blue-900 hover:bg-blue-50 font-extrabold px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs transition-all shadow flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-cart-shopping text-xs sm:text-sm text-blue-800"></i>
-                        <span>Cart (కార్ట్)</span>
-                        <span id="cartBadge" class="bg-[#ff9f00] text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded-full min-w-[18px] text-center hidden">0</span>
-                    </button>
                 </div>
             </div>
         </header>
 
-        <!-- Feature Badges Bar -->
-        <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
-                        <i class="fa-solid fa-tags"></i>
+        <!-- Hero & Controls Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6 text-center sm:text-left">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-3">
+                        <i class="fa-solid fa-cube"></i>
+                        <span>Interactive Card Experience</span>
                     </div>
-                    <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Lowest Price (ఉత్తమ ధర)</h4>
-                        <p class="text-[9px] sm:text-[10px] text-slate-500">Direct Factory Rate</p>
-                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                        Engineered Parts. <br class="hidden sm:inline"/>
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-amber-400">Modern E-Commerce Precision.</span>
+                    </h1>
+                    <p class="mt-3 text-slate-400 max-w-2xl text-sm sm:text-base leading-relaxed">
+                        Hover or touch any item card below to experience dynamic 3D tilt tracking, specular highlight physics, dynamic image zoom, and calculated dealer profit margins.
+                    </p>
                 </div>
-                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-emerald-50 text-emerald-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
-                        <i class="fa-solid fa-truck-fast"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">Fast Shipping (త్వరిత రవాణా)</h4>
-                        <p class="text-[9px] sm:text-[10px] text-slate-500">Quick Dispatch</p>
-                    </div>
+
+                <!-- Dynamic Visual Mode Switcher -->
+                <div class="flex items-center justify-center sm:justify-end gap-2 bg-slate-900/90 border border-slate-800 p-1.5 rounded-2xl">
+                    <button onclick="setGridCols(3)" id="btn-grid-3" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition">
+                        <i class="fa-solid fa-grid-2 mr-1"></i> Grid (3 Column)
+                    </button>
+                    <button onclick="setGridCols(2)" id="btn-grid-2" class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition">
+                        <i class="fa-solid fa-table-cells-large mr-1"></i> Grid (2 Column)
+                    </button>
                 </div>
-                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-amber-50 text-amber-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">COD Available (క్యాష్ ఆన్ డెలిバリー)</h4>
-                        <p class="text-[9px] sm:text-[10px] text-slate-500">Easy Terms</p>
-                    </div>
-                </div>
-                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-2.5">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-indigo-50 text-indigo-700 rounded-lg flex items-center justify-center text-sm flex-shrink-0">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-tight">24/7 Support (సపోర్ట్)</h4>
-                        <p class="text-[9px] sm:text-[10px] text-slate-500">Call & WhatsApp</p>
-                    </div>
-                </div>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="mt-8 flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+                <button onclick="filterCategory('all', this)" class="category-btn active px-5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-blue-600 text-white shadow-lg shadow-blue-600/30 transition">
+                    All Categories
+                </button>
+                <button onclick="filterCategory('engine', this)" class="category-btn px-5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white transition">
+                    <i class="fa-solid fa-oil-can mr-1.5 text-amber-400"></i> Engine & Oils
+                </button>
+                <button onclick="filterCategory('helmets', this)" class="category-btn px-5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white transition">
+                    <i class="fa-solid fa-helmet-safety mr-1.5 text-amber-400"></i> Riding Gear & Helmets
+                </button>
+                <button onclick="filterCategory('brakes', this)" class="category-btn px-5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white transition">
+                    <i class="fa-solid fa-disc-drive mr-1.5 text-amber-400"></i> Brake Systems
+                </button>
+                <button onclick="filterCategory('lights', this)" class="category-btn px-5 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900/80 border border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white transition">
+                    <i class="fa-solid fa-bolt mr-1.5 text-amber-400"></i> LED & Electricals
+                </button>
             </div>
         </section>
 
-        <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 flex-grow w-full space-y-4">
-            
-            <!-- Column C Top Filter Tabs -->
-            <div>
-                <p class="text-[10px] sm:text-xs font-bold text-slate-500 mb-1.5"><i class="fa-solid fa-filter text-blue-700 mr-1"></i> Main Categories (Column C):</p>
-                <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1" id="columnCCategoryTabs">
-                    <button onclick="filterByColumnC('All', this)" class="colc-btn bg-blue-800 text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow-sm transition-all cursor-pointer whitespace-nowrap">
-                        All Items (అన్నీ)
-                    </button>
-                </div>
-            </div>
+        <!-- Product Cards Showcase Grid -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- CARD 1: Motul 7100 Engine Oil -->
+                <div class="product-item tilt-card-wrapper" data-category="engine">
+                    <div class="tilt-card relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/80 p-5 shadow-2xl hover:border-blue-500/50 group overflow-hidden">
+                        
+                        <!-- Dynamic Specular Glow Layer -->
+                        <div class="shine-overlay"></div>
+                        
+                        <!-- Top Badges Row -->
+                        <div class="flex items-center justify-between mb-4 layer-depth-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wide uppercase">
+                                <i class="fa-solid fa-arrow-up-right-dots mr-1"></i> 32% Dealer Margin
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                MoQ: 10 Units
+                            </span>
+                        </div>
 
-            <!-- Search and Heading Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 pt-1">
-                <div>
-                    <h3 class="text-xs sm:text-sm font-black text-slate-900 uppercase tracking-wide">Category Display (Column B Items)</h3>
-                    <p class="text-[11px] text-slate-500">తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి!</p>
-                </div>
+                        <!-- Product Image Container -->
+                        <div class="relative w-full h-56 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center p-4 overflow-hidden mb-5 group-hover:shadow-inner layer-depth-3">
+                            <!-- Background Accent Glow -->
+                            <div class="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1615906655593-ad0386982a0f?auto=format&fit=crop&w=600&q=80" 
+                                 alt="Motul 7100 4T 10W40" 
+                                 class="w-full h-full object-contain transform group-hover:scale-110 transition duration-500 ease-out"
+                                 onerror="this.src='https://placehold.co/600x400/0f172a/38bdf8?text=Motul+Engine+Oil'" />
+                            
+                            <!-- Compatible Vehicles Tag Overlay -->
+                            <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 opacity-90">
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Pulsar 220</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Duke 200/390</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">R15 V3/V4</span>
+                            </div>
+                        </div>
 
-                <div class="w-full sm:w-72">
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                        </span>
-                        <input type="text" id="searchInput" placeholder="Search fuel pump, spark plug..." 
-                            class="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-700 text-xs shadow-2xs">
+                        <!-- Details Section -->
+                        <div class="layer-depth-1">
+                            <div class="flex items-center justify-between text-xs text-blue-400 font-medium mb-1">
+                                <span>Engine Lubes</span>
+                                <span>SKU: GS-O-7100</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">
+                                Motul 7100 4T 10W40 Synthetic Oil (1L)
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                                100% Synthetic 4-Stroke lubricant with Ester Technology. Superior shear resistance for motorbikes.
+                            </p>
+                        </div>
+
+                        <!-- Pricing & CTA Section -->
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between layer-depth-2">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-500">Wholesale Rate</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-xl font-extrabold text-amber-400">₹640</span>
+                                    <span class="text-xs text-slate-500 line-through">MRP ₹945</span>
+                                </div>
+                            </div>
+                            <button onclick="openOrderModal('Motul 7100 4T 10W40', '640')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Order Pack</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Mobile 2-Column Responsive Grid -->
-            <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-                <div class="col-span-full text-center py-16 text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-2xs">
-                    <i class="fa-solid fa-spinner fa-spin text-2xl text-blue-700 mb-2"></i>
-                    <p class="text-xs font-medium">Loading catalog from Google Sheet...</p>
+                <!-- CARD 2: Axor Apex Carbon Helmet -->
+                <div class="product-item tilt-card-wrapper" data-category="helmets">
+                    <div class="tilt-card relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/80 p-5 shadow-2xl hover:border-blue-500/50 group overflow-hidden">
+                        
+                        <div class="shine-overlay"></div>
+                        
+                        <div class="flex items-center justify-between mb-4 layer-depth-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wide uppercase">
+                                <i class="fa-solid fa-fire mr-1"></i> 28% Dealer Margin
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                MoQ: 4 Units
+                            </span>
+                        </div>
+
+                        <div class="relative w-full h-56 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center p-4 overflow-hidden mb-5 group-hover:shadow-inner layer-depth-3">
+                            <div class="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80" 
+                                 alt="Axor Apex Carbon Helmet" 
+                                 class="w-full h-full object-contain transform group-hover:scale-110 transition duration-500 ease-out"
+                                 onerror="this.src='https://placehold.co/600x400/0f172a/38bdf8?text=Axor+Helmet'" />
+                            
+                            <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 opacity-90">
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">DOT & ECE Cert</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Pinlock Ready</span>
+                            </div>
+                        </div>
+
+                        <div class="layer-depth-1">
+                            <div class="flex items-center justify-between text-xs text-blue-400 font-medium mb-1">
+                                <span>Riding Helmets</span>
+                                <span>SKU: GS-H-APEX</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">
+                                Axor Apex Venom Full Face Helmet
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                                Dual EPS liner, anti-fog visor, aerodynamic spoiler, dynamic ventilation system for high speed stability.
+                            </p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between layer-depth-2">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-500">Wholesale Rate</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-xl font-extrabold text-amber-400">₹3,450</span>
+                                    <span class="text-xs text-slate-500 line-through">MRP ₹4,794</span>
+                                </div>
+                            </div>
+                            <button onclick="openOrderModal('Axor Apex Venom Helmet', '3450')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Order Pack</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
+                <!-- CARD 3: Brembo Ceramic Brake Pads -->
+                <div class="product-item tilt-card-wrapper" data-category="brakes">
+                    <div class="tilt-card relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/80 p-5 shadow-2xl hover:border-blue-500/50 group overflow-hidden">
+                        
+                        <div class="shine-overlay"></div>
+                        
+                        <div class="flex items-center justify-between mb-4 layer-depth-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wide uppercase">
+                                <i class="fa-solid fa-percent mr-1"></i> 35% Dealer Margin
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                MoQ: 15 Sets
+                            </span>
+                        </div>
+
+                        <div class="relative w-full h-56 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center p-4 overflow-hidden mb-5 group-hover:shadow-inner layer-depth-3">
+                            <div class="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" 
+                                 alt="High Performance Brake Pads" 
+                                 class="w-full h-full object-contain transform group-hover:scale-110 transition duration-500 ease-out"
+                                 onerror="this.src='https://placehold.co/600x400/0f172a/38bdf8?text=Brake+Pads'" />
+                            
+                            <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 opacity-90">
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Royal Enfield 350</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Dominar 400</span>
+                            </div>
+                        </div>
+
+                        <div class="layer-depth-1">
+                            <div class="flex items-center justify-between text-xs text-blue-400 font-medium mb-1">
+                                <span>Brake Systems</span>
+                                <span>SKU: GS-B-PAD01</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">
+                                Sintered High Friction Brake Pads
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                                Premium organic-metallic composite offering fade-free stopping power and low disc wear.
+                            </p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between layer-depth-2">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-500">Wholesale Rate</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-xl font-extrabold text-amber-400">₹420</span>
+                                    <span class="text-xs text-slate-500 line-through">MRP ₹650</span>
+                                </div>
+                            </div>
+                            <button onclick="openOrderModal('Sintered Brake Pads', '420')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Order Pack</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: Nighteye Dual LED Fog Lights -->
+                <div class="product-item tilt-card-wrapper" data-category="lights">
+                    <div class="tilt-card relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/80 p-5 shadow-2xl hover:border-blue-500/50 group overflow-hidden">
+                        
+                        <div class="shine-overlay"></div>
+                        
+                        <div class="flex items-center justify-between mb-4 layer-depth-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wide uppercase">
+                                <i class="fa-solid fa-bolt mr-1"></i> 40% Dealer Margin
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                MoQ: 6 Sets
+                            </span>
+                        </div>
+
+                        <div class="relative w-full h-56 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center p-4 overflow-hidden mb-5 group-hover:shadow-inner layer-depth-3">
+                            <div class="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=600&q=80" 
+                                 alt="LED Auxiliary Fog Lights" 
+                                 class="w-full h-full object-contain transform group-hover:scale-110 transition duration-500 ease-out"
+                                 onerror="this.src='https://placehold.co/600x400/0f172a/38bdf8?text=LED+Fog+Lights'" />
+                            
+                            <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 opacity-90">
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Universal Fit</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">60W Cree LED</span>
+                            </div>
+                        </div>
+
+                        <div class="layer-depth-1">
+                            <div class="flex items-center justify-between text-xs text-blue-400 font-medium mb-1">
+                                <span>Lighting & Auxiliary</span>
+                                <span>SKU: GS-L-FOG60W</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">
+                                Ultra-Beam 60W LED Fog Lamp Set
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                                IP68 waterproof rating, dual yellow/white beam switcher, die-cast aluminum heat-sync housing.
+                            </p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between layer-depth-2">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-500">Wholesale Rate</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-xl font-extrabold text-amber-400">₹1,150</span>
+                                    <span class="text-xs text-slate-500 line-through">MRP ₹1,900</span>
+                                </div>
+                            </div>
+                            <button onclick="openOrderModal('Ultra-Beam 60W LED Fog Lamp', '1150')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Order Pack</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5: Rolon Brass Chain Sprocket Kit -->
+                <div class="product-item tilt-card-wrapper" data-category="engine">
+                    <div class="tilt-card relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/80 p-5 shadow-2xl hover:border-blue-500/50 group overflow-hidden">
+                        
+                        <div class="shine-overlay"></div>
+                        
+                        <div class="flex items-center justify-between mb-4 layer-depth-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wide uppercase">
+                                <i class="fa-solid fa-crown mr-1"></i> Top Seller (30%)
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                MoQ: 5 Kits
+                            </span>
+                        </div>
+
+                        <div class="relative w-full h-56 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center p-4 overflow-hidden mb-5 group-hover:shadow-inner layer-depth-3">
+                            <div class="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=600&q=80" 
+                                 alt="Brass Chain Sprocket Kit" 
+                                 class="w-full h-full object-contain transform group-hover:scale-110 transition duration-500 ease-out"
+                                 onerror="this.src='https://placehold.co/600x400/0f172a/38bdf8?text=Chain+Sprocket+Kit'" />
+                            
+                            <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 opacity-90">
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">KTM Duke 250/390</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Heavy Duty O-Ring</span>
+                            </div>
+                        </div>
+
+                        <div class="layer-depth-1">
+                            <div class="flex items-center justify-between text-xs text-blue-400 font-medium mb-1">
+                                <span>Drive Systems</span>
+                                <span>SKU: GS-C-BRASS</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">
+                                Brass Coated Heavy Duty Chain Sprocket
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                                High tensile brass plated chain with hardened steel sprockets for long life & high torque tolerance.
+                            </p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between layer-depth-2">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-500">Wholesale Rate</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-xl font-extrabold text-amber-400">₹2,100</span>
+                                    <span class="text-xs text-slate-500 line-through">MRP ₹3,000</span>
+                                </div>
+                            </div>
+                            <button onclick="openOrderModal('Brass Chain Sprocket Kit', '2100')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Order Pack</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 6: Riding Gloves -->
+                <div class="product-item tilt-card-wrapper" data-category="helmets">
+                    <div class="tilt-card relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800/80 p-5 shadow-2xl hover:border-blue-500/50 group overflow-hidden">
+                        
+                        <div class="shine-overlay"></div>
+                        
+                        <div class="flex items-center justify-between mb-4 layer-depth-2">
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 tracking-wide uppercase">
+                                <i class="fa-solid fa-shield-halved mr-1"></i> 34% Dealer Margin
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                                MoQ: 8 Pairs
+                            </span>
+                        </div>
+
+                        <div class="relative w-full h-56 rounded-xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center p-4 overflow-hidden mb-5 group-hover:shadow-inner layer-depth-3">
+                            <div class="absolute inset-0 bg-blue-600/10 blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                            
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" 
+                                 alt="Pro Riding Gloves" 
+                                 class="w-full h-full object-contain transform group-hover:scale-110 transition duration-500 ease-out"
+                                 onerror="this.src='https://placehold.co/600x400/0f172a/38bdf8?text=Riding+Gloves'" />
+                            
+                            <div class="absolute bottom-2 left-2 right-2 flex flex-wrap gap-1 opacity-90">
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Knuckle Armor</span>
+                                <span class="bg-slate-900/90 border border-slate-700 text-[10px] text-slate-300 px-2 py-0.5 rounded-md">Touch Screen Tip</span>
+                            </div>
+                        </div>
+
+                        <div class="layer-depth-1">
+                            <div class="flex items-center justify-between text-xs text-blue-400 font-medium mb-1">
+                                <span>Riding Gear</span>
+                                <span>SKU: GS-G-PRO</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">
+                                Carbon Knuckle Full-Finger Riding Gloves
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                                Heavy-duty synthetic leather palm, molded carbon fiber knuckle guards, breathable mesh vents.
+                            </p>
+                        </div>
+
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between layer-depth-2">
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-500">Wholesale Rate</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-xl font-extrabold text-amber-400">₹750</span>
+                                    <span class="text-xs text-slate-500 line-through">MRP ₹1,150</span>
+                                </div>
+                            </div>
+                            <button onclick="openOrderModal('Carbon Knuckle Riding Gloves', '750')" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-lg shadow-blue-600/30 active:scale-95 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Order Pack</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </main>
 
         <!-- Footer -->
-        <footer class="bg-slate-900 text-slate-300 py-6 mt-8 border-t border-slate-800 text-xs mb-12 sm:mb-0">
-            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-                <div>
-                    <p class="text-white font-bold text-xs sm:text-sm">GS TRADERS (జీఎస్ ట్రేడర్స్), Allagadda</p>
-                    <p class="text-[10px] sm:text-[11px] text-slate-400 mt-0.5">Koilakuntla Road, Near Bypass, Allagadda, AP - 518543</p>
-                    <p class="text-[10px] sm:text-[11px] text-amber-300 font-semibold mt-1">"తక్కువ మార్జిన్లతో విసిగిపోయారా? అయితే ఇప్పుడే GS Traders తో వ్యాపారం చేయండి! మీ లాభాలను మరింత పెంచుకోండి."</p>
-                </div>
-                <div class="flex gap-3 text-amber-300 font-bold text-xs">
-                    <span><i class="fa-solid fa-phone mr-1"></i> 76599 28108</span>
-                    <span><i class="fa-solid fa-phone mr-1"></i> 84648 49742</span>
-                </div>
+        <footer class="mt-20 border-t border-slate-800/80 bg-slate-950 py-10 text-center text-xs text-slate-500">
+            <div class="max-w-7xl mx-auto px-4">
+                <p>© 2026 GS Traders - Wholesale Spare Parts & Accessories. Premium B2B Platform.</p>
+                <p class="mt-2 text-slate-600">Built with 3D Mouse Tracking Physics & Tailwind CSS.</p>
             </div>
         </footer>
+
     </div>
 
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/917659928108?text=Hello%20GS%20Traders,%20I%20want%20to%20place%20an%20order." target="_blank" 
-       class="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 bg-emerald-600 hover:bg-emerald-500 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl z-40 transition-transform hover:scale-110 cursor-pointer"
-       title="Chat on WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <!-- Quick Order Modal -->
+    <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition duration-300">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl transform scale-95 transition duration-300" id="modal-content">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-bold text-white flex items-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                    <span>Quick WhatsApp Wholesale Order</span>
+                </h4>
+                <button onclick="closeOrderModal()" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
 
-    <!-- Category Popup Modal -->
-    <div id="categoryDetailModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
-            <div class="p-3 sm:p-4 bg-blue-800 text-white flex items-center justify-between">
+            <div class="space-y-4 text-xs">
                 <div>
-                    <h3 id="modalCategoryTitle" class="text-xs sm:text-base font-black">Category Items</h3>
-                    <p class="text-[10px] text-blue-100">Select applicable models and add to cart</p>
+                    <label class="block text-slate-400 mb-1">Item Name</label>
+                    <input type="text" id="modal-item-name" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-semibold" readonly />
                 </div>
-                <button onclick="closeCategoryModal()" class="text-white hover:text-slate-200 text-sm font-bold cursor-pointer w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div id="modalProductsContainer" class="p-3 sm:p-5 overflow-y-auto grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 bg-slate-50 flex-grow"></div>
-        </div>
-    </div>
-
-    <!-- Slide-Over Shopping Cart -->
-    <div id="cartOverlay" class="fixed inset-0 bg-slate-900/60 z-50 hidden backdrop-blur-xs transition-opacity"></div>
-    <div id="cartDrawer" class="fixed inset-y-0 right-0 max-w-md w-full bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full flex flex-col transition-transform duration-300">
-        <div class="p-3.5 border-b border-slate-200 flex items-center justify-between bg-blue-800 text-white">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-cart-shopping text-base"></i>
-                <h3 class="text-sm font-extrabold">Dealer Cart (ఆర్డర్ కార్ట్)</h3>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="clearCart()" class="text-[11px] text-rose-100 hover:text-white bg-rose-600/80 px-2 py-0.5 rounded font-bold cursor-pointer">Clear</button>
-                <button onclick="toggleCart()" class="text-white text-sm font-bold cursor-pointer w-6 h-6 rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-        </div>
-
-        <div id="cartItemsContainer" class="p-3 sm:p-4 flex-grow overflow-y-auto space-y-2.5"></div>
-
-        <div class="p-3.5 border-t border-slate-200 bg-slate-50 space-y-2.5">
-            <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl text-xs space-y-0.5">
-                <div class="flex justify-between text-slate-600">
-                    <span>Total MRP Value (మొత్తం MRP):</span>
-                    <span id="cartMrpValue" class="font-bold">₹0.00</span>
+                <div>
+                    <label class="block text-slate-400 mb-1">Unit Wholesale Price</label>
+                    <input type="text" id="modal-item-price" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-amber-400 font-bold" readonly />
                 </div>
-                <div class="flex justify-between text-emerald-700 font-extrabold">
-                    <span>Estimated Retail Profit (మీ మొత్తం లాభం):</span>
-                    <span id="cartTotalProfit">₹0.00</span>
+                <div>
+                    <label class="block text-slate-400 mb-1">Quantity (Packs/Sets)</label>
+                    <input type="number" id="modal-item-qty" value="10" min="1" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500" oninput="calculateModalTotal()" />
+                </div>
+                <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Estimated Total:</span>
+                    <span id="modal-total" class="text-lg font-extrabold text-emerald-400">₹0</span>
                 </div>
             </div>
 
-            <div class="flex gap-2">
-                <input type="text" id="couponInput" placeholder="Coupon Code (e.g. GST5K)" class="flex-grow px-2.5 py-1.5 border border-slate-300 bg-white rounded-lg text-xs uppercase text-slate-900 focus:ring-1 focus:ring-blue-700">
-                <button onclick="applyCoupon()" class="bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold px-3 py-1.5 rounded-lg text-xs cursor-pointer">Apply</button>
-            </div>
-            <div id="couponMessage" class="text-[10px] text-emerald-600 font-bold hidden"></div>
-
-            <div class="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-900 pt-1 border-t border-slate-200">
-                <span>Final Payable Total (మొత్తం చెల్లించవలసినది):</span>
-                <span id="cartTotalPrice" class="text-blue-700 text-base font-black">₹0.00</span>
-            </div>
-
-            <form id="checkoutForm" onsubmit="submitOrderBackground(event)" class="space-y-2 pt-0.5">
-                <input type="text" id="cartBuyerName" required class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Business / Shop Name (షాప్ పేరు) *">
-                <input type="tel" id="cartBuyerPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-Digit Mobile Number (ఫోన్ నంబర్) *" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900">
-                <input type="text" id="cartBuyerAddress" class="w-full px-2.5 py-2 border border-slate-300 bg-white rounded-lg text-xs focus:ring-2 focus:ring-blue-700 text-slate-900" placeholder="Delivery Town / Landmark (గ్రామం/టౌన్)">
-
-                <button type="submit" id="submitOrderBtn" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-black py-2.5 rounded-lg transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Mobile Bottom Floating Summary Bar -->
-    <div class="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 p-2.5 z-30 flex items-center justify-between shadow-lg">
-        <div>
-            <p class="text-[9px] text-slate-500 font-bold">Cart Summary (కార్ట్)</p>
-            <p id="mobileCartSummary" class="text-xs font-black text-blue-700">0 Items • ₹0.00</p>
-        </div>
-        <button onclick="toggleCart()" class="bg-[#ff9f00] text-slate-950 font-black px-3.5 py-1.5 rounded-lg text-xs shadow flex items-center gap-1.5">
-            <i class="fa-solid fa-bag-shopping"></i> View Cart (చూడండి)
-        </button>
-    </div>
-
-    <!-- Image Gallery Modal -->
-    <div id="imageGalleryModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-3">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-4 relative shadow-2xl space-y-2">
-            <button onclick="closeGalleryModal()" class="absolute top-2.5 right-2.5 text-slate-500 hover:text-slate-800 bg-slate-100 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer">
-                <i class="fa-solid fa-xmark text-xs"></i>
-            </button>
-            <h4 id="galleryTitle" class="text-xs font-bold text-slate-900 pr-6">Product Images</h4>
-            <div class="h-52 bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200">
-                <img id="galleryMainImage" src="" class="max-h-full max-w-full object-contain">
-            </div>
-            <div id="galleryThumbnails" class="flex gap-1.5 overflow-x-auto justify-center pt-1"></div>
-        </div>
-    </div>
-
-    <!-- Order Confirmation Modal -->
-    <div id="thankYouModal" class="fixed inset-0 bg-slate-900/80 z-50 hidden backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-5 text-center shadow-2xl space-y-3">
-            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <div>
-                <h3 class="text-sm font-extrabold text-slate-900">Order Placed Successfully! (ఆర్డర్ విజయవంతం)</h3>
-                <p id="thankYouDealerName" class="text-blue-700 font-bold text-xs mt-0.5"></p>
-            </div>
-            <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                మీ ప్రాఫిట్ PDF ఇన్‌వాయిస్ డౌన్‌లోడ్ అయింది. వాట్సాప్ ద్వారా వెంటనే ఆర్డర్‌ను పంపండి:
-            </p>
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="openWhatsApp('7659928108')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
-                    <i class="fa-brands fa-whatsapp"></i> 76599 (WhatsApp)
-                </button>
-                <button onclick="openWhatsApp('8464849742')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1.5 rounded-lg text-xs cursor-pointer flex items-center justify-center gap-1 shadow">
-                    <i class="fa-brands fa-whatsapp"></i> 84648 (WhatsApp)
+            <div class="mt-6 flex space-x-3">
+                <button onclick="closeOrderModal()" class="w-1/2 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-semibold text-xs hover:bg-slate-800 transition">Cancel</button>
+                <button onclick="sendWhatsAppOrder()" class="w-1/2 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition flex items-center justify-center space-x-1.5">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>Send Order</span>
                 </button>
             </div>
-            <button onclick="closeThankYouModal()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2 rounded-lg text-xs cursor-pointer">
-                Close (మూసివేయి)
-            </button>
         </div>
     </div>
 
-    <!-- JavaScript Engine -->
+    <!-- 3D Tilt & Interactive Engine JavaScript -->
     <script>
-        const GOOGLE_SHEET_ID = '16txRIS_EiqoRv0Ogjo7WX8Q5oVlzGGOazQN3buEHyoM'; 
-        const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv`;
+        // 3D Tilt Calculation Engine
+        document.addEventListener('DOMContentLoaded', () => {
+            const cardWrappers = document.querySelectorAll('.tilt-card-wrapper');
 
-        let products = [];
-        let currentColumnCFilter = 'All';
-        let cart = [];
-        let activeDiscountPercent = 0;
-        let activeCouponName = '';
-        let rawOrderTextMessage = '';
+            cardWrappers.forEach(wrapper => {
+                const card = wrapper.querySelector('.tilt-card');
+                const shine = wrapper.querySelector('.shine-overlay');
 
-        // 60-Second Blur Gate
-        setTimeout(() => {
-            const unlocked = localStorage.getItem('gs_dealer_unlocked');
-            if (!unlocked) {
-                document.getElementById('mainSiteContainer').classList.add('blur-locked');
-                document.getElementById('dealerUnlockModal').classList.remove('hidden');
-            }
-        }, 60000);
+                let bounds;
 
-        function unlockSiteWithNumber(e) {
-            e.preventDefault();
-            const shopName = document.getElementById('unlockShopName').value.trim();
-            const phone = document.getElementById('unlockPhone').value.trim();
+                function rotateToMouse(e) {
+                    const mouseX = e.clientX || (e.touches && e.touches[0].clientX);
+                    const mouseY = e.clientY || (e.touches && e.touches[0].clientY);
 
-            if (!shopName || phone.length !== 10) return;
+                    if (!mouseX || !mouseY) return;
 
-            localStorage.setItem('gs_dealer_unlocked', 'true');
-            document.getElementById('mainSiteContainer').classList.remove('blur-locked');
-            document.getElementById('dealerUnlockModal').classList.add('hidden');
-
-            const leadMsg = `*NEW DEALER UNLOCK LEAD - GS TRADERS*\n\n• Shop: ${shopName}\n• Phone: ${phone}`;
-            const waUrl = `https://wa.me/917659928108?text=${encodeURIComponent(leadMsg)}`;
-            window.open(waUrl, '_blank');
-        }
-
-        function loadProductsFromGoogleSheet() {
-            Papa.parse(SHEET_CSV_URL, {
-                download: true,
-                header: true,
-                complete: function(results) {
-                    if (results.data && results.data.length > 0) {
-                        products = results.data
-                            .filter(p => p.id && p.name)
-                            .map(p => {
-                                const mrp = parseFloat(p.mrp || 0);
-                                const dealerPrice = parseFloat(p.dealerPrice || 0);
-                                const saving = mrp - dealerPrice;
-                                const marginPct = mrp > 0 ? Math.round((saving / mrp) * 100) : 38;
-
-                                const imgs = [p.image1, p.image2, p.image3].filter(img => img && img.trim() !== '');
-                                const compatibility = p.compatibility || '';
-                                
-                                const columnCVal = (p.category && p.category.trim() !== '') ? p.category.trim() : 'Spare Parts';
-                                const columnBVal = (p.name && p.name.trim() !== '') ? p.name.trim() : 'General Item';
-                                const categoryImg = (p.categoryImage && p.categoryImage.trim() !== '') ? p.categoryImage.trim() : (imgs.length > 0 ? imgs[0] : 'images/101.png');
-
-                                return {
-                                    id: parseInt(p.id),
-                                    name: p.name,
-                                    columnC: columnCVal, 
-                                    columnB: columnBVal, 
-                                    categoryImage: categoryImg,
-                                    badge: p.badge,
-                                    mrp: mrp,
-                                    strikePrice: parseFloat(p.strikePrice || 0),
-                                    dealerPrice: dealerPrice,
-                                    marginPct: marginPct,
-                                    boxSize: parseInt(p.boxSize || 1),
-                                    moqText: p.moqText,
-                                    status: p.status,
-                                    delivery: p.delivery,
-                                    compatibility: compatibility,
-                                    image: imgs.length > 0 ? imgs[0] : 'images/101.png',
-                                    images: imgs.length > 0 ? imgs : ['images/101.png']
-                                };
-                            });
-                    }
-                    buildColumnCFilters();
-                    renderCategories();
-                },
-                error: function() {
-                    document.getElementById('categoryGrid').innerHTML = '<div class="col-span-full text-center py-12 text-rose-600 text-xs">Error connecting to Google Sheets catalog.</div>';
-                }
-            });
-        }
-
-        function buildColumnCFilters() {
-            const container = document.getElementById('columnCCategoryTabs');
-            const uniqueColumnC = [...new Set(products.map(p => p.columnC))];
-
-            uniqueColumnC.forEach(colC => {
-                container.innerHTML += `
-                    <button onclick="filterByColumnC('${colC}', this)" class="colc-btn bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold px-3.5 py-2 rounded-lg border border-slate-300 transition-all cursor-pointer whitespace-nowrap">
-                        ${colC}
-                    </button>
-                `;
-            });
-        }
-
-        function filterByColumnC(filterKey, btnElement) {
-            currentColumnCFilter = filterKey;
-            document.querySelectorAll('.colc-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-800', 'text-white', 'shadow-sm');
-                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            });
-            btnElement.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            btnElement.classList.add('bg-blue-800', 'text-white', 'shadow-sm');
-            renderCategories(document.getElementById('searchInput').value);
-        }
-
-        function renderCategories(searchQuery = '') {
-            const grid = document.getElementById('categoryGrid');
-            grid.innerHTML = '';
-
-            const filteredByC = products.filter(p => {
-                const matchesC = (currentColumnCFilter === 'All' || p.columnC.toLowerCase() === currentColumnCFilter.toLowerCase());
-                const matchesSearch = p.columnB.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                      p.compatibility.toLowerCase().includes(searchQuery.toLowerCase());
-                return matchesC && matchesSearch;
-            });
-
-            const categoryMap = {};
-            filteredByC.forEach(p => {
-                if (!categoryMap[p.columnB]) {
-                    categoryMap[p.columnB] = {
-                        name: p.columnB,
-                        image: p.categoryImage,
-                        items: []
+                    const leftX = mouseX - bounds.x;
+                    const topY = mouseY - bounds.y;
+                    
+                    const center = {
+                        x: leftX - bounds.width / 2,
+                        y: topY - bounds.height / 2
                     };
-                }
-                categoryMap[p.columnB].items.push(p);
-            });
 
-            const categories = Object.values(categoryMap);
+                    const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
 
-            if (categories.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-slate-500 text-xs bg-white rounded-2xl border border-slate-200">No categories found.</div>';
-                return;
-            }
+                    // Max rotation angle in degrees
+                    const maxRotate = 15;
+                    const rotateX = (center.y / (bounds.height / 2)) * -maxRotate;
+                    const rotateY = (center.x / (bounds.width / 2)) * maxRotate;
 
-            categories.forEach(cat => {
-                grid.innerHTML += `
-                    <div onclick="openCategoryModal('${cat.name}')" class="cat-card rounded-xl shadow-2xs overflow-hidden border border-slate-200 flex flex-col justify-between p-2.5 sm:p-3.5 cursor-pointer group">
-                        <div>
-                            <div class="relative h-28 sm:h-40 rounded-lg overflow-hidden bg-slate-100 mb-2">
-                                <img src="${cat.image}" alt="${cat.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                                <span class="absolute top-1.5 left-1.5 bg-blue-700 text-white text-[8px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded shadow-xs">
-                                    ${cat.items.length} Type(s)
-                                </span>
-                            </div>
-                            <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-1">${cat.name}</h4>
-                            <p class="text-[9px] sm:text-[11px] text-slate-500 mt-0.5 truncate">Click to view items</p>
-                        </div>
-                        <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] sm:text-xs font-bold text-blue-700">
-                            <span>View Details</span>
-                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+                    // Apply 3d transform with slight scale uplift
+                    card.style.transform = `scale3d(1.03, 1.03, 1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    card.style.boxShadow = `
+                        ${-rotateY * 1.5}px ${rotateX * 1.5}px 30px rgba(0, 0, 0, 0.5),
+                        0 0 20px rgba(56, 189, 248, 0.2)
+                    `;
 
-        function openCategoryModal(columnBName) {
-            const matchingProducts = products.filter(p => p.columnB === columnBName);
-            document.getElementById('modalCategoryTitle').innerText = columnBName + ` (${matchingProducts.length} Items)`;
-            
-            const container = document.getElementById('modalProductsContainer');
-            container.innerHTML = '';
-
-            matchingProducts.forEach(p => {
-                let actionBtn = '';
-                if (p.status === 'coming_soon') {
-                    actionBtn = `<div class="w-full bg-slate-100 text-slate-500 font-bold py-1.5 rounded-lg text-center text-[10px]">Coming Soon</div>`;
-                } else if (p.status === 'out_of_stock') {
-                    actionBtn = `<div class="w-full bg-rose-50 text-rose-600 border border-rose-200 font-bold py-1.5 rounded-lg text-center text-[10px]">Out of Stock</div>`;
-                } else {
-                    actionBtn = `<button onclick="addToCart(${p.id})" class="w-full bg-[#ff9f00] hover:bg-[#f39500] text-slate-950 font-extrabold py-2 rounded-lg text-center transition-all shadow-2xs text-[11px] cursor-pointer flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-cart-plus text-[10px]"></i> Add to Cart (${p.moqText})
-                    </button>`;
+                    // Update specular gradient lighting position
+                    if (shine) {
+                        const posX = (leftX / bounds.width) * 100;
+                        const posY = (topY / bounds.height) * 100;
+                        shine.style.background = `radial-gradient(circle at ${posX}% ${posY}%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 65%)`;
+                    }
                 }
 
-                container.innerHTML += `
-                    <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 flex flex-col justify-between shadow-2xs">
-                        <div>
-                            <div class="relative h-28 sm:h-36 rounded-lg overflow-hidden bg-slate-100 mb-2 group">
-                                <img src="${p.image}" class="w-full h-full object-cover">
-                                <span class="absolute top-1.5 left-1.5 bg-emerald-600 text-white text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.2 rounded shadow-2xs">
-                                    ${p.marginPct}% MARGIN
-                                </span>
-                                ${p.images.length > 1 ? `
-                                <button onclick="openGalleryModal(${p.id})" class="absolute bottom-1.5 right-1.5 bg-slate-900/80 hover:bg-slate-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 shadow cursor-pointer">
-                                    <i class="fa-solid fa-images text-amber-300"></i> ${p.images.length}
-                                </button>` : ''}
-                            </div>
-                            <h5 class="text-[11px] sm:text-xs font-extrabold text-slate-900 leading-snug line-clamp-2">${p.name}</h5>
-                            ${p.compatibility ? `
-                            <p class="text-[9px] sm:text-[11px] text-slate-600 bg-slate-50 px-1.5 py-1 rounded-md border border-slate-200 flex items-center gap-1 mt-1.5">
-                                <i class="fa-solid fa-motorcycle text-amber-500 text-[10px]"></i> <span class="font-medium truncate">Fits: ${p.compatibility}</span>
-                            </p>` : ''}
-                            <div class="mt-2 bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-slate-200 space-y-0.5">
-                                <div class="flex items-baseline justify-between">
-                                    <span class="text-xs sm:text-sm font-black text-slate-900">₹${p.dealerPrice.toFixed(2)}</span>
-                                    <span class="text-[9px] text-slate-400 line-through">MRP: ₹${p.mrp.toFixed(2)}</span>
-                                </div>
-                                <div class="text-[9px] sm:text-[10px] text-emerald-600 font-extrabold truncate">Profit: ₹${(p.mrp - p.dealerPrice).toFixed(2)}</div>
-                            </div>
-                        </div>
-                        <div class="mt-2.5">
-                            ${actionBtn}
-                        </div>
-                    </div>
-                `;
+                wrapper.addEventListener('mouseenter', (e) => {
+                    bounds = wrapper.getBoundingClientRect();
+                    card.style.transition = 'transform 0.1s ease-out, box-shadow 0.1s ease-out';
+                    document.addEventListener('mousemove', rotateToMouse);
+                });
+
+                wrapper.addEventListener('mouseleave', () => {
+                    document.removeEventListener('mousemove', rotateToMouse);
+                    card.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
+                    card.style.transform = 'scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg)';
+                    card.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+                });
+
+                // Mobile Touch Support
+                wrapper.addEventListener('touchstart', (e) => {
+                    bounds = wrapper.getBoundingClientRect();
+                    card.style.transition = 'transform 0.1s ease-out';
+                });
+
+                wrapper.addEventListener('touchmove', (e) => {
+                    rotateToMouse(e);
+                });
+
+                wrapper.addEventListener('touchend', () => {
+                    card.style.transition = 'transform 0.5s ease-out';
+                    card.style.transform = 'scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg)';
+                });
             });
-
-            document.getElementById('categoryDetailModal').classList.remove('hidden');
-        }
-
-        function closeCategoryModal() {
-            document.getElementById('categoryDetailModal').classList.add('hidden');
-        }
-
-        function openGalleryModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            document.getElementById('galleryTitle').innerText = product.name;
-            const mainImg = document.getElementById('galleryMainImage');
-            mainImg.src = product.images[0];
-            const thumbsContainer = document.getElementById('galleryThumbnails');
-            thumbsContainer.innerHTML = '';
-            product.images.forEach((img) => {
-                thumbsContainer.innerHTML += `
-                    <img src="${img}" onclick="document.getElementById('galleryMainImage').src='${img}'" 
-                         class="w-10 h-10 object-cover rounded-md border border-slate-300 hover:border-blue-600 cursor-pointer transition-all">
-                `;
-            });
-            document.getElementById('imageGalleryModal').classList.remove('hidden');
-        }
-
-        function closeGalleryModal() {
-            document.getElementById('imageGalleryModal').classList.add('hidden');
-        }
-
-        function toggleCart() {
-            const drawer = document.getElementById('cartDrawer');
-            const overlay = document.getElementById('cartOverlay');
-            const isOpen = drawer.classList.contains('translate-x-full');
-            if (isOpen) {
-                drawer.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-            } else {
-                drawer.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            }
-        }
-
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            const existing = cart.find(item => item.id === productId);
-            if (existing) {
-                existing.boxes += 1;
-            } else {
-                cart.push({ ...product, boxes: 1 });
-            }
-            updateCartUI();
-            toggleCart();
-        }
-
-        function changeBoxes(productId, delta) {
-            const item = cart.find(i => i.id === productId);
-            if (!item) return;
-            item.boxes += delta;
-            if (item.boxes <= 0) {
-                cart = cart.filter(i => i.id !== productId);
-            }
-            updateCartUI();
-        }
-
-        function clearCart() {
-            if (cart.length === 0) return;
-            if (confirm("Are you sure you want to clear your cart?")) {
-                cart = [];
-                activeDiscountPercent = 0;
-                activeCouponName = '';
-                document.getElementById('couponInput').value = '';
-                updateCartUI();
-            }
-        }
-
-        function applyCoupon() {
-            const code = document.getElementById('couponInput').value.trim().toUpperCase();
-            const msgEl = document.getElementById('couponMessage');
-            
-            let subtotal = 0;
-            cart.forEach(item => {
-                subtotal += (item.dealerPrice * item.boxSize * item.boxes);
-            });
-
-            if (code === 'GST5K') {
-                if (subtotal >= 5000) {
-                    activeDiscountPercent = 1;
-                    activeCouponName = 'GST5K (1% OFF)';
-                    msgEl.innerText = 'Coupon GST5K applied!';
-                    msgEl.classList.remove('hidden', 'text-rose-600');
-                    msgEl.classList.add('text-emerald-600');
-                } else {
-                    msgEl.innerText = 'Min ₹5,000 required.';
-                    msgEl.classList.remove('hidden', 'text-emerald-600');
-                    msgEl.classList.add('text-rose-600');
-                    activeDiscountPercent = 0;
-                    activeCouponName = '';
-                }
-            } else if (code === 'GST10K') {
-                if (subtotal >= 10000) {
-                    activeDiscountPercent = 2;
-                    activeCouponName = 'GST10K (2% OFF)';
-                    msgEl.innerText = 'Coupon GST10K applied!';
-                    msgEl.classList.remove('hidden', 'text-rose-600');
-                    msgEl.classList.add('text-emerald-600');
-                } else {
-                    msgEl.innerText = 'Min ₹10,000 required.';
-                    msgEl.classList.remove('hidden', 'text-emerald-600');
-                    msgEl.classList.add('text-rose-600');
-                    activeDiscountPercent = 0;
-                    activeCouponName = '';
-                }
-            } else {
-                msgEl.innerText = 'Invalid coupon code.';
-                msgEl.classList.remove('hidden', 'text-emerald-600');
-                msgEl.classList.add('text-rose-600');
-                activeDiscountPercent = 0;
-                activeCouponName = '';
-            }
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const container = document.getElementById('cartItemsContainer');
-            const badge = document.getElementById('cartBadge');
-            const totalPriceEl = document.getElementById('cartTotalPrice');
-            const cartMrpValueEl = document.getElementById('cartMrpValue');
-            const cartTotalProfitEl = document.getElementById('cartTotalProfit');
-            const mobileSummaryEl = document.getElementById('mobileCartSummary');
-
-            container.innerHTML = '';
-            let totalUniqueItems = 0;
-            let subtotal = 0;
-            let totalMrpVal = 0;
-
-            if (cart.length === 0) {
-                container.innerHTML = '<div class="text-center py-12 text-slate-400 text-xs">Your cart is empty. (కార్ట్ ఖాళీగా ఉంది)</div>';
-                badge.classList.add('hidden');
-                totalPriceEl.innerText = '₹0.00';
-                cartMrpValueEl.innerText = '₹0.00';
-                cartTotalProfitEl.innerText = '₹0.00';
-                mobileSummaryEl.innerText = '0 Items • ₹0.00';
-                return;
-            }
-
-            badge.classList.remove('hidden');
-
-            cart.forEach(item => {
-                totalUniqueItems += 1;
-                const totalUnits = item.boxes * item.boxSize;
-                const itemSubtotal = item.dealerPrice * totalUnits;
-                const itemMrpTotal = item.mrp * totalUnits;
-                
-                subtotal += itemSubtotal;
-                totalMrpVal += itemMrpTotal;
-
-                container.innerHTML += `
-                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between gap-2.5 text-xs">
-                        <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg bg-white border border-slate-200 flex-shrink-0">
-                        <div class="flex-grow">
-                            <h5 class="font-bold text-slate-900 leading-tight line-clamp-1">${item.name}</h5>
-                            <p class="text-blue-700 font-extrabold text-[11px]">${item.boxes} Box(es) <span class="text-slate-500 font-normal">(${totalUnits} Pcs)</span></p>
-                            <p class="text-[9px] text-emerald-600 font-bold">Profit: ₹${(itemMrpTotal - itemSubtotal).toFixed(2)}</p>
-                        </div>
-                        <div class="flex items-center gap-1 bg-white border border-slate-300 rounded-lg p-0.5 flex-shrink-0">
-                            <button onclick="changeBoxes(${item.id}, -1)" class="w-5 h-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-bold flex items-center justify-center cursor-pointer text-xs">-</button>
-                            <span class="w-4 text-center font-bold text-slate-900 text-xs">${item.boxes}</span>
-                            <button onclick="changeBoxes(${item.id}, 1)" class="w-5 h-5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded font-bold flex items-center justify-center cursor-pointer text-xs">+</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            const discountAmount = (subtotal * activeDiscountPercent) / 100;
-            const finalPayable = subtotal - discountAmount;
-            const totalEstimatedProfit = (totalMrpVal - finalPayable);
-
-            badge.innerText = totalUniqueItems;
-            cartMrpValueEl.innerText = '₹' + totalMrpVal.toFixed(2);
-            cartTotalProfitEl.innerText = '₹' + totalEstimatedProfit.toFixed(2);
-            totalPriceEl.innerText = '₹' + finalPayable.toFixed(2);
-            mobileSummaryEl.innerText = `${totalUniqueItems} Item(s) • ₹${finalPayable.toFixed(2)}`;
-        }
-
-        function generateOrderPDF(name, phone, address, cartItems, finalPayable, totalMrpVal, totalProfit, couponStr, discountAmount) {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFillColor(30, 64, 175);
-            doc.rect(0, 0, 210, 42, 'F');
-            
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(20);
-            doc.setFont("helvetica", "bold");
-            doc.text("GS TRADERS (Allagadda)", 14, 18);
-
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text("Wholesale Spares & Helmets - Koilakuntla Road, Near Bypass", 14, 26);
-            doc.text("Phone: 76599 28108 / 84648 49742", 14, 33);
-
-            doc.setTextColor(15, 23, 42);
-            doc.setFontSize(13);
-            doc.setFont("helvetica", "bold");
-            doc.text("B2B PURCHASE ORDER & DEALER SAVINGS ESTIMATE", 14, 52);
-
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 145, 52);
-
-            doc.setDrawColor(200, 200, 200);
-            doc.rect(14, 58, 182, 28);
-            
-            doc.setFont("helvetica", "bold");
-            doc.text("Dealer Details:", 18, 66);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Shop Name: ${name}`, 18, 73);
-            doc.text(`Phone Number: ${phone}`, 18, 80);
-            doc.text(`Location: ${address || 'Allagadda'}`, 110, 73);
-
-            const tableData = cartItems.map((item, index) => {
-                let totalUnits = item.boxes * item.boxSize;
-                let itemMrpTotal = item.mrp * totalUnits;
-                let itemDealerTotal = item.dealerPrice * totalUnits;
-                let itemProfit = itemMrpTotal - itemDealerTotal;
-                return [
-                    index + 1,
-                    item.name + (item.compatibility ? `\n(Fits: ${item.compatibility})` : ''),
-                    `${item.boxes} Box (${totalUnits} Pcs)`,
-                    `Rs. ${item.mrp.toFixed(2)}`,
-                    `Rs. ${item.dealerPrice.toFixed(2)}`,
-                    `Rs. ${itemDealerTotal.toFixed(2)}`,
-                    `Rs. ${itemProfit.toFixed(2)} (${item.marginPct}%)`
-                ];
-            });
-
-            doc.autoTable({
-                startY: 92,
-                head: [['#', 'Item Description & Vehicle', 'Qty', 'MRP (Unit)', 'Dealer Price', 'Subtotal', 'Dealer Profit / Margin']],
-                body: tableData,
-                theme: 'striped',
-                headStyles: { fillStyle: 'F', fillColor: [30, 64, 175], textColor: [255, 255, 255], fontStyle: 'bold' },
-                styles: { fontSize: 8 }
-            });
-
-            const finalY = doc.lastAutoTable.finalY + 10;
-            doc.setDrawColor(16, 185, 129);
-            doc.setFillColor(236, 253, 245);
-            doc.roundedRect(14, finalY, 182, 38, 3, 3, 'FD');
-
-            doc.setTextColor(6, 95, 70);
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "bold");
-            doc.text(`Total Retail Value (MRP): Rs. ${totalMrpVal.toFixed(2)}`, 18, finalY + 8);
-            if (discountAmount > 0) {
-                doc.text(`Additional Coupon Discount (${couponStr}): - Rs. ${discountAmount.toFixed(2)}`, 18, finalY + 15);
-            }
-            doc.text(`Final Payable Investment: Rs. ${finalPayable.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 22 : 15));
-            doc.setFontSize(11);
-            doc.text(`TOTAL RETAIL PROFIT & SAVINGS: Rs. ${totalProfit.toFixed(2)}`, 18, finalY + (discountAmount > 0 ? 31 : 25));
-
-            doc.save(`GS_Traders_Order_${name.replace(/\s+/g, '_')}.pdf`);
-        }
-
-        async function submitOrderBackground(e) {
-            e.preventDefault();
-            if (cart.length === 0) return;
-
-            const name = document.getElementById('cartBuyerName').value;
-            const phone = document.getElementById('cartBuyerPhone').value;
-            const address = document.getElementById('cartBuyerAddress').value;
-
-            if (phone.length !== 10) {
-                alert("Please enter a valid 10-digit mobile number.");
-                return;
-            }
-
-            let subtotal = 0;
-            let totalMrpVal = 0;
-            let orderTextSummary = `--- GS TRADERS NEW ORDER ---\n`;
-
-            cart.forEach((item, index) => {
-                let totalUnits = item.boxes * item.boxSize;
-                let itemSubtotal = item.dealerPrice * totalUnits;
-                let itemMrpTotal = item.mrp * totalUnits;
-                let itemProfit = itemMrpTotal - itemSubtotal;
-                
-                subtotal += itemSubtotal;
-                totalMrpVal += itemMrpTotal;
-
-                orderTextSummary += `${index + 1}. ${item.name} (${item.compatibility || 'General'}) | Qty: ${item.boxes} Box (${totalUnits} Pcs) | Cost: ₹${itemSubtotal.toFixed(2)} | Profit: ₹${itemProfit.toFixed(2)}\n`;
-            });
-
-            const discountAmount = (subtotal * activeDiscountPercent) / 100;
-            const finalPayable = subtotal - discountAmount;
-            const totalProfit = (totalMrpVal - finalPayable);
-
-            orderTextSummary += `-----------------------------------\n`;
-            orderTextSummary += `Total MRP: ₹${totalMrpVal.toFixed(2)}\n`;
-            if (activeDiscountPercent > 0) {
-                orderTextSummary += `Coupon Discount (${activeCouponName}): -₹${discountAmount.toFixed(2)}\n`;
-            }
-            orderTextSummary += `Final Payable: ₹${finalPayable.toFixed(2)}\n`;
-            orderTextSummary += `TOTAL DEALER PROFIT / SAVINGS: ₹${totalProfit.toFixed(2)}\n`;
-            orderTextSummary += `Location: ${address || 'Allagadda'}`;
-
-            rawOrderTextMessage = `*NEW B2B ORDER - GS TRADERS*\n\n${orderTextSummary}\n\n*DEALER DETAILS:*\n• Shop: ${name}\n• Phone: ${phone}`;
-
-            const btn = document.getElementById('submitOrderBtn');
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
-            btn.disabled = true;
-
-            generateOrderPDF(name, phone, address, cart, finalPayable, totalMrpVal, totalProfit, activeCouponName, discountAmount);
-
-            document.getElementById('thankYouDealerName').innerText = `Shop: ${name} (${phone})`;
-            document.getElementById('thankYouModal').classList.remove('hidden');
-            toggleCart();
-            cart = [];
-            activeDiscountPercent = 0;
-            activeCouponName = '';
-            updateCartUI();
-
-            btn.innerHTML = `<i class="fa-solid fa-paper-plane text-xs"></i> Submit Order & Download PDF (ఆర్డర్ పంపు)`;
-            btn.disabled = false;
-        }
-
-        function openWhatsApp(phoneNumber) {
-            const url = `https://wa.me/91${phoneNumber}?text=${encodeURIComponent(rawOrderTextMessage)}`;
-            window.open(url, '_blank');
-        }
-
-        function closeThankYouModal() {
-            document.getElementById('thankYouModal').classList.add('hidden');
-        }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            renderCategories(e.target.value);
         });
 
-        loadProductsFromGoogleSheet();
+        // Category Filter Logic
+        function filterCategory(category, element) {
+            // Update Active Tab Style
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+                btn.classList.add('bg-slate-900/80', 'border', 'border-slate-800', 'text-slate-300');
+            });
+
+            element.classList.remove('bg-slate-900/80', 'border', 'border-slate-800', 'text-slate-300');
+            element.classList.add('active', 'bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+
+            // Filter Grid Items
+            const items = document.querySelectorAll('.product-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Layout Grid Switcher
+        function setGridCols(cols) {
+            const grid = document.getElementById('product-grid');
+            const btn3 = document.getElementById('btn-grid-3');
+            const btn2 = document.getElementById('btn-grid-2');
+
+            if (cols === 2) {
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-8';
+                btn2.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition';
+                btn3.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition';
+            } else {
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+                btn3.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-600 text-white transition';
+                btn2.className = 'px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition';
+            }
+        }
+
+        // Quick Order Modal Logic
+        let currentUnitPrice = 0;
+
+        function openOrderModal(name, price) {
+            currentUnitPrice = parseInt(price);
+            document.getElementById('modal-item-name').value = name;
+            document.getElementById('modal-item-price').value = '₹' + price;
+            document.getElementById('modal-item-qty').value = 10;
+            
+            calculateModalTotal();
+
+            const modal = document.getElementById('order-modal');
+            const content = document.getElementById('modal-content');
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            const content = document.getElementById('modal-content');
+
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function calculateModalTotal() {
+            const qty = parseInt(document.getElementById('modal-item-qty').value) || 0;
+            const total = qty * currentUnitPrice;
+            document.getElementById('modal-total').innerText = '₹' + total.toLocaleString('en-IN');
+        }
+
+        function sendWhatsAppOrder() {
+            const item = document.getElementById('modal-item-name').value;
+            const price = document.getElementById('modal-item-price').value;
+            const qty = document.getElementById('modal-item-qty').value;
+            const total = document.getElementById('modal-total').innerText;
+
+            const text = `*New Wholesale Order - GS Traders*%0A%0A*Item:* ${item}%0A*Unit Price:* ${price}%0A*Quantity:* ${qty} units%0A*Estimated Total:* ${total}%0A%0APlease confirm stock availability and invoice details.`;
+            
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+            closeOrderModal();
+        }
     </script>
 </body>
 </html>
